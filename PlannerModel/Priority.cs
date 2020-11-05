@@ -13,6 +13,7 @@ namespace PlannerModel
 
         public Priority()
         {
+            Tasks = new List<Task>();
         }
 
         public Priority(string name, string color)

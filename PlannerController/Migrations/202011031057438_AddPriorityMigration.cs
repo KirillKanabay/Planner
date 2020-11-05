@@ -28,6 +28,7 @@
                         EndTime = c.DateTime(nullable: false),
                         PriorityId = c.Int(nullable: false),
                         CategoryId = c.Int(nullable: false),
+                        isFinished = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Categories", t => t.CategoryId, cascadeDelete: true)

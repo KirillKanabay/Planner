@@ -17,7 +17,7 @@ namespace PlannerViewConsole
             Console.WriteLine("=====Список приоритетов=====");
             PrintPriority(priorityController.Priorities);
             Console.WriteLine("=====Список категорий=====");
-            PrintCategory(categoryController.Categories);
+            PrintCategory(categoryController.Items);
             Console.WriteLine("=====Создание задачи=====");
             for (int i = 0; i < 1; i++)
             {

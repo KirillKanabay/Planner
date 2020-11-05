@@ -1,0 +1,55 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PlannerView.Windows"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" x:Class="PlannerView.Windows.TaskEdit"
+        mc:Ignorable="d"
+        Title="Редактор задач" Height="309.6" Width="502.4" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <TextBox x:Name="TaskNameTextBox" HorizontalAlignment="Left" Height="26" Margin="9,10,0,0" TextWrapping="Wrap" Text="Введите название задачи" VerticalAlignment="Top" Width="475" BorderBrush="#4C000000"/>
+        <Label Content="Дата и время начала работы*:" HorizontalAlignment="Left" Margin="10,48,0,0" VerticalAlignment="Top"/>
+        <DatePicker x:Name="StartDate" HorizontalAlignment="Left" 
+                    Margin="10,77,0,0" 
+                    VerticalAlignment="Top"
+                    
+                    />
+        <materialDesign:TimePicker
+            x:Name="StartTime"
+            HorizontalAlignment="Left" 
+            Margin="105,77,0,0" 
+            VerticalAlignment="Top"
+            Text="Время"
+            Is24Hours="True"
+            />
+        <Label Content="Дата и время окончания работы*:" HorizontalAlignment="Left" Margin="288,48,0,0" VerticalAlignment="Top"/>
+        <DatePicker 
+            x:Name="EndDate"
+            HorizontalAlignment="Left" 
+            Margin="288,77,0,0" 
+            VerticalAlignment="Top"
+                    />
+        <materialDesign:TimePicker
+            x:Name="EndTime"
+            HorizontalAlignment="Left" 
+            Margin="405,77,0,0" 
+            VerticalAlignment="Top"
+            Text="Время"
+            Is24Hours="True"
+            />
+        <Label Content="*-Оставте пустые поля если задача не имеет время начала или окончания работы" HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top"/>
+
+        <Label Content="Приоритет" HorizontalAlignment="Left" Margin="9,136,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.004,0.1" Width="120"/>
+        <ComboBox x:Name="PrioritiesBox" 
+                  HorizontalAlignment="Left" 
+                  Margin="9,160,0,0" 
+                  VerticalAlignment="Top" 
+                  Width="120"
+                  Text="Выберите приоритет задачи"/>
+
+        <Label Content="Категория" HorizontalAlignment="Left" Margin="352,136,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.004,0.1" Width="120"/>
+        <ComboBox x:Name="CategoryBox" HorizontalAlignment="Left" Margin="352,160,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="SaveTask"  Height="Auto" Content="Сохранить" Margin="373,237,12,10" Background="#FF15C651" BorderBrush="#FF15C651" Click="Button_Click"/>
+    </Grid>
+</Window>

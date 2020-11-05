@@ -11,7 +11,8 @@ namespace PlannerController
     public class PlannerContext: DbContext
     {
         public PlannerContext() : base("DbConnectionString") 
-        { 
+        {
+            Configuration.LazyLoadingEnabled = false;
         }
         public DbSet<Priority> Priorities { get; set; }
         public DbSet<Category> Categories { get; set; }

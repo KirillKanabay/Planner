@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using PlannerModel;
 
 namespace PlannerController
 {
     public class TaskController
     {
-        public List<PlannerModel.Task> Tasks { get; private set; }
+        public ObservableCollection<PlannerModel.Task> Tasks { get; private set; }
 
         public TaskController()
         {
-            Tasks = GetTasks() ?? new List<Task>();
+            Tasks = GetTasks() ?? new ObservableCollection<Task>();
         }
-        public TaskController(string name, DateTime startTime, DateTime endTime, int priorityId, int categoryId)
+        public TaskController(string name, DateTime startTime, DateTime endTime, int priorityId, int categoryId):this()
         {
             AddTask(name, startTime, endTime, priorityId,categoryId);
         }
@@ -45,6 +47,12 @@ namespace PlannerController
             {
                 throw new ArgumentException("Неправильно заполнено значение категории.");
             }
+
+            var tempTask = Tasks.SingleOrDefault(t => t.Name == name);
+            if (tempTask != null)
+            {
+                throw new ArgumentException("Такая задача уже существует.");
+            }
             #endregion
             var task = new PlannerModel.Task()
             {
@@ -69,9 +77,9 @@ namespace PlannerController
         /// Возвращает список категорий из БД
         /// </summary>
         /// <returns>Список категорий</returns>
-        private List<PlannerModel.Task> GetTasks()
+        private ObservableCollection<PlannerModel.Task> GetTasks()
         {
-            var tasks = new List<PlannerModel.Task>();
+            var tasks = new ObservableCollection<PlannerModel.Task>();
             using (var context = new PlannerContext())
             {
                 if (context.Tasks == null)
@@ -83,7 +91,6 @@ namespace PlannerController
                    tasks.Add(task);
                 }
             }
-
             return tasks;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using PlannerModel;
 using UtilityLibraries;
@@ -13,11 +14,11 @@ namespace PlannerController
         /// <summary>
         /// Список категорий
         /// </summary>
-        public List<Category> Categories { get; private set; }
+        public ObservableCollection<Category> Items { get; private set; }
 
         public CategoryController()
         {
-            Categories = GetCategories();
+            Items = GetCategories();
         }
 
         /// <summary>
@@ -27,7 +28,7 @@ namespace PlannerController
         /// <param name="color">Цвет категории</param>
         public CategoryController(string name, string color)
         {
-            Categories = GetCategories();
+            Items = GetCategories();
             #region Проверка условий
             if (string.IsNullOrEmpty(name))
             {
@@ -39,7 +40,7 @@ namespace PlannerController
             }
             #endregion
 
-            var currentCategory = Categories.SingleOrDefault(item => item.Name == name);
+            var currentCategory = Items.SingleOrDefault(item => item.Name == name);
             if (currentCategory == null)
             {
                 AddCategory(new Category(name, color));
@@ -49,7 +50,7 @@ namespace PlannerController
                 throw new ArgumentException("Такая категория уже существует.");
             }
             //Обновляем список категорий
-            Categories = GetCategories();
+            Items = GetCategories();
         }
         /// <summary>
         /// Добавляет категорию в БД
@@ -67,9 +68,9 @@ namespace PlannerController
         /// Возвращает список категорий из БД
         /// </summary>
         /// <returns>Список категорий</returns>
-        private List<Category> GetCategories()
+        private ObservableCollection<Category> GetCategories()
         {
-            var categories = new List<Category>();
+            var categories = new ObservableCollection<Category>();
             using (var context = new PlannerContext())
             {
                 foreach (var category in context.Categories)
@@ -78,6 +79,11 @@ namespace PlannerController
                 }
             }
             return categories;
+        }
+
+        public Category GetCategory(int id)
+        {
+            return Items[id - 1];
         }
     }
 }

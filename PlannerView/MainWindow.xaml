@@ -4,9 +4,66 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlannerView"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="1300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="Width">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.15*"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <!--Меню-->
+        <Grid Grid.Column="1">
+        </Grid>
+        <!--Планировщик-->
+        <Grid Grid.Column="1"  x:Name="GridMain" HorizontalAlignment="Right" Height="540" Width="1100">
+            <StackPanel x:Name="TaskList" 
+                        Orientation="Vertical"
+                        Width="1100"
+                        HorizontalAlignment="Left">
+            </StackPanel>
+        </Grid>
+        <Menu 
+            Grid.Column="0"
+            HorizontalAlignment="Left" 
+            Height="570" VerticalAlignment="Top" 
+            Width="254"
+            IsMainMenu="True">
+            <MenuItem Width="254">Главная</MenuItem>
+            <Button x:Name="AddTaskBtn" 
+                    Content="Добавить задачу" 
+                    Background="#FF6B6B"
+                    BorderBrush="#FF6B6B"
+                    Width="156"
+                    Height="37" Click="AddTaskBtn_Click"/>
+            <Button x:Name="AddCategoryBtn" 
+                    Content="Добавить категорию" 
+                    Background="#FF6B6B"
+                    BorderBrush="#FF6B6B"
+                    Height="37"
+                    Click="AddCategoryBtn_Click" Width="159"/>
+        </Menu>
     </Grid>
-</Window>
+    <!--<Grid Height="30" VerticalAlignment="Top" Background="#666666">
+            <Grid.Effect>
+                <DropShadowEffect BlurRadius="1" ShadowDepth="1" Color="#FFACACAC"/>
+            </Grid.Effect>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                -->
+    <!--<materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="True" Margin="10">
+                    <StackPanel Width="150">
+                        <Button Content="Settings"/>
+                        <Button Content="Account"/>
+                        <Button Content="Help"/>
+                        <Separator/>
+                        <Button Content="Logout"/>
+                    </StackPanel>
+                </materialDesign:PopupBox>-->
+    <!--
+            </StackPanel>
+            <TextBlock Text="Planner" VerticalAlignment="Bottom" FontSize="16" Margin="0,0,0,4.4"/>
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Foreground="#FFFFFF" FontFamily="Roboto">Планировщик задач</TextBlock>
+        </Grid>-->
+
+</Window> 
+ 

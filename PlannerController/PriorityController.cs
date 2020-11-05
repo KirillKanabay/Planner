@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using PlannerModel;
 
 namespace PlannerController
 {
     public class PriorityController
     {
-        public List<Priority> Priorities { get; private set; }
+        public ObservableCollection<Priority> Items { get; private set; }
 
         public PriorityController()
         {
-            Priorities = GetPriorities();
+            Items = GetPriorities();
         }
 
-        private List<Priority> GetPriorities()
+        private ObservableCollection<Priority> GetPriorities()
         {
-            var priorities = new List<Priority>();
+            var priorities = new ObservableCollection<Priority>();
             using (var context = new PlannerContext())
             {
                 foreach (var priority in context.Priorities)
@@ -25,6 +26,11 @@ namespace PlannerController
             }
 
             return priorities;
+        }
+
+        public Priority GetPriority(int id)
+        {
+            return Items[id - 1];
         }
     }
 }
