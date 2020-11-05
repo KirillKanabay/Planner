@@ -17,11 +17,15 @@
         </Grid>
         <!--Планировщик-->
         <Grid Grid.Column="1"  x:Name="GridMain" HorizontalAlignment="Right" Height="540" Width="1100">
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Auto">
             <StackPanel x:Name="TaskList" 
                         Orientation="Vertical"
-                        Width="1100"
-                        HorizontalAlignment="Left">
+                        Width="1129"
+                        HorizontalAlignment="Left"
+                        CanVerticallyScroll="True">
             </StackPanel>
+            </ScrollViewer>
         </Grid>
         <Menu 
             Grid.Column="0"

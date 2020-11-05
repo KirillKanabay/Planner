@@ -8,7 +8,7 @@ namespace PlannerController
 {
     public class TaskController
     {
-        public ObservableCollection<PlannerModel.Task> Tasks { get; private set; }
+        public ObservableCollection<Task> Tasks { get; private set; }
 
         public TaskController()
         {
@@ -54,7 +54,7 @@ namespace PlannerController
                 throw new ArgumentException("Такая задача уже существует.");
             }
             #endregion
-            var task = new PlannerModel.Task()
+            var task = new Task()
             {
                 Name = name,
                 CreationDate = DateTime.Now,
@@ -64,8 +64,9 @@ namespace PlannerController
                 CategoryId = categoryId
             };
             AddTaskDb(task);
+            Tasks = GetTasks();
         }
-        private void AddTaskDb(PlannerModel.Task task)
+        private void AddTaskDb(Task task)
         {
             using (var context = new PlannerContext())
             {
@@ -77,9 +78,9 @@ namespace PlannerController
         /// Возвращает список категорий из БД
         /// </summary>
         /// <returns>Список категорий</returns>
-        private ObservableCollection<PlannerModel.Task> GetTasks()
+        private ObservableCollection<Task> GetTasks()
         {
-            var tasks = new ObservableCollection<PlannerModel.Task>();
+            var tasks = new ObservableCollection<Task>();
             using (var context = new PlannerContext())
             {
                 if (context.Tasks == null)
@@ -92,6 +93,18 @@ namespace PlannerController
                 }
             }
             return tasks;
+        }
+
+        public void FinishTask(int taskId)
+        {
+            using (var context = new PlannerContext())
+            {
+                var task = context.Tasks.FirstOrDefault(x => x.Id == taskId);
+                task.IsFinished = true;
+                context.SaveChanges();
+            }
+
+            Tasks = GetTasks();
         }
     }
 }

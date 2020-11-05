@@ -4,31 +4,36 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PlannerView"
-             mc:Ignorable="d" Width="1095.2" Height="63.2" Background="White">
-    <Grid Margin="18,0,-29.8,0.2">
-        <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="0,17,19,10" Height="36">
-            <Label x:Name="TaskName" Width="190" HorizontalAlignment="Left" VerticalAlignment="Center" BorderThickness="0">
-                Название задачи
-            </Label>
-            <Label x:Name="StartDate" Margin="10 0" Width="101" VerticalAlignment="Center" BorderThickness="0">
-                29.10.2020, 19:00
-            </Label>
-            <Border Background="#15C651" CornerRadius="5" Height="25">
-                <Label x:Name="EndDate" Foreground="#FFFFFF" Width="104" Content="29.10.2020, 19:00" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-            </Border>
-            <Border Background="#15C651" CornerRadius="5" Height="25" Margin="10 0">
-                <Label x:Name="Priority" Foreground="#fff" Content="Без приоритета" Width="153" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-            </Border>
-            <Border Background="#15C651" CornerRadius="5" Height="25" Margin="10 0">
-                <Label x:Name="Category" Foreground="#FFF" Content="Название категории" Width="306" HorizontalContentAlignment="Center" VerticalAlignment="Center" BorderThickness="0"/>
-            </Border>
-            <Button Content="Завершить задачу" 
+             mc:Ignorable="d" Width="1095.2" Height="39.034" Background="White">
+    <Grid>
+    <Border BorderBrush="#FFE2E2E2"  BorderThickness="0 0 0 1">
+    <StackPanel VerticalAlignment="Top" Orientation="Horizontal" Height="36">
+        
+        <Label x:Name="TaskName" Width="190" HorizontalAlignment="Left" VerticalAlignment="Center" BorderThickness="0">
+            Название задачи
+        </Label>
+        <Label x:Name="StartDate" Margin="10,6" Width="101" VerticalAlignment="Center" BorderThickness="0">
+            29.10.2020, 19:00
+        </Label>
+        <Border Background="#15C651" CornerRadius="5" Height="25">
+            <Label x:Name="EndDate" Foreground="#FFFFFF" Width="104" Content="29.10.2020, 19:00" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        </Border>
+        <Border x:Name="PriorityBackground" Background="#15C651" CornerRadius="5" Height="25" Margin="10 0">
+            <Label x:Name="Priority" Foreground="#fff" Content="Без приоритета" Width="153" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        </Border>
+        <Border x:Name="CategoryBackground" Background="#15C651" CornerRadius="5" Height="25" Margin="10 0">
+            <Label x:Name="Category" Foreground="#FFF" Content="Название категории" Width="306" HorizontalContentAlignment="Center" VerticalAlignment="Center" BorderThickness="0"/>
+        </Border>
+                <Button 
+                    x:Name="FinishTask"
+                    Content="Завершить задачу" 
                     Background="#FF15C651" 
                     Width="156" 
                     Height="26" 
                     HorizontalAlignment="Right" 
                     BorderBrush="#FF15C651"
-                    VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-        </StackPanel>
+                    VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="Button_Click" Margin="0,5"/>
+            </StackPanel>
+    </Border>
     </Grid>
 </UserControl>

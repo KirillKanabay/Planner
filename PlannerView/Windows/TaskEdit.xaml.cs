@@ -99,17 +99,20 @@ namespace PlannerView.Windows
             {
                 var name = TaskNameTextBox.Text;
                 var startTime = GetDate(StartDate.Text, StartTime.Text, false);
-                var endTime = GetDate(EndDate.Text, EndTime.Text, true); ;
+                var endTime = GetDate(EndDate.Text, EndTime.Text, true);
+                ;
                 var priorityId = PrioritiesBox.SelectedIndex + 1;
                 var categoryId = CategoryBox.SelectedIndex + 1;
                 var taskController = new TaskController(name, startTime, endTime, priorityId, categoryId);
-                MessageBox.Show("Задача добавлена в планировщик", "Редактор задач",MessageBoxButton.OK,MessageBoxImage.Information);
+                MessageBox.Show("Задача добавлена в планировщик", "Редактор задач", MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+                MainWindow.DoRefresh(taskController);
             }
             catch (ArgumentException exception)
             {
                 MessageBox.Show(exception.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            
+
         }
     }
 }

@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+﻿using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using PlannerController;
+using PlannerModel;
 
 namespace PlannerView
 {
@@ -21,16 +9,33 @@ namespace PlannerView
     /// </summary>
     public partial class TaskItem : UserControl
     {
-        public TaskItem(PlannerModel.Task task)
+        private PlannerModel.Task Task { get; set; }
+
+        public TaskItem(PlannerModel.Task task, Category category, Priority priority)
         {
-            var categoryController = new CategoryController();
-            var priorityController = new PriorityController();
             InitializeComponent();
-            TaskName.Content = task.Name;
-            StartDate.Content = task.StartTime.ToString();
-            EndDate.Content = task.EndTime.ToString();
-            Priority.Content = task.Priority.Name;
-            Category.Content = categoryController.GetCategory(task.CategoryId).Name;
+            Task = task;
+
+            TaskName.Content = Task.Name;
+            StartDate.Content = Task.StartTime.ToString("g");
+            EndDate.Content = Task.EndTime.ToString("g");
+            
+            PriorityBackground.Background = new SolidColorBrush(GetColor(priority.Color));
+            
+            CategoryBackground.Background = new SolidColorBrush(GetColor(category.Color));
+
+            Priority.Content = priority.Name;
+            Category.Content = category.Name;
+        }
+
+        private Color GetColor(string color)
+        {
+            return (Color)ColorConverter.ConvertFromString(color);
+        }
+
+        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            FinishTask(Task.Id);
         }
     }
 }
