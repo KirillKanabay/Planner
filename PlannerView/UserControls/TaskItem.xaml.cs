@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
+using PlannerController;
 using PlannerModel;
 
 namespace PlannerView
@@ -9,13 +10,18 @@ namespace PlannerView
     /// </summary>
     public partial class TaskItem : UserControl
     {
-        private PlannerModel.Task Task { get; set; }
+        private readonly TaskController TaskController;
+        private readonly PlannerModel.Task Task; 
 
-        public TaskItem(PlannerModel.Task task, Category category, Priority priority)
+        public TaskItem(TaskController taskController,int taskId, CategoryController categoryController, PriorityController priorityController)
         {
             InitializeComponent();
-            Task = task;
-
+            TaskController = taskController;
+            Task = taskController.Tasks[taskId];
+            var priority = priorityController.GetPriority(Task.PriorityId);
+            var category = categoryController.GetCategory(Task.CategoryId);
+           
+            
             TaskName.Content = Task.Name;
             StartDate.Content = Task.StartTime.ToString("g");
             EndDate.Content = Task.EndTime.ToString("g");
@@ -35,7 +41,8 @@ namespace PlannerView
 
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            FinishTask(Task.Id);
+            TaskController.FinishTask(Task.Id);
+            MainWindow.DoRefresh(TaskController);
         }
     }
 }

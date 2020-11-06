@@ -51,11 +51,10 @@ namespace PlannerView
         {
             TaskList.Children.RemoveRange(0,TaskList.Children.Count);
             ObservableCollection<Task> tasks= taskController.Tasks;
-            foreach (var task in tasks)
+            for(int i = 0; i < tasks.Count; i++)
             {
-                TaskItem taskItem = new TaskItem(task,
-                    categoryController.GetCategory(task.CategoryId),
-                    priorityController.GetPriority(task.PriorityId));
+                if(taskController.Tasks[i].IsFinished) continue;
+                TaskItem taskItem = new TaskItem(taskController,i,categoryController,priorityController);
                 TaskList.Children.Add(taskItem);
             }
         }
