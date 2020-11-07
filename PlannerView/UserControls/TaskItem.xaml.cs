@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using PlannerController;
 using PlannerModel;
@@ -13,25 +15,36 @@ namespace PlannerView
         private readonly TaskController TaskController;
         private readonly PlannerModel.Task Task; 
 
-        public TaskItem(TaskController taskController,int taskId, CategoryController categoryController, PriorityController priorityController)
+        public TaskItem(TaskController taskController,Task task, CategoryController categoryController, PriorityController priorityController)
         {
             InitializeComponent();
             TaskController = taskController;
-            Task = taskController.Tasks[taskId];
+            Task = task;
             var priority = priorityController.GetPriority(Task.PriorityId);
             var category = categoryController.GetCategory(Task.CategoryId);
            
             
-            TaskName.Content = Task.Name;
-            StartDate.Content = Task.StartTime.ToString("g");
-            EndDate.Content = Task.EndTime.ToString("g");
-            
+            TaskName.Text = Task.Name;
+            if (Task.IsFinished)
+            {
+                TaskName.TextDecorations = TextDecorations.Strikethrough;
+                FinishTaskBtn.Content = "Задача завершена";
+                FinishTaskBtn.Background = new SolidColorBrush(GetColor("#FF000000"));
+                FinishTaskBtn.BorderBrush = new SolidColorBrush(GetColor("#FF000000"));
+                FinishTaskBtn.IsEnabled = false;
+            }
+            StartDate.Content = (Task.StartTime == DateTime.Parse("1980-01-01 00:00:00")) ? "-" 
+                : Task.StartTime.ToString("g");
+            EndDate.Content = (Task.EndTime == DateTime.Parse("2099-01-01 00:00:00")) ? "Бессрочная"
+                : Task.EndTime.ToString("g");
+
             PriorityBackground.Background = new SolidColorBrush(GetColor(priority.Color));
             
             CategoryBackground.Background = new SolidColorBrush(GetColor(category.Color));
 
             Priority.Content = priority.Name;
             Category.Content = category.Name;
+
         }
 
         private Color GetColor(string color)

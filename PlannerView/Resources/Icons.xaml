@@ -1,0 +1,28 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:PlannerView.Resources">
+    <Geometry x:Key="LogoGeometry">F0 M90.106,23.894z M0,0z M19.548,46.3L32.635,46.3A5.16,5.16,0,0,0,37.783,41.152L37.783,28.065A4.745,4.745,0,0,0,37.714,27.198C40.214,25.187 42.533,24.061 44.197,24.459 36.743,21.359 27.504,37.759 25.736,40.978L19.218,31.271 25.3,34.843A43.413,43.413,0,0,1,36.362,24.495A5.129,5.129,0,0,0,32.635,22.9L19.548,22.9A5.16,5.16,0,0,0,14.4,28.048L14.4,41.135A5.153,5.153,0,0,0,19.548,46.3z</Geometry>
+    <DrawingGroup x:Key="LogoDrawingGroup" ClipGeometry="M0,0 V23.894 H90.106 V0 H0 Z">
+        <DrawingGroup Opacity="1" Transform="1,0,0,1,-14.399,-22.9">
+            <DrawingGroup Opacity="1" Transform="1,0,0,1,14.399,22.9">
+                <DrawingGroup Transform="1,0,0,1,-14.399,-22.9">
+                    <GeometryDrawing Brush="#FFD8D8D8" Geometry="{StaticResource LogoGeometry}" />
+                </DrawingGroup>
+            </DrawingGroup>
+            <DrawingGroup Transform="1,0,0,1,40.506,41.794">
+                <DrawingGroup>
+                    <GlyphRunDrawing ForegroundBrush="#FFD8D8D8">
+                        <GlyphRunDrawing.GlyphRun>
+                            <GlyphRun PixelsPerDip="1.25" BaselineOrigin="0,0" FontRenderingEmSize="18" BidiLevel="0" IsSideways="False" ClusterMap="0 1 2 3 4 5 6" Characters="Planner" GlyphIndices="51 79 68 81 81 72 85" AdvanceWidths="11.052 5.112 9.684 10.89 10.89 9.738 7.164" GlyphOffsets="0,0 0,0 0,0 0,0 0,0 0,0 0,0" Language="en-us">
+                                <GlyphRun.GlyphTypeface>
+                                    <GlyphTypeface FontUri="C:\WINDOWS\FONTS\SEGOEUIB.TTF" StyleSimulations="None" />
+                                </GlyphRun.GlyphTypeface>
+                            </GlyphRun>
+                        </GlyphRunDrawing.GlyphRun>
+                    </GlyphRunDrawing>
+                </DrawingGroup>
+            </DrawingGroup>
+        </DrawingGroup>
+    </DrawingGroup>
+    <DrawingImage x:Key="LogoDrawingImage" Drawing="{StaticResource LogoDrawingGroup}" />
+</ResourceDictionary>

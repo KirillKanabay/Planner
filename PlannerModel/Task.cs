@@ -15,11 +15,13 @@ namespace PlannerModel
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public int PriorityId { get; set; }
-        public int CategoryId { get; set; }
-        public bool IsFinished { get; set; }
         [ForeignKey("PriorityId")]
         public virtual Priority Priority { get; set; }
+        public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
+        public bool IsFinished { get; set; }
+        
+       
     }
 }

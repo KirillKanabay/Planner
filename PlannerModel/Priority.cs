@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PlannerModel
 {
@@ -9,11 +10,12 @@ namespace PlannerModel
         public int Id { get; set; }
         public string Name { get; set; }
         public string Color { get; set; }
-        public virtual ICollection<Task> Tasks { get; set; }
+        [ForeignKey("PriorityId")]
+        public virtual ICollection<PlannerModel.Task> Tasks { get; set; }
 
         public Priority()
         {
-            Tasks = new List<Task>();
+            //Tasks = new List<Task>();
         }
 
         public Priority(string name, string color)

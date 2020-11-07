@@ -9,7 +9,7 @@ namespace PlannerController
     public class TaskController
     {
         public ObservableCollection<Task> Tasks { get; private set; }
-
+        
         public TaskController()
         {
             Tasks = GetTasks() ?? new ObservableCollection<Task>();
@@ -80,6 +80,8 @@ namespace PlannerController
         /// <returns>Список категорий</returns>
         private ObservableCollection<Task> GetTasks()
         {
+            PriorityController priorityController = new PriorityController();
+            CategoryController categoryController = new CategoryController();
             var tasks = new ObservableCollection<Task>();
             using (var context = new PlannerContext())
             {
@@ -89,7 +91,9 @@ namespace PlannerController
                 }
                 foreach (var task in context.Tasks)
                 {
-                   tasks.Add(task);
+                    task.Category = categoryController.GetCategory(task.CategoryId);
+                    task.Priority = priorityController.GetPriority(task.PriorityId);
+                    tasks.Add(task);
                 }
             }
             return tasks;
