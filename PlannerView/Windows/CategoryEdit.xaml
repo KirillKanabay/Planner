@@ -1,17 +1,85 @@
 ﻿<Window
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PlannerView.Windows"
+    xmlns:local="clr-namespace:PlannerView.Windows"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" x:Class="PlannerView.Windows.CategoryEdit"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        mc:Ignorable="d"
-        Title="CategoryEdit" Height="155.4" Width="502">
-    <Grid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Margin="0,0,0,15.6">
-        <TextBox x:Name="CategoryNameTextBox" HorizontalAlignment="Left" Height="26" Margin="9,19,0,0" TextWrapping="Wrap" Text="Введите название категории" VerticalAlignment="Top" Width="466" BorderBrush="#4C000000"/>
-        <Button x:Name="SaveTask" Content="Сохранить" VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="#FF15C651" BorderBrush="#FF15C651" Click="Button_Click" Width="111" Margin="0,0,10,0"/>
-        <xctk:ColorPicker x:Name="ColorPicker" Height="22" Margin="10,74,288,7.2"/>
-        <Label Content="Укажите фоновый цвет категории:" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top"/>
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:validators="clr-namespace:PlannerView.Validators"
+    mc:Ignorable="d"
+        Title="CategoryEdit" Height="250" Width="315.6" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" FontFamily="Roboto Bk">
+
+    <Grid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock FontSize="18" FontFamily="Roboto Medium">Редактор категорий</TextBlock>
+        <TextBox 
+            materialDesign:HintAssist.Hint="Название категории" 
+                 x:Name="CategoryTextBox"
+                 Style="{DynamicResource MaterialDesignFloatingHintTextBox}"                 
+                 FontSize="16" 
+                 Grid.Row="1"
+                 Margin="0 8 0 8">
+            <TextBox.Text>
+                <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <validators:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+        <TextBox x:Name="ColorTextBox" materialDesign:HintAssist.Hint="Цвет категории" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                  FontSize="16" Grid.Row="2" HorizontalAlignment="Left" Width="283"
+                  Margin="0 8 0 8"
+        >
+            <TextBox.Text>
+                <Binding Path="Color" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <validators:CorrectlyColorValidationRule ValidatesOnTargetUpdated="True" />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+            <Button
+            x:Name ="ColorPickerBtn"
+            Grid.Row="2"
+            Width="20"
+            Height="20"
+            Padding="0"
+            Margin="250 20 0 0"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Background="Transparent"
+            BorderThickness="0"
+            Click="ColorPickerBtn_OnClick">
+
+            <materialDesign:PackIcon
+                x:Name ="ColorPickerIcon"
+                Width="18"
+                Height="18"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Foreground="#383838"
+                Kind="eyedropper" />
+        </Button>
+        <StackPanel Grid.Row="3" x:Name="Buttons" VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
+            <Button x:Name="Save" 
+                Content="Сохранить" 
+                VerticalAlignment="Bottom" 
+                HorizontalAlignment="Right" 
+                Click="Save_Click" 
+                Style="{DynamicResource MaterialDesignFlatButton}"/>
+            <Button x:Name="Cancel" 
+                Content="Отмена" 
+                VerticalAlignment="Bottom" 
+                HorizontalAlignment="Right" 
+                Click="Cancel_Click" 
+                Style="{DynamicResource MaterialDesignFlatButton}"/>
+        </StackPanel>
     </Grid>
 </Window>

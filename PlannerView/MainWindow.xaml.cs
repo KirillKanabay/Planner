@@ -5,6 +5,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
+using MaterialDesignThemes.Wpf;
 using PlannerController;
 using PlannerView.Windows;
 using Task = PlannerModel.Task;
@@ -56,13 +58,17 @@ namespace PlannerView
         private void AddTaskBtn_Click(object sender, RoutedEventArgs e)
         {
             TaskEdit taskEdit = new TaskEdit();
-            taskEdit.Show();
+            taskEdit.ShowInTaskbar = false;
+            taskEdit.ShowDialog();
         }
 
         private void AddCategoryBtn_Click(object sender, RoutedEventArgs e)
         {
+            this.Opacity = 0.4;
             CategoryEdit categoryEdit = new CategoryEdit();
-            categoryEdit.Show();
+            categoryEdit.ShowInTaskbar = false;
+            categoryEdit.ShowDialog();
+            this.Opacity = 1;
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

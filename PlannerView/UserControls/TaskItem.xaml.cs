@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using PlannerController;
 using PlannerModel;
+using UtilityLibraries;
 
 namespace PlannerView
 {
@@ -29,8 +30,8 @@ namespace PlannerView
             {
                 TaskName.TextDecorations = TextDecorations.Strikethrough;
                 FinishTaskBtn.Content = "Задача завершена";
-                FinishTaskBtn.Background = new SolidColorBrush(GetColor("#FF000000"));
-                FinishTaskBtn.BorderBrush = new SolidColorBrush(GetColor("#FF000000"));
+                FinishTaskBtn.Background = new SolidColorBrush(ColorLibrary.GetColor("#FF000000"));
+                FinishTaskBtn.BorderBrush = new SolidColorBrush(ColorLibrary.GetColor("#FF000000"));
                 FinishTaskBtn.IsEnabled = false;
             }
             StartDate.Content = (Task.StartTime == DateTime.Parse("1980-01-01 00:00:00")) ? "-" 
@@ -38,19 +39,15 @@ namespace PlannerView
             EndDate.Content = (Task.EndTime == DateTime.Parse("2099-01-01 00:00:00")) ? "Бессрочная"
                 : Task.EndTime.ToString("g");
 
-            PriorityBackground.Background = new SolidColorBrush(GetColor(priority.Color));
+            PriorityBackground.Background = new SolidColorBrush(ColorLibrary.GetColor(priority.Color));
             
-            CategoryBackground.Background = new SolidColorBrush(GetColor(category.Color));
+            CategoryBackground.Background = new SolidColorBrush(ColorLibrary.GetColor(category.Color));
 
             Priority.Content = priority.Name;
             Category.Content = category.Name;
 
         }
 
-        private Color GetColor(string color)
-        {
-            return (Color)ColorConverter.ConvertFromString(color);
-        }
 
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {

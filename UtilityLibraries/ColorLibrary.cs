@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+using System.Windows.Media;
 
 namespace UtilityLibraries
 {
-    public class ColorLibrary
+    public static class ColorLibrary
     {
         /// <summary>
         /// Генерирует случайный цвет в HEX-формате.
@@ -23,5 +21,14 @@ namespace UtilityLibraries
             }
             return color;
         }
+       public static Color GetColor(string color)
+       {
+            return (Color)ColorConverter.ConvertFromString(color);
+       }
+       public static bool IsHexColor(string color)
+       {
+            Regex regex = new Regex(@"^#((([0-9]|[a-f]|[A-F]){6})|(([0-9]|[a-f]|[A-F]){8}))$");
+            return regex.IsMatch(color);
+       }
     }
 }

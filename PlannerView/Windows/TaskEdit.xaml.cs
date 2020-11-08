@@ -1,36 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using PlannerController;
 using PlannerModel;
+using PlannerView.Annotations;
 
 namespace PlannerView.Windows
 {
     /// <summary>
     /// Логика взаимодействия для TaskEdit.xaml
     /// </summary>
-    public partial class TaskEdit : Window
+    public partial class TaskEdit : Window, INotifyPropertyChanged
     {
+        private PlannerModel.Task task; 
         public TaskEdit()
         {
             InitializeComponent();
-            //Добавление placeholder для ввода названия задачи
-            TaskNameTextBox.Text = "Введите название задачи";
-            TaskNameTextBox.GotFocus += RemoveText;
-            TaskNameTextBox.LostFocus += AddText;
-            
-            //Получение списка приоритетов
-            var priorityController = new PriorityController();
-            var priorities = GetPrioritiesName(priorityController);
-            PrioritiesBox.ItemsSource = priorities;
-
-            //Получение списка категорий
-            var categoryController = new CategoryController();
-            var categories = GetCategoriesName(categoryController);
-            CategoryBox.ItemsSource = categories;
+            task = new Task();
+            DataContext = task;
+            //
+            // //Получение списка приоритетов
+            // var priorityController = new PriorityController();
+            // var priorities = GetPrioritiesName(priorityController);
+            // PrioritiesBox.ItemsSource = priorities;
+            //
+            // //Получение списка категорий
+            // var categoryController = new CategoryController();
+            // var categories = GetCategoriesName(categoryController);
+            // CategoryBox.ItemsSource = categories;
         }
 
         ObservableCollection<String> GetPrioritiesName(PriorityController controller)
@@ -52,19 +54,6 @@ namespace PlannerView.Windows
             }
 
             return categories;
-        }
-        void RemoveText(object sender, EventArgs e)
-        {
-            if (TaskNameTextBox.Text == "Введите название задачи")
-            {
-                TaskNameTextBox.Text = "";
-            }
-        }
-
-        void AddText(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(TaskNameTextBox.Text))
-                TaskNameTextBox.Text = "Введите название задачи";
         }
         /// <summary>
         /// Возвращает дату из строк даты и времени
@@ -93,14 +82,13 @@ namespace PlannerView.Windows
             
             return dt;
         }
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Save_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                var name = TaskNameTextBox.Text;
+                //var name = TaskNameTextBox.Text;
                 var startTime = GetDate(StartDate.Text, StartTime.Text, false);
                 var endTime = GetDate(EndDate.Text, EndTime.Text, true);
-                ;
                 var priorityId = PrioritiesBox.SelectedIndex + 1;
                 var categoryId = CategoryBox.SelectedIndex + 1;
                 var taskController = new TaskController(name, startTime, endTime, priorityId, categoryId);
@@ -113,6 +101,19 @@ namespace PlannerView.Windows
                 MessageBox.Show(exception.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
+        }
+
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

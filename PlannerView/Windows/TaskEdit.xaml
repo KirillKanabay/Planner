@@ -4,11 +4,49 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlannerView.Windows"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" x:Class="PlannerView.Windows.TaskEdit"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:validators="clr-namespace:PlannerView.Validators"
+        x:Class="PlannerView.Windows.TaskEdit"
         mc:Ignorable="d"
-        Title="Редактор задач" Height="309.6" Width="502.4" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
-    <Grid>
-        <TextBox x:Name="TaskNameTextBox" HorizontalAlignment="Left" Height="26" Margin="9,10,0,0" TextWrapping="Wrap" Text="Введите название задачи" VerticalAlignment="Top" Width="475" BorderBrush="#4C000000"/>
+        Title="Редактор задач" Height="309.6" Width="502.4" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock FontSize="18" FontFamily="Roboto Medium">Редактор задач</TextBlock>
+        <TextBox 
+            materialDesign:HintAssist.Hint="Название категории" 
+            x:Name="CategoryTextBox"
+            Style="{DynamicResource MaterialDesignFloatingHintTextBox}"                 
+            FontSize="16" 
+            Grid.Row="1"
+            Margin="0 8 0 8">
+            <TextBox.Text>
+                <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <validators:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+        <WrapPanel Grid.Row="2">
+            <StackPanel Orientation="Horizontal">
+                <DatePicker x:Name="FutureDatePicker" Width="100" HorizontalAlignment="Left" Margin="0 16 0 0" 
+                            materialDesign:HintAssist.Hint="Future Date">
+                    <DatePicker.SelectedDate>
+                        <Binding Path="FutureValidatingDate" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validators:DateValidationRule ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </DatePicker.SelectedDate>
+                </DatePicker>
+            </StackPanel>
+        </WrapPanel>
         <Label Content="Дата и время начала работы*:" HorizontalAlignment="Left" Margin="10,48,0,0" VerticalAlignment="Top"/>
         <DatePicker x:Name="StartDate" HorizontalAlignment="Left" 
                     Margin="10,77,0,0" 
@@ -50,6 +88,19 @@
 
         <Label Content="Категория" HorizontalAlignment="Left" Margin="352,136,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.004,0.1" Width="120"/>
         <ComboBox x:Name="CategoryBox" HorizontalAlignment="Left" Margin="352,160,0,0" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="SaveTask"  Height="Auto" Content="Сохранить" Margin="373,237,12,10" Background="#FF15C651" BorderBrush="#FF15C651" Click="Button_Click"/>
+        <StackPanel Grid.Row="3" x:Name="Buttons" VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
+            <Button x:Name="Save" 
+                    Content="Сохранить" 
+                    VerticalAlignment="Bottom" 
+                    HorizontalAlignment="Right" 
+                    Click="Save_Click" 
+                    Style="{DynamicResource MaterialDesignFlatButton}"/>
+            <Button x:Name="Cancel" 
+                    Content="Отмена" 
+                    VerticalAlignment="Bottom" 
+                    HorizontalAlignment="Right" 
+                    Click="Cancel_Click" 
+                    Style="{DynamicResource MaterialDesignFlatButton}"/>
+        </StackPanel>
     </Grid>
 </Window>

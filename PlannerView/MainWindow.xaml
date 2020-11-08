@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PlannerView"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="Width">
+        Title="MainWindow" Height="600" Width="1600" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" FontFamily="Roboto" ResizeMode="CanResizeWithGrip" WindowStyle="ThreeDBorderWindow">
     <Window.Resources>
         <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
@@ -26,8 +26,8 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="280"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <!--Меню-->
         <Grid Grid.Column="0" Width="280" Background="AntiqueWhite">
@@ -37,44 +37,44 @@
                      SelectionChanged="ListBox_SelectionChanged">
                 <ListBoxItem>
                     <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="CalendarSync" Foreground="#383838" Margin="7"/>
+                        <materialDesign:PackIcon Kind="CalendarSync" Foreground="#383838" Margin="0 4"/>
                         <Label FontSize="14">Бессрочные задачи</Label>
                     </StackPanel> 
                 </ListBoxItem>
                 <ListBoxItem IsSelected="True">
                     <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="CalendarToday" Foreground="#383838" Margin="7"/>
+                        <materialDesign:PackIcon Kind="CalendarToday" Foreground="#383838"  Margin="0 4"/>
                         <Label FontSize="14">Задачи на сегодня</Label>
                     </StackPanel>
                 </ListBoxItem>
                 <ListBoxItem>
                     <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="CalendarArrowRight" Foreground="#383838" Margin="7"/>
+                        <materialDesign:PackIcon Kind="CalendarArrowRight" Foreground="#383838" Margin="0 4"/>
                         <Label FontSize="14">Предстоящие задачи</Label>
                     </StackPanel>
                 </ListBoxItem>
                 <ListBoxItem>
                     <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="CalendarCheck" Foreground="#383838" Margin="7"/>
+                        <materialDesign:PackIcon Kind="CalendarCheck" Foreground="#383838"  Margin="0 4"/>
                         <Label FontSize="14">Выполненные задачи</Label>
                     </StackPanel>
                 </ListBoxItem>
                 <ListBoxItem>
                     <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="CalendarRemove" Foreground="#383838" Margin="7"/>
+                        <materialDesign:PackIcon Kind="CalendarRemove" Foreground="#383838"  Margin="0 4"/>
                         <Label FontSize="14">Просроченные задачи</Label>
                     </StackPanel>
                 </ListBoxItem>
                 <ListBoxItem Background="#FF6B6B">
                     <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="CalendarStar" Foreground="#383838" Margin="7"/>
+                        <materialDesign:PackIcon Kind="CalendarStar" Foreground="#383838"  Margin="0 4"/>
                         <Label FontSize="14">Задачи срочного приоритета</Label>
                     </StackPanel>
                 </ListBoxItem>
             </ListBox>
         </Grid>
         <!--Планировщик-->
-        <Grid Grid.Column="1"  x:Name="GridMain" HorizontalAlignment="Right" Height="540" Width="1100">
+        <Grid Grid.Column="1"  x:Name="GridMain" HorizontalAlignment="Right" VerticalAlignment="Top" Height="540" Width="1100">
             <Label x:Name="TaskTitle" FontSize="24"
                    FontWeight="Bold">Задачи на сегодня</Label>
             <Button x:Name="AddTaskBtn" 
@@ -92,7 +92,6 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,57,0,0">
                 <StackPanel x:Name="TaskList" 
                         Orientation="Vertical"
-                        Width="1100"
                         HorizontalAlignment="Left"
                         CanVerticallyScroll="True">
                 </StackPanel>
