@@ -170,6 +170,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\TaskModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="UserControls\TaskItem.xaml.cs">
       <DependentUpon>TaskItem.xaml</DependentUpon>
@@ -177,6 +178,7 @@
     <Compile Include="Validators\CorrectlyColorValidationRule.cs" />
     <Compile Include="Validators\DateValidationRule.cs" />
     <Compile Include="Validators\NotEmptyValidationRule.cs" />
+    <Compile Include="Validators\TimeValidationRule.cs" />
     <Compile Include="Windows\CategoryEdit.xaml.cs">
       <DependentUpon>CategoryEdit.xaml</DependentUpon>
     </Compile>

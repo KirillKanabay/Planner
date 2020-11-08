@@ -15,7 +15,7 @@ namespace PlannerView.Validators
             DateTime time;
             return (!DateTime.TryParse((value ?? "").ToString(), CultureInfo.CurrentCulture,
                 DateTimeStyles.AssumeLocal | DateTimeStyles.AllowWhiteSpaces, out time)) 
-                ? new ValidationResult(false, "Неверно заполнено поле даты"):
+                ? new ValidationResult(false, "Неверно заполнена дата"):
                 ValidationResult.ValidResult;
         }
     }
