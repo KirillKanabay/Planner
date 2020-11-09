@@ -57,9 +57,11 @@ namespace PlannerView.Windows
             //Получение списка приоритетов
             PriorityController = new PriorityController();
             PrioritiesBox.ItemsSource = PriorityController.Items.Select(item => item.Name).OrderBy(item => item);
-
             //Получение списка категорий
             RefreshCategoryList();
+            
+            PrioritiesBox.SelectedIndex = 0;
+            CategoriesBox.SelectedIndex = 0;
         }
 
         public static void DoRefreshCategoryList()
