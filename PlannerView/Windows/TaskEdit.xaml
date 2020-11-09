@@ -8,7 +8,7 @@
         xmlns:validators="clr-namespace:PlannerView.Validators"
         x:Class="PlannerView.Windows.TaskEdit"
         mc:Ignorable="d"
-        Title="Редактор задач" Height="382.6" Width="657.6" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+        Title="Редактор задач" Height="382.6" Width="657.6" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" Closed="TaskEdit_OnClosed">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

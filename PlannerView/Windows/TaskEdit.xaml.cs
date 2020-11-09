@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,24 +21,57 @@ namespace PlannerView.Windows
     public partial class TaskEdit : Window, INotifyPropertyChanged
     {
         private TaskModel TaskModel { get; set; }
+        private CategoryController CategoryController { get; set; }
+        private PriorityController PriorityController { get; set; }
+        public delegate void CategoryHadler();
+        public static event CategoryHadler RefreshCategoryListEvent ;
 
+        private bool _isOpen;
+        public bool IsOpen
+        {
+            get
+            {
+                return _isOpen;
+            }
+            set
+            {
+                _isOpen = value;
+                if (_isOpen)
+                {
+                    Show();
+                }
+                else
+                {
+                    Close();
+                }
+            }
+        }
         public TaskEdit()
         {
             InitializeComponent();
+            RefreshCategoryListEvent += RefreshCategoryList;
+            //Привязка данных к модели задачи
             TaskModel = new TaskModel();
             DataContext = TaskModel;
 
             //Получение списка приоритетов
-            var priorityController = new PriorityController();
-            var priorities = GetPrioritiesName(priorityController);
-            PrioritiesBox.ItemsSource = priorities;
+            PriorityController = new PriorityController();
+            PrioritiesBox.ItemsSource = PriorityController.Items.Select(item => item.Name).OrderBy(item => item);
 
             //Получение списка категорий
-            var categoryController = new CategoryController();
-            var categories = GetCategoriesName(categoryController);
-            CategoriesBox.ItemsSource = categories;
+            CategoryController = new CategoryController();
+            RefreshCategoryList();
         }
 
+        public static void DoRefreshCategoryList()
+        {
+            RefreshCategoryListEvent?.Invoke();
+        }
+
+        private void RefreshCategoryList()
+        {
+            CategoriesBox.ItemsSource = CategoryController.Items.Select(item => item.Name);
+        }
         ObservableCollection<String> GetPrioritiesName(PriorityController controller)
         {
             var priorities = new ObservableCollection<string>();
@@ -84,13 +118,12 @@ namespace PlannerView.Windows
             EndTime.IsEnabled = false;
             TaskModel.StartTime = new DateTime(2099, 1, 1);
         }
-        /// <summary>
-        /// Возвращает дату из строк даты и времени
-        /// </summary>
-        /// <param name="date">Строка даты</param>
-        /// <param name="time">Строка времени</param>
-        /// <param name="EndTheTime">Если строки пусты возвращает максимальную дату</param>
-        /// <returns> Дата </returns>
+        private void AddCategoryBtn_OnClick(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            new CategoryEdit().ShowDialog();
+            CategoriesBox.ItemsSource = CategoryController.Items.Select(item => item.Name);
+        }
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -131,9 +164,9 @@ namespace PlannerView.Windows
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void AddCategoryBtn_OnClick(object sender, RoutedEventArgs e)
+        private void TaskEdit_OnClosed(object sender, EventArgs e)
         {
-            new CategoryEdit().ShowDialog();
+            MainWindow.CloseWrap(sender, new RoutedEventArgs());
         }
     }
 }

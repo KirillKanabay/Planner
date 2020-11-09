@@ -21,17 +21,22 @@ namespace PlannerView
         private TaskController taskController;
         private CategoryController categoryController;
         private PriorityController priorityController;
+        private CategoryEdit categoryEdit;
+        static public TaskEdit taskEdit;
 
         public delegate void TaskHandler(TaskController taskController);
+        public delegate void WrapHadler(object sender,RoutedEventArgs e);
         public static event TaskHandler TaskListChanged;
-
+        public static event WrapHadler CloseWrapEvent;
         public Func<PlannerModel.Task, bool> Filter;
 
         public MainWindow()
         {
             InitializeComponent();
             Filter = Filter = (task) => DateTime.Now >= task.StartTime && DateTime.Now <= task.EndTime;
+            
             TaskListChanged += RefreshTaskList;
+            CloseWrapEvent += WrapBtn_OnClick;
 
             taskController = new TaskController();
             categoryController = new CategoryController();
@@ -39,10 +44,16 @@ namespace PlannerView
             
             DoRefresh(taskController);
         }
+
+        public static void CloseWrap(object sender, RoutedEventArgs e)
+        {
+            CloseWrapEvent?.Invoke(sender, e);
+        }
         public static void DoRefresh(TaskController taskController)
         {
             TaskListChanged?.Invoke(taskController);
         }
+
         private void RefreshTaskList(TaskController taskController)
         {
             TaskList.Children.RemoveRange(0,TaskList.Children.Count);
@@ -57,18 +68,20 @@ namespace PlannerView
         }
         private void AddTaskBtn_Click(object sender, RoutedEventArgs e)
         {
-            TaskEdit taskEdit = new TaskEdit();
+            Wrap.Visibility = Visibility.Visible;
+
+            taskEdit = new TaskEdit();
             taskEdit.ShowInTaskbar = false;
-            taskEdit.ShowDialog();
+            taskEdit.IsOpen = true;
         }
 
         private void AddCategoryBtn_Click(object sender, RoutedEventArgs e)
         {
-            this.Opacity = 0.4;
-            CategoryEdit categoryEdit = new CategoryEdit();
+            Wrap.Visibility = Visibility.Visible;
+            
+            categoryEdit = new CategoryEdit();
             categoryEdit.ShowInTaskbar = false;
-            categoryEdit.ShowDialog();
-            this.Opacity = 1;
+            categoryEdit.IsOpen = true;
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -103,6 +116,21 @@ namespace PlannerView
                         break;
             }
             DoRefresh(taskController);
+        }
+
+        private void WrapBtn_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (categoryEdit?.IsOpen ?? false)
+            {
+                categoryEdit.IsOpen = false;
+            }
+
+            if (taskEdit?.IsOpen ?? false)
+            {
+                taskEdit.IsOpen = false;
+            }
+
+            Wrap.Visibility = Visibility.Collapsed;
         }
     }
 }

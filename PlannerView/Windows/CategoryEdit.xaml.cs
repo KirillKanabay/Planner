@@ -11,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using PlannerController;
@@ -26,11 +27,38 @@ namespace PlannerView.Windows
     public partial class CategoryEdit : Window,INotifyPropertyChanged
     {
         private Category CategoryTemp;
+
+        private bool _isOpen;
+        public bool IsOpen
+        {
+            get
+            {
+                return _isOpen;
+            }
+            set
+            {
+                _isOpen = value;
+                if (_isOpen)
+                {
+                    Show();
+                }
+                else
+                {
+                    Close();
+                }
+            }
+        }
+
         public CategoryEdit()
         {
             InitializeComponent();
             CategoryTemp = new Category();
             this.DataContext = CategoryTemp;
+        }
+
+        public void Close(object sender, RoutedEventArgs e)
+        {
+            _isOpen = false;
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -68,5 +96,17 @@ namespace PlannerView.Windows
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private void CategoryEdit_OnClosed(object sender, EventArgs e)
+        {
+            if (MainWindow.taskEdit?.IsOpen ?? false)
+            {
+                TaskEdit.DoRefreshCategoryList();
+                MainWindow.taskEdit.Show();
+            }
+            else
+            {
+                MainWindow.CloseWrap(sender, new RoutedEventArgs());
+            }
+        }
     }
 }
