@@ -26,7 +26,7 @@ namespace PlannerView.Windows
     /// </summary>
     public partial class CategoryEdit : Window,INotifyPropertyChanged
     {
-        private Category CategoryTemp;
+        private Category CategoryModel;
 
         private bool _isOpen;
         public bool IsOpen
@@ -52,8 +52,8 @@ namespace PlannerView.Windows
         public CategoryEdit()
         {
             InitializeComponent();
-            CategoryTemp = new Category();
-            this.DataContext = CategoryTemp;
+            CategoryModel = new Category();
+            this.DataContext = CategoryModel;
         }
 
         public void Close(object sender, RoutedEventArgs e)
@@ -65,14 +65,20 @@ namespace PlannerView.Windows
         {
             try
             {
-                var categoryController = new CategoryController(CategoryTemp.Name, CategoryTemp.Color);
+                // ColorTextBox.Text.
+                var categoryController = new CategoryController(CategoryModel.Name, CategoryModel?.Color);
                 //MessageBox.Show("Категория добавлена в планировщик", "Редактор задач", MessageBoxButton.OK, MessageBoxImage.Information);
                 Close();
+            }
+            catch (ArgumentNullException exception)
+            {
+                MessageBox.Show("Неправильный формат цвета.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (ArgumentException exception)
             {
                 MessageBox.Show(exception.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)

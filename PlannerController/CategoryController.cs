@@ -18,7 +18,7 @@ namespace PlannerController
 
         public CategoryController()
         {
-            Items = GetCategories();
+            Items = GetCategories() ?? new ObservableCollection<Category>();
         }
 
         /// <summary>
@@ -34,9 +34,9 @@ namespace PlannerController
             {
                 throw new ArgumentException("Название категории не может быть пустым.");
             }
-            if (string.IsNullOrEmpty(color))
+            if (!ColorLibrary.IsHexColor(color))
             {
-                color = ColorLibrary.GenerateRGBColor();
+                throw new ArgumentException("Неправильный формат цвета.");
             }
             #endregion
 
