@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -9,7 +10,6 @@ using System.Windows.Media;
 using MaterialDesignThemes.Wpf;
 using PlannerController;
 using PlannerView.Windows;
-using Task = PlannerModel.Task;
 
 namespace PlannerView
 {
@@ -22,12 +22,16 @@ namespace PlannerView
         private CategoryController categoryController;
         private PriorityController priorityController;
         private CategoryEdit categoryEdit;
+        
         static public TaskEdit taskEdit;
 
         public delegate void TaskHandler(TaskController taskController);
         public delegate void WrapHadler(object sender,RoutedEventArgs e);
+        public delegate void SnackbarHadler(string message);
+        
         public static event TaskHandler TaskListChanged;
         public static event WrapHadler CloseWrapEvent;
+        public static event SnackbarHadler SnackbarNotifyEvent;
         public Func<PlannerModel.Task, bool> Filter;
 
         public MainWindow()
@@ -37,12 +41,18 @@ namespace PlannerView
             
             TaskListChanged += RefreshTaskList;
             CloseWrapEvent += WrapBtn_OnClick;
+            SnackbarNotifyEvent += SnackbarNotify;
 
             taskController = new TaskController();
             categoryController = new CategoryController();
             priorityController = new PriorityController();
             
             DoRefresh(taskController);
+        }
+
+        public static void SendSnackbar(string message)
+        {
+            SnackbarNotifyEvent?.Invoke(message);
         }
 
         public static void CloseWrap(object sender, RoutedEventArgs e)
@@ -57,7 +67,7 @@ namespace PlannerView
         private void RefreshTaskList(TaskController taskController)
         {
             TaskList.Children.RemoveRange(0,TaskList.Children.Count);
-            ObservableCollection<Task> tasksCollection = taskController.Tasks;
+            ObservableCollection<PlannerModel.Task> tasksCollection = taskController.Tasks;
             var tasks= tasksCollection.Where(Filter);
             foreach (var task in tasks)
             {
@@ -131,6 +141,14 @@ namespace PlannerView
             }
 
             Wrap.Visibility = Visibility.Collapsed;
+        }
+
+        private void SnackbarNotify(string message)
+        {
+            //use the message queue to send a message.
+            var messageQueue = Snackbar.MessageQueue;
+            //the message queue can be called from any thread
+            Task.Factory.StartNew(() => messageQueue.Enqueue(message));
         }
     }
 }

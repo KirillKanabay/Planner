@@ -141,10 +141,9 @@ namespace PlannerView.Windows
                     TaskModel.EndTime,
                     priorityId,
                     categoryId);
-
-                MessageBox.Show("Задача добавлена в планировщик", "Редактор задач", MessageBoxButton.OK,
-                    MessageBoxImage.Information);
+                MainWindow.SendSnackbar($"Задача \"{TaskModel.Name}\" добавлена в планировщик.");
                 MainWindow.DoRefresh(taskController);
+                Close();
             }
             catch (ArgumentException exception)
             {
