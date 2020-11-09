@@ -38,6 +38,11 @@ namespace PlannerController
                 startTime = DateTime.MaxValue;
             }
 
+            if (endTime <= startTime)
+            {
+                throw new ArgumentException("Время начала задачи не может быть позже даты окончания");
+            }
+
             if (priorityId <= 0)
             {
                 throw new ArgumentException("Неправильно заполнено значение приоритета.");
