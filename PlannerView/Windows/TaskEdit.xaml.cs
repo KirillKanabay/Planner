@@ -59,7 +59,6 @@ namespace PlannerView.Windows
             PrioritiesBox.ItemsSource = PriorityController.Items.Select(item => item.Name).OrderBy(item => item);
 
             //Получение списка категорий
-            CategoryController = new CategoryController();
             RefreshCategoryList();
         }
 
@@ -70,6 +69,7 @@ namespace PlannerView.Windows
 
         private void RefreshCategoryList()
         {
+            CategoryController = new CategoryController();
             CategoriesBox.ItemsSource = CategoryController.Items.Select(item => item.Name);
         }
         ObservableCollection<String> GetPrioritiesName(PriorityController controller)
