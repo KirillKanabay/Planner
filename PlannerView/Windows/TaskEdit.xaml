@@ -34,7 +34,7 @@
             <TextBlock Grid.Row="0" FontSize="18" FontFamily="Roboto Medium">Редактор задач</TextBlock>
             <!--Поле ввода названии задачи-->
             <TextBox 
-            materialDesign:HintAssist.Hint="Название категории" 
+            materialDesign:HintAssist.Hint="Название задачи" 
             x:Name="TaskNameTextBox"
             Style="{DynamicResource MaterialDesignFloatingHintTextBox}"                 
             FontSize="16" 
