@@ -8,7 +8,7 @@
         xmlns:validators="clr-namespace:PlannerView.Validators"
         x:Class="PlannerView.Windows.TaskEdit"
         mc:Ignorable="d"
-        Title="Редактор задач" Height="382.6" Width="657.6" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" Closed="TaskEdit_OnClosed">
+        Title="Редактор задач" Height="382.6" Width="657.6" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" Closed="TaskEdit_OnClosed" AllowsTransparency="True" Background="Transparent">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -21,97 +21,98 @@
             </Style>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid Margin="16,16,15.6,23.4">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0.3*"/>
-            <RowDefinition Height="0.5*"/>
-            <RowDefinition />
-            <RowDefinition Height="0.5*"/>
-            <RowDefinition Height="0.5*"/>
-        </Grid.RowDefinitions>
-        <!--Заголовок-->
-        <TextBlock Grid.Row="0" FontSize="18" FontFamily="Roboto Medium">Редактор задач</TextBlock>
-        <!--Поле ввода названии задачи-->
-        <TextBox 
+    <Border Background="White" CornerRadius="10">
+            <Grid Margin="16,16,15.6,23.4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.3*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition />
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+            </Grid.RowDefinitions>
+            <!--Заголовок-->
+            <TextBlock Grid.Row="0" FontSize="18" FontFamily="Roboto Medium">Редактор задач</TextBlock>
+            <!--Поле ввода названии задачи-->
+            <TextBox 
             materialDesign:HintAssist.Hint="Название категории" 
             x:Name="TaskNameTextBox"
             Style="{DynamicResource MaterialDesignFloatingHintTextBox}"                 
             FontSize="16" 
             Grid.Row="1"
             Margin="0 8 0 4">
-            <TextBox.Text>
-                <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <validators:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
-        <WrapPanel Grid.Row="2">
-            <!--Поля ввода начала исполнения задачи-->
-            <StackPanel Orientation="Horizontal" Height="62">
-                <DatePicker x:Name="StartDate" Width="145" HorizontalAlignment="Left" Margin="0,18,0,2.4" 
+                <TextBox.Text>
+                    <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <validators:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <WrapPanel Grid.Row="2">
+                <!--Поля ввода начала исполнения задачи-->
+                <StackPanel Orientation="Horizontal" Height="62">
+                    <DatePicker x:Name="StartDate" Width="145" HorizontalAlignment="Left" Margin="0,18,0,2.4" 
                             materialDesign:HintAssist.Hint="Дата начала"
                             materialDesign:HintAssist.FloatingScale="1"
                             Style="{StaticResource MaterialDesignFloatingHintDatePicker}">
-                    <DatePicker.SelectedDate>
-                        <Binding Path="StartTime" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <validators:DateValidationRule ValidatesOnTargetUpdated="True" />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </DatePicker.SelectedDate>
-                </DatePicker>
-                <materialDesign:TimePicker Grid.Row="2"
+                        <DatePicker.SelectedDate>
+                            <Binding Path="StartTime" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validators:DateValidationRule ValidatesOnTargetUpdated="True" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </DatePicker.SelectedDate>
+                    </DatePicker>
+                    <materialDesign:TimePicker Grid.Row="2"
                                            x:Name="StartTime"
                                            materialDesign:HintAssist.Hint="Время начала"
                                            materialDesign:HintAssist.FloatingScale="1"
                                            Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
                                            IsInvalidTextAllowed="True"
                                            Is24Hours="True" VerticalAlignment="Top"  Width="127" HorizontalAlignment="Left" Margin="20 23 0 0">
-                    <materialDesign:TimePicker.Text>
-                        <Binding Path="StartTimeSpan" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <validators:TimeValidationRule ValidatesOnTargetUpdated="True" />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </materialDesign:TimePicker.Text>
-                </materialDesign:TimePicker>
-            </StackPanel>
-            <!--Поля ввод конца исполнения задачи-->
-            <StackPanel Orientation="Horizontal" Margin="20 0 0 0">
-                <DatePicker x:Name="EndDate" Width="145" HorizontalAlignment="Left" Margin="0 16 0 0" 
+                        <materialDesign:TimePicker.Text>
+                            <Binding Path="StartTimeSpan" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validators:TimeValidationRule ValidatesOnTargetUpdated="True" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </materialDesign:TimePicker.Text>
+                    </materialDesign:TimePicker>
+                </StackPanel>
+                <!--Поля ввод конца исполнения задачи-->
+                <StackPanel Orientation="Horizontal" Margin="20 0 0 0">
+                    <DatePicker x:Name="EndDate" Width="145" HorizontalAlignment="Left" Margin="0 16 0 0" 
                             materialDesign:HintAssist.FloatingScale="1"
                             Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
                             materialDesign:HintAssist.Hint="Дата окончания">
-                    <DatePicker.SelectedDate>
-                        <Binding Path="EndTime" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <validators:DateValidationRule ValidatesOnTargetUpdated="True" />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </DatePicker.SelectedDate>
-                </DatePicker>
-                <materialDesign:TimePicker Grid.Row="2"
+                        <DatePicker.SelectedDate>
+                            <Binding Path="EndTime" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validators:DateValidationRule ValidatesOnTargetUpdated="True" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </DatePicker.SelectedDate>
+                    </DatePicker>
+                    <materialDesign:TimePicker Grid.Row="2"
                                            x:Name="EndTime"
                                            materialDesign:HintAssist.Hint="Время окончания"
                                            IsInvalidTextAllowed="True"
                                            materialDesign:HintAssist.FloatingScale="1"
                                            Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
                                            Is24Hours="True" VerticalAlignment="Top"  Width="127" HorizontalAlignment="Left" Margin="20 23 0 0">
-                    <materialDesign:TimePicker.Text>
-                        <Binding Path="EndTimeSpan" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <validators:TimeValidationRule ValidatesOnTargetUpdated="True" />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </materialDesign:TimePicker.Text>
-                </materialDesign:TimePicker>
-            </StackPanel>
-            <WrapPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock  FontSize="12"  Width="159" Margin="0,32,0,0" Text="Задача имеет время начала"/>
-                    <ToggleButton 
+                        <materialDesign:TimePicker.Text>
+                            <Binding Path="EndTimeSpan" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validators:TimeValidationRule ValidatesOnTargetUpdated="True" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </materialDesign:TimePicker.Text>
+                    </materialDesign:TimePicker>
+                </StackPanel>
+                <WrapPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  FontSize="12"  Width="159" Margin="0,32,0,0" Text="Задача имеет время начала"/>
+                        <ToggleButton 
                         x:Name ="StartTimeToggle"
                         Style="{StaticResource MaterialDesignSwitchToggleButton}" 
                                   IsChecked="True" 
@@ -119,10 +120,10 @@
                                   Margin="0 33 0 0" 
                                   Checked="StartTimeToggle_OnChecked"
                                   Unchecked="StartTimeToggle_OnUnchecked"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="118 0 0 0">
-                    <TextBlock  FontSize="12"  Width="179" Margin="0,32,0,0" Text="Задача имеет время окончания"/>
-                    <ToggleButton 
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="118 0 0 0">
+                        <TextBlock  FontSize="12"  Width="179" Margin="0,32,0,0" Text="Задача имеет время окончания"/>
+                        <ToggleButton 
                         x:Name ="EndTimeToggle"
                         Style="{StaticResource MaterialDesignSwitchToggleButton}" 
                                   VerticalAlignment="Center" 
@@ -131,25 +132,25 @@
                                   Margin="0 33 0 0"
                                   Checked="EndTimeToggle_OnChecked"
                                   Unchecked="EndTimeToggle_OnUnchecked"/>
-                </StackPanel>
+                    </StackPanel>
+                </WrapPanel>
             </WrapPanel>
-        </WrapPanel>
-        <!-- <Label Content="Дата и время начала работы*:" HorizontalAlignment="Left" Margin="10,48,0,0" VerticalAlignment="Top"/> -->
-        <!-- <Label Content="Дата и время окончания работы*:" HorizontalAlignment="Left" Margin="288,48,0,0" VerticalAlignment="Top"/> -->
-        <!-- <Label Content="*-Оставте пустые поля если задача не имеет время начала или окончания работы" HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top"/> -->
+            <!-- <Label Content="Дата и время начала работы*:" HorizontalAlignment="Left" Margin="10,48,0,0" VerticalAlignment="Top"/> -->
+            <!-- <Label Content="Дата и время окончания работы*:" HorizontalAlignment="Left" Margin="288,48,0,0" VerticalAlignment="Top"/> -->
+            <!-- <Label Content="*-Оставте пустые поля если задача не имеет время начала или окончания работы" HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top"/> -->
 
-        <!-- <Label Content="Приоритет" HorizontalAlignment="Left" Margin="9,136,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.004,0.1" Width="120"/> -->
-        <!-- <Label Grid.Row="3" Content="Категория" HorizontalAlignment="Left"  VerticalAlignment="Top" RenderTransformOrigin="0.004,0.1" Width="120"/> -->
-        <StackPanel Grid.Row="3" Orientation="Horizontal">
-            <ComboBox x:Name="PrioritiesBox" materialDesign:HintAssist.Hint="Название приоритета" IsEditable="True" Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+            <!-- <Label Content="Приоритет" HorizontalAlignment="Left" Margin="9,136,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.004,0.1" Width="120"/> -->
+            <!-- <Label Grid.Row="3" Content="Категория" HorizontalAlignment="Left"  VerticalAlignment="Top" RenderTransformOrigin="0.004,0.1" Width="120"/> -->
+            <StackPanel Grid.Row="3" Orientation="Horizontal">
+                <ComboBox x:Name="PrioritiesBox" materialDesign:HintAssist.Hint="Название приоритета" IsEditable="True" Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                       Height="41" Margin="0,11,0,9.6" Width="292"
                       materialDesign:HintAssist.FloatingScale="1"
             />
-            <ComboBox x:Name="CategoriesBox" materialDesign:HintAssist.Hint="Название категории" IsEditable="True" Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                <ComboBox x:Name="CategoriesBox" materialDesign:HintAssist.Hint="Название категории" IsEditable="True" Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                       Height="41" Margin="20,11,0,9.6" Width="292"
                       materialDesign:HintAssist.FloatingScale="1"
             />
-            <Button
+                <Button
                 x:Name ="AddCategoryBtn"
                 Width="20"
                 Height="20"
@@ -163,7 +164,7 @@
                 Click="AddCategoryBtn_OnClick"
                 >
 
-                <materialDesign:PackIcon
+                    <materialDesign:PackIcon
                     x:Name ="ColorPickerIcon"
                     Width="20"
                     Height="20"
@@ -171,21 +172,22 @@
                     VerticalAlignment="Center"
                     Foreground="#AA383838"
                     Kind="TagPlus" />
-            </Button>
-        </StackPanel>
-        <StackPanel Grid.Row="4" x:Name="Buttons" VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
-            <Button x:Name="Save" 
+                </Button>
+            </StackPanel>
+            <StackPanel Grid.Row="4" x:Name="Buttons" VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button x:Name="Save" 
                     Content="Сохранить" 
                     VerticalAlignment="Bottom" 
                     HorizontalAlignment="Right" 
                     Click="Save_Click" 
                     Style="{DynamicResource MaterialDesignFlatButton}"/>
-            <Button x:Name="Cancel" 
+                <Button x:Name="Cancel" 
                     Content="Отмена" 
                     VerticalAlignment="Bottom" 
                     HorizontalAlignment="Right" 
                     Click="Cancel_Click" 
                     Style="{DynamicResource MaterialDesignFlatButton}"/>
-        </StackPanel>
-    </Grid>
+            </StackPanel>
+        </Grid>
+    </Border>
 </Window>
