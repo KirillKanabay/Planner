@@ -14,8 +14,12 @@ namespace PlannerView
     public partial class TaskItem : UserControl
     {
         private readonly TaskController TaskController;
-        private readonly PlannerModel.Task Task; 
+        private readonly PlannerModel.Task Task;
 
+        public TaskItem()
+        {
+            
+        }
         public TaskItem(TaskController taskController,Task task, CategoryController categoryController, PriorityController priorityController)
         {
             InitializeComponent();

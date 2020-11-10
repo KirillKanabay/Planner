@@ -5,18 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PlannerView"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d" Width="1104.962" Height="Auto" Background="White" 
+             mc:Ignorable="d" Width="Auto" Height="Auto" Background="White" 
              FontFamily="Roboto Medium">
     <Grid>
         <Border BorderBrush="#33707070" BorderThickness="0 0 0 1">
             <Grid x:Name="TaskGrid"  VerticalAlignment="Center" 
                   Height="Auto">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition MinWidth="200"></ColumnDefinition>
-                    <ColumnDefinition MinWidth="120"></ColumnDefinition>
-                    <ColumnDefinition MinWidth="120"></ColumnDefinition>
-                    <ColumnDefinition MinWidth="130"></ColumnDefinition>
-                    <ColumnDefinition MinWidth="300"></ColumnDefinition>
+                    <ColumnDefinition Width="200"></ColumnDefinition>
+                    <ColumnDefinition Width="130"></ColumnDefinition>
+                    <ColumnDefinition Width="120"></ColumnDefinition>
+                    <ColumnDefinition Width="160"></ColumnDefinition>
+                    <ColumnDefinition Width="350"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" x:Name="TaskName" Width="195" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0" Padding="0 5" TextWrapping="Wrap" Height="Auto"><Run Text="Название задачи"/></TextBlock>
@@ -41,7 +41,7 @@
                         Background="#15C651" 
                         CornerRadius="12" 
                         Height="25" 
-                        Margin="5 0" Width="136">
+                        Margin="10 0" Width="136">
                     <Label x:Name="Priority" 
                            Foreground="#fff" 
                            Content="Без приоритета" 
@@ -54,7 +54,7 @@
                         x:Name="CategoryBackground" 
                         Background="#15C651" 
                         CornerRadius="12" 
-                        Height="25" Margin="10 0">
+                        Height="25" Margin="0 0 10 0">
                     <Label x:Name="Category" Foreground="#FFF" Content="Название категории" Width="Auto" HorizontalContentAlignment="Center" VerticalAlignment="Center" Margin="5 0"/>
                 </Border>
                 <Button Grid.Column="5" 
@@ -63,7 +63,7 @@
                     Background="#FF15C651" 
                     Width="Auto" 
                     Height="26" 
-                    Margin="0 0 30 0"
+                    Margin="0 0 10 0"
                     HorizontalAlignment="Right" 
                     BorderBrush="#FF15C651"
                     VerticalContentAlignment="Center" 
