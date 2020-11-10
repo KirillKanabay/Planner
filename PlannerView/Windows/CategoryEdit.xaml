@@ -45,7 +45,8 @@
                 </Binding>
             </TextBox.Text>
         </TextBox>
-            <Button
+        <Ellipse Grid.Row="2" Fill="{Binding Color}" Width="16" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,28.2,14"></Ellipse>
+        <Button
             x:Name ="ColorPickerBtn"
             Grid.Row="2"
             Width="20"
@@ -57,7 +58,6 @@
             Background="Transparent"
             BorderThickness="0"
             Click="ColorPickerBtn_OnClick">
-
             <materialDesign:PackIcon
                 x:Name ="ColorPickerIcon"
                 Width="18"
@@ -67,6 +67,13 @@
                 Foreground="#383838"
                 Kind="eyedropper" />
         </Button>
+        <Popup Grid.Row="2" Name="ColorPickerPopup"
+               StaysOpen="False"
+               AllowsTransparency="True"
+            PlacementTarget ="{Binding ElementName=ColorPickerBtn}" 
+            Placement="Bottom">
+            <xctk:ColorCanvas x:Name="ColorCanvas" Width="236" Background="White" BorderBrush="White" SelectedColor="{Binding Color }" UsingAlphaChannel="False" Height="142"/>
+        </Popup>
         <StackPanel Grid.Row="3" x:Name="Buttons" VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
             <Button x:Name="Save" 
                 Content="Сохранить" 

@@ -87,11 +87,7 @@ namespace PlannerView.Windows
         }
         private void ColorPickerBtn_OnClick(object sender, RoutedEventArgs e)
         {
-            ColorPicker cp = new ColorPicker();
-            cp.ShowDialog();
-            ColorTextBox.Text = cp.Color ?? "";
-            ColorTextBox.Foreground = new SolidColorBrush(ColorLibrary.GetColor(cp.Color ?? "#FF383838"));
-            ColorPickerIcon.Foreground = new SolidColorBrush(ColorLibrary.GetColor(cp.Color ?? "#FF383838"));
+            ColorPickerPopup.IsOpen = !ColorPickerPopup.IsOpen;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
