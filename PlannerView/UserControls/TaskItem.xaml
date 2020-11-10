@@ -5,32 +5,72 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PlannerView"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d" Width="1104.962" Height="68.321" Background="White">
-    <Grid Margin="0 0 0 3">
-        <materialDesign:Card>
-            <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Height="36">
-                <TextBlock x:Name="TaskName" Width="195" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5
-                           ,10"><Run Text="Название задачи"/></TextBlock>
-                <Label x:Name="StartDate" Margin="10,6" Width="101" VerticalAlignment="Center" BorderThickness="0" Content="29.10.2020, 19:00"/>
-                <Border Background="#15C651" CornerRadius="5" Height="25">
-                    <Label x:Name="EndDate" Foreground="#FFFFFF" Width="104" Content="29.10.2020, 19:00" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+             mc:Ignorable="d" Width="1104.962" Height="Auto" Background="White" 
+             FontFamily="Roboto Medium">
+    <Grid>
+        <Border BorderBrush="#33707070" BorderThickness="0 0 0 1">
+            <Grid x:Name="TaskGrid"  VerticalAlignment="Center" 
+                  Height="Auto">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="200"></ColumnDefinition>
+                    <ColumnDefinition MinWidth="120"></ColumnDefinition>
+                    <ColumnDefinition MinWidth="120"></ColumnDefinition>
+                    <ColumnDefinition MinWidth="130"></ColumnDefinition>
+                    <ColumnDefinition MinWidth="300"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" x:Name="TaskName" Width="195" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0" Padding="0 5" TextWrapping="Wrap" Height="Auto"><Run Text="Название задачи"/></TextBlock>
+                <Label Grid.Column="1" 
+                       x:Name="StartDate" 
+                       Margin="10,6" 
+                       Width="Auto" 
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Center"
+                       BorderThickness="0" 
+                       Content="29.10.2020, 19:00"/>
+                <Border Grid.Column="2" Background="#15C651" CornerRadius="12" Height="25" Width="Auto">
+                    <Label x:Name="EndDate" 
+                           Foreground="#FFFFFF" 
+                           Width="Auto" 
+                           Content="29.10.2020, 19:00" 
+                           VerticalAlignment="Center" 
+                           HorizontalContentAlignment="Center"
+                           Padding="10 0"/>
                 </Border>
-                <Border x:Name="PriorityBackground" Background="#15C651" CornerRadius="5" Height="25" Margin="5 0">
-                    <Label x:Name="Priority" Foreground="#fff" Content="Без приоритета" Width="153" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                <Border Grid.Column="3" x:Name="PriorityBackground" 
+                        Background="#15C651" 
+                        CornerRadius="12" 
+                        Height="25" 
+                        Margin="5 0" Width="136">
+                    <Label x:Name="Priority" 
+                           Foreground="#fff" 
+                           Content="Без приоритета" 
+                           Margin="10 0"
+                           Width="Auto" 
+                           VerticalContentAlignment="Center" 
+                           HorizontalContentAlignment="Center"/>
                 </Border>
-                <Border x:Name="CategoryBackground" Background="#15C651" CornerRadius="5" Height="25" Margin="5 0">
-                    <Label x:Name="Category" Foreground="#FFF" Content="Название категории" Width="306" HorizontalContentAlignment="Center" VerticalAlignment="Center" BorderThickness="0"/>
+                <Border Grid.Column="4" 
+                        x:Name="CategoryBackground" 
+                        Background="#15C651" 
+                        CornerRadius="12" 
+                        Height="25" Margin="10 0">
+                    <Label x:Name="Category" Foreground="#FFF" Content="Название категории" Width="Auto" HorizontalContentAlignment="Center" VerticalAlignment="Center" Margin="5 0"/>
                 </Border>
-                <Button 
+                <Button Grid.Column="5" 
                     x:Name="FinishTaskBtn"
-                    Content="Завершить задачу" 
+                    Content="Завершить" 
                     Background="#FF15C651" 
-                    Width="156" 
-                    Height="Auto" 
+                    Width="Auto" 
+                    Height="26" 
+                    Margin="0 0 30 0"
                     HorizontalAlignment="Right" 
                     BorderBrush="#FF15C651"
-                    VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="Button_Click" Margin="5 5"/>
-            </StackPanel>
-        </materialDesign:Card>
+                    VerticalContentAlignment="Center" 
+                    HorizontalContentAlignment="Center" 
+                    Click="Button_Click"/>
+            </Grid>
+        </Border>
+        
     </Grid>
 </UserControl>

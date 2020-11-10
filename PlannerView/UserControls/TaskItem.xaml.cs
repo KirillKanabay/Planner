@@ -28,8 +28,9 @@ namespace PlannerView
             TaskName.Text = Task.Name;
             if (Task.IsFinished)
             {
+                TaskGrid.Opacity = 0.6;
                 TaskName.TextDecorations = TextDecorations.Strikethrough;
-                FinishTaskBtn.Content = "Задача завершена";
+                FinishTaskBtn.Content = "Завершена";
                 FinishTaskBtn.Background = new SolidColorBrush(ColorLibrary.GetColor("#FF000000"));
                 FinishTaskBtn.BorderBrush = new SolidColorBrush(ColorLibrary.GetColor("#FF000000"));
                 FinishTaskBtn.IsEnabled = false;

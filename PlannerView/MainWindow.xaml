@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlannerView"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:userControls="clr-namespace:PlannerView.UserControls"
         mc:Ignorable="d"
         x:Name="Window"
         Title="MainWindow" Height="600" Width="1400" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" FontFamily="Roboto" ResizeMode="CanResizeWithGrip" WindowStyle="ThreeDBorderWindow">
@@ -34,6 +35,7 @@
         <Grid Visibility="Collapsed" x:Name="Wrap" Grid.ColumnSpan="2"  Panel.ZIndex="1000" Margin="0,0,-24.8,0.4">
             <Button
                 x:Name="WrapBtn"
+                Cursor="Arrow"
                 Opacity="0.4"
                 Background="Black" 
                 HorizontalAlignment="Center" 
@@ -87,50 +89,35 @@
             </ListBox>
         </Grid>
         <!--Планировщик-->
-        <Grid Grid.Column="1"  x:Name="GridMain" HorizontalAlignment="Right" VerticalAlignment="Top" Height="540" Width="1100">
-            <Label x:Name="TaskTitle" FontSize="24"
-                   FontWeight="Bold">Задачи на сегодня</Label>
-            <Button x:Name="AddTaskBtn" 
-                    Content="Добавить задачу" 
-                    Background="#FF6B6B"
-                    BorderBrush="#FF6B6B"
-                    Width="156"
-                    Height="37" Click="AddTaskBtn_Click" Margin="934,10,10,493"/>
-            <Button x:Name="AddCategoryBtn" 
-                    Content="Добавить категорию" 
-                    Background="#FF6B6B"
-                    BorderBrush="#FF6B6B"
-                    Height="37"
-                    Click="AddCategoryBtn_Click" Margin="717,10,205,493"/>
-            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,57,0,0">
-                <StackPanel x:Name="TaskList" 
+        <Grid Grid.Column="1" Margin="20 20 0 20" x:Name="GridMain" HorizontalAlignment="Right" VerticalAlignment="Top" Height="540" Width="1100">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"></RowDefinition>
+                <RowDefinition Height="35"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+                <Label Grid.Row="0" x:Name="TaskTitle" FontSize="24"
+                       FontWeight="Bold">Задачи на сегодня</Label>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <UserControl>
+                    <userControls:HeaderTaskItem></userControls:HeaderTaskItem>
+                </UserControl>
+                <Button x:Name="AddTaskBtn" 
+                        Content="Добавить задачу" 
+                        Background="#FF6B6B"
+                        BorderBrush="#FF6B6B"
+                        Width="156"
+                        Height="37" Click="AddTaskBtn_Click"/>
+            </StackPanel>
+            <Grid Grid.Row="2">
+                <ScrollViewer VerticalScrollBarVisibility="Visible">
+                    <StackPanel x:Name="TaskList" 
                         Orientation="Vertical"
                         HorizontalAlignment="Left"
                         CanVerticallyScroll="True">
-                </StackPanel>
-            </ScrollViewer>
-        </Grid>
-
-        <!--<Grid Height="30" VerticalAlignment="Top" Background="#666666">
-            <Grid.Effect>
-                <DropShadowEffect BlurRadius="1" ShadowDepth="1" Color="#FFACACAC"/>
-            </Grid.Effect>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                -->
-        <!--<materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="True" Margin="10">
-                    <StackPanel Width="150">
-                        <Button Content="Settings"/>
-                        <Button Content="Account"/>
-                        <Button Content="Help"/>
-                        <Separator/>
-                        <Button Content="Logout"/>
                     </StackPanel>
-                </materialDesign:PopupBox>-->
-        <!--
-            </StackPanel>
-            <TextBlock Text="Planner" VerticalAlignment="Bottom" FontSize="16" Margin="0,0,0,4.4"/>
-            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Foreground="#FFFFFF" FontFamily="Roboto">Планировщик задач</TextBlock>
-        </Grid>-->
+                </ScrollViewer>
+            </Grid>
+        </Grid>
         <materialDesign:Snackbar Grid.Column="1"  MessageQueue="{materialDesign:MessageQueue}"
                                  x:Name="Snackbar" HorizontalAlignment="Right"/>
     </Grid>

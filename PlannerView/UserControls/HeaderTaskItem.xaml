@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="PlannerView.UserControls.HeaderTaskItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PlannerView.UserControls"
+             mc:Ignorable="d" 
+             Width="900" Height="Auto" Background="White" 
+             FontFamily="Roboto Medium">
+    <Grid>
+        <Border BorderBrush="#33707070" BorderThickness="0 2">
+            <Grid VerticalAlignment="Center" Height="Auto">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="200"></ColumnDefinition>
+                    <ColumnDefinition MinWidth="120"></ColumnDefinition>
+                    <ColumnDefinition MinWidth="120"></ColumnDefinition>
+                    <ColumnDefinition MinWidth="130"></ColumnDefinition>
+                    <ColumnDefinition MinWidth="300"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Width="195" HorizontalContentAlignment="Center" VerticalAlignment="Center" Margin="5,0" Padding="0 5"  Height="Auto"><Run Text="Название задачи"/></Label>
+                <Label Grid.Column="1" 
+                       Margin="10 0" 
+                       Width="Auto" 
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Center"
+                       BorderThickness="0" 
+                       Content="Дата начала"/>
+                <Label Grid.Column="2" x:Name="EndDate" 
+                       Width="Auto" 
+                       Content="Крайний срок" 
+                       VerticalAlignment="Center" 
+                       HorizontalContentAlignment="Center"
+                       Padding="10 0"/>
+                <Label Grid.Column="3" x:Name="Priority" 
+                       Content="Приоритет задачи" 
+                       Margin="10 0"
+                       Width="Auto" 
+                       VerticalContentAlignment="Center" 
+                       HorizontalContentAlignment="Center"/>
+                <Label 
+                    Grid.Column="4"
+                    x:Name="Category" 
+                    Content="Название категории" 
+                    Width="Auto" 
+                    HorizontalContentAlignment="Center" 
+                    VerticalAlignment="Center" 
+                    Margin="5 0"/>
+            </Grid>
+        </Border>
+
+    </Grid>
+</UserControl>

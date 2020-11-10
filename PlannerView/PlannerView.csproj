@@ -173,6 +173,9 @@
     <Compile Include="Helpers\DelegateCommand.cs" />
     <Compile Include="Helpers\TaskModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="UserControls\HeaderTaskItem.xaml.cs">
+      <DependentUpon>HeaderTaskItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\TaskItem.xaml.cs">
       <DependentUpon>TaskItem.xaml</DependentUpon>
     </Compile>
@@ -198,6 +201,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UserControls\HeaderTaskItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\TaskItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
