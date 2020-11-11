@@ -27,15 +27,43 @@
             <Grid x:Name="TaskGrid"  VerticalAlignment="Center" 
                   Height="Auto">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="200"></ColumnDefinition>
-                    <ColumnDefinition Width="130"></ColumnDefinition>
+                    <ColumnDefinition Width="182"></ColumnDefinition>
+                    <ColumnDefinition Width="18"></ColumnDefinition>
+                    <ColumnDefinition Width="125"></ColumnDefinition>
                     <ColumnDefinition Width="120"></ColumnDefinition>
                     <ColumnDefinition Width="160"></ColumnDefinition>
                     <ColumnDefinition Width="350"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" x:Name="TaskName" Width="195" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0" Padding="0 5" TextWrapping="Wrap" Height="Auto"><Run Text="Название задачи"/></TextBlock>
-                <Label Grid.Column="1" 
+                <TextBlock Grid.Column="0" x:Name="TaskName" Width="185" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0" Padding="0 5" TextWrapping="Wrap" Height="Auto"><Run Text="Название задачи"/></TextBlock>
+                <materialDesign:PopupBox PlacementMode="BottomAndAlignLeftEdges"
+                                         StaysOpen="True" 
+                                         Grid.ColumnSpan="2" 
+                                         Margin="174,0,0,0.4" 
+                                         Width="26" 
+                                         Foreground="#FF383838"
+                                         Padding="0 0 0 0">
+                    <StackPanel Width="190" Height="60">
+                        <Button x:Name="EditTaskBtn" 
+                            Height="30" 
+                            VerticalContentAlignment="Center"
+                            Click="EditTaskBtn_OnClick">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Pencil" Foreground="#383838"  Margin="0 3"/>
+                                <Label>Редактировать задачу</Label>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="DeleteTaskBtn"
+                            Height="30" VerticalContentAlignment="Center"
+                            Click="DeleteTaskBtn_OnClick">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Delete" Foreground="#383838"  Margin="0 3"/>
+                                <Label>Удалить задачу</Label>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </materialDesign:PopupBox>
+                <Label Grid.Column="2" 
                        x:Name="StartDate" 
                        Margin="10,6" 
                        Width="Auto" 
@@ -43,7 +71,7 @@
                        HorizontalAlignment="Center"
                        BorderThickness="0" 
                        Content="29.10.2020, 19:00"/>
-                <Border Grid.Column="2" Background="#15C651" CornerRadius="12" Height="25" Width="Auto">
+                <Border Grid.Column="3" Background="#15C651" CornerRadius="12" Height="25" Width="Auto">
                     <Label x:Name="EndDate" 
                            Foreground="#FFFFFF" 
                            Width="Auto" 
@@ -52,7 +80,7 @@
                            HorizontalContentAlignment="Center"
                            Padding="10 0"/>
                 </Border>
-                <Border Grid.Column="3" x:Name="PriorityBackground" 
+                <Border Grid.Column="4" x:Name="PriorityBackground" 
                         Background="#15C651" 
                         CornerRadius="12" 
                         Height="25" 
@@ -65,14 +93,14 @@
                            VerticalContentAlignment="Center" 
                            HorizontalContentAlignment="Center"/>
                 </Border>
-                <Border Grid.Column="4" 
+                <Border Grid.Column="5" 
                         x:Name="CategoryBackground" 
                         Background="#15C651" 
                         CornerRadius="12" 
                         Height="25" Margin="0 0 10 0">
                     <Label x:Name="Category" Foreground="#FFF" Content="Название категории" Width="Auto" HorizontalContentAlignment="Center" VerticalAlignment="Center" Margin="5 0"/>
                 </Border>
-                <Button Grid.Column="5" 
+                <Button Grid.Column="6" 
                     x:Name="FinishTaskBtn"
                     Content="Завершить" 
                     Background="#FF15C651" 
@@ -86,6 +114,5 @@
                     Click="Button_Click"/>
             </Grid>
         </Border>
-        
     </Grid>
 </UserControl>

@@ -59,5 +59,15 @@ namespace PlannerView
             TaskController.FinishTask(Task.Id);
             MainWindow.DoRefresh(TaskController);
         }
+
+        private void DeleteTaskBtn_OnClick(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void EditTaskBtn_OnClick(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

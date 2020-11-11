@@ -23,8 +23,8 @@ namespace PlannerView.Windows
         private TaskModel TaskModel { get; set; }
         private CategoryController CategoryController { get; set; }
         private PriorityController PriorityController { get; set; }
-        public delegate void CategoryHadler();
-        public static event CategoryHadler RefreshCategoryListEvent ;
+        public delegate void CategoryHandler();
+        public static event CategoryHandler RefreshCategoryListEvent ;
 
         private bool _isOpen;
         public bool IsOpen

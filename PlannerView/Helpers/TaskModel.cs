@@ -13,7 +13,7 @@ namespace PlannerView.Helpers
 
         public TaskModel()
         {
-            StartTime = DateTime.Now;
+            StartTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
             StartTimeSpan = new TimeSpan(19, 0, 0);
             
             EndTimeSpan = new TimeSpan(19,0,0);
