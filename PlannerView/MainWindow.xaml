@@ -93,24 +93,27 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="35"></RowDefinition>
                 <RowDefinition Height="35"></RowDefinition>
+                <RowDefinition Height="35"></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
-                <Label Grid.Row="0" x:Name="TaskTitle" FontSize="24"
-                       FontWeight="Bold">Задачи на сегодня</Label>
-            <UserControl Grid.Row="1" HorizontalAlignment="Left">
+            <Label Grid.Row="0" x:Name="TaskTitle" FontSize="24"
+                   FontWeight="Bold">Задачи на сегодня</Label>
+            <Button Grid.Row="0" 
+                    x:Name="AddTaskBtn" 
+                    Content="Добавить задачу" 
+                    Background="#FF6B6B"
+                    BorderBrush="#FF6B6B"
+                    Width="Auto"
+                    Height="26" 
+                    Click="AddTaskBtn_Click"
+                    HorizontalAlignment="Right"
+                    Margin="0 0 20 0"/>
+            <!-- Шапка списка -->
+                <UserControl Grid.Row="2" HorizontalAlignment="Left">
                     <userControls:HeaderTaskItem></userControls:HeaderTaskItem>
-                </UserControl>
-                <Button Grid.Row="0" 
-                        x:Name="AddTaskBtn" 
-                        Content="Добавить задачу" 
-                        Background="#FF6B6B"
-                        BorderBrush="#FF6B6B"
-                        Width="Auto"
-                        Height="26" 
-                        Click="AddTaskBtn_Click"
-                        HorizontalAlignment="Right"
-                        Margin="0 0 20 0"/>
-                <Grid Grid.Row="2">
+            </UserControl>
+            <!-- Список -->
+            <Grid Grid.Row="3">
                 <ScrollViewer VerticalScrollBarVisibility="Visible">
                     <StackPanel x:Name="TaskList" 
                         Orientation="Vertical"

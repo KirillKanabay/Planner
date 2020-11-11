@@ -12,6 +12,7 @@ using PlannerController;
 using PlannerModel;
 using PlannerView.Annotations;
 using PlannerView.Helpers;
+using UtilityLibraries;
 
 namespace PlannerView.Windows
 {
@@ -59,7 +60,7 @@ namespace PlannerView.Windows
 
             //Получение списка приоритетов
             PriorityController = new PriorityController();
-            PrioritiesBox.ItemsSource = PriorityController.Items.Select(item => item.Name).OrderBy(item => item);
+            PrioritiesBox.ItemsSource = PriorityController.Items.Select(item => item.Name);
             //Получение списка категорий
             RefreshCategoryList();
             
@@ -72,6 +73,15 @@ namespace PlannerView.Windows
             _isEdit = true;
             TaskModel = new TaskModel(task);
             DataContext = TaskModel;
+
+            PrioritiesBox.SelectedIndex = PriorityController.Items.IndexOf(t => t.Id == TaskModel.PriorityId);
+            CategoriesBox.SelectedIndex = CategoryController.Items.IndexOf(t => t.Id == TaskModel.CategoryId);
+
+            if (TaskModel.EndTime == new DateTime(2099, 1, 1))
+            {
+                EndTimeToggle.IsChecked = false;
+                EndTimeToggle_OnUnchecked(null, new RoutedEventArgs());
+            }
         }
         public static void DoRefreshCategoryList()
         {
@@ -115,19 +125,26 @@ namespace PlannerView.Windows
             StartDate.IsEnabled = false;
             StartTime.IsEnabled = false;
             TaskModel.StartTime = DateTime.Now;
+            TaskModel.StartTimeSpan = new TimeSpan(0,0,0,0);
         }
 
         private void EndTimeToggle_OnChecked(object sender, RoutedEventArgs e)
         {
             EndDate.IsEnabled = true;
             EndTime.IsEnabled = true;
+            if (TaskModel != null)
+            {
+                TaskModel.EndTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day).AddDays(1);
+                EndDate.Text = TaskModel.EndTime.ToString("dd/MM/yyyy");
+            }
         }
 
         private void EndTimeToggle_OnUnchecked(object sender, RoutedEventArgs e)
         {
             EndDate.IsEnabled = false;
             EndTime.IsEnabled = false;
-            TaskModel.StartTime = new DateTime(2099, 1, 1);
+            TaskModel.EndTime = new DateTime(2099, 1, 1);
+            TaskModel.EndTimeSpan = new TimeSpan(0, 0, 0, 0);
         }
         private void AddCategoryBtn_OnClick(object sender, RoutedEventArgs e)
         {

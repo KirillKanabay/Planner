@@ -51,7 +51,7 @@ namespace PlannerController
                 throw new ArgumentException("Неправильно заполнено значение категории.");
             }
 
-            var tempTask = Tasks.SingleOrDefault(t => t.Name == name);
+            var tempTask = Tasks.SingleOrDefault(t => t.Name == name && t.CategoryId == categoryId && !isEdit);
             if (tempTask != null)
             {
                 throw new ArgumentException("Такая задача уже существует.");
@@ -110,8 +110,8 @@ namespace PlannerController
             {
                 throw new ArgumentException("Неправильно заполнено значение категории.");
             }
-            
-            var tempTask = Tasks.SingleOrDefault(t => t.Name == task.Name);
+
+            var tempTask = Tasks.SingleOrDefault(t => t.Name == task.Name && t.CategoryId == task.CategoryId && !isEdit);
             if (tempTask != null)
             {
                 throw new ArgumentException("Такая задача уже существует.");

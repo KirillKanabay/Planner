@@ -11,20 +11,21 @@
         <Border BorderBrush="#33707070" BorderThickness="0 2">
             <Grid VerticalAlignment="Center" Height="Auto">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="200"></ColumnDefinition>
-                    <ColumnDefinition Width="130"></ColumnDefinition>
+                    <ColumnDefinition Width="275"></ColumnDefinition>
+                    <ColumnDefinition Width="125"></ColumnDefinition>
                     <ColumnDefinition Width="120"></ColumnDefinition>
-                    <ColumnDefinition Width="155"></ColumnDefinition>
-                    <ColumnDefinition Width="350"></ColumnDefinition>
-                    <ColumnDefinition Width="120"></ColumnDefinition>
+                    <ColumnDefinition Width="160"></ColumnDefinition>
+                    <ColumnDefinition Width="280"></ColumnDefinition>
+                    <ColumnDefinition Width="115"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Width="195" 
                        HorizontalContentAlignment="Center" 
-                       VerticalAlignment="Center" Height="Auto"><Run Text="Название задачи"/></Label>
+                       VerticalAlignment="Center" Height="Auto" Margin="0 0 38 0"><Run Text="Название задачи"/></Label>
                 <Label Grid.Column="1"
                        VerticalAlignment="Center" 
                        HorizontalContentAlignment="Center" 
-                       Content="Дата начала"/>
+                       Content="Дата начала"
+                       />
                 <Label Grid.Column="2" x:Name="EndDate" 
                        Content="Крайний срок" 
                        VerticalAlignment="Center" 
@@ -37,7 +38,8 @@
                     Grid.Column="4"
                     Content="Название категории" 
                     HorizontalContentAlignment="Center" 
-                    VerticalAlignment="Center"/>
+                    VerticalAlignment="Center"
+                    Margin="0 0 8 0"/>
                 <Label 
                     Grid.Column="5"
                     Content="Статус" 

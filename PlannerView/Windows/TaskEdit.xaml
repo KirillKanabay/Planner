@@ -86,7 +86,7 @@
                             Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
                             materialDesign:HintAssist.Hint="Дата окончания">
                         <DatePicker.SelectedDate>
-                            <Binding Path="EndTime" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="EndTime" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
                                 <Binding.ValidationRules>
                                     <validators:DateValidationRule ValidatesOnTargetUpdated="True" />
                                 </Binding.ValidationRules>
