@@ -18,19 +18,20 @@ namespace PlannerView
     /// </summary>
     public partial class MainWindow : Window
     {
-        private TaskController taskController;
+        private TaskController _taskController;
         private CategoryController categoryController;
         private PriorityController priorityController;
         private CategoryEdit categoryEdit;
         
         static public TaskEdit taskEdit;
 
-        public delegate void TaskHandler(TaskController taskController);
+        public delegate void TaskHandler();
         public delegate void WrapHadler(object sender,RoutedEventArgs e);
         public delegate void SnackbarHadler(string message);
         
         public static event TaskHandler TaskListChanged;
         public static event WrapHadler CloseWrapEvent;
+        public static event WrapHadler ShowWrapEvent;
         public static event SnackbarHadler SnackbarNotifyEvent;
         public Func<PlannerModel.Task, bool> Filter;
 
@@ -41,13 +42,14 @@ namespace PlannerView
             
             TaskListChanged += RefreshTaskList;
             CloseWrapEvent += WrapBtn_OnClick;
+            ShowWrapEvent += ShowWrapBtn;
             SnackbarNotifyEvent += SnackbarNotify;
 
-            taskController = new TaskController();
+            _taskController = new TaskController();
             categoryController = new CategoryController();
             priorityController = new PriorityController();
             
-            DoRefresh(taskController);
+            DoRefresh();
         }
 
         public static void SendSnackbar(string message)
@@ -55,17 +57,22 @@ namespace PlannerView
             SnackbarNotifyEvent?.Invoke(message);
         }
 
+        public static void ShowWrap(object sender, RoutedEventArgs e)
+        {
+            ShowWrapEvent?.Invoke(sender, e);
+        }
         public static void CloseWrap(object sender, RoutedEventArgs e)
         {
             CloseWrapEvent?.Invoke(sender, e);
         }
-        public static void DoRefresh(TaskController taskController)
+        public static void DoRefresh()
         {
-            TaskListChanged?.Invoke(taskController);
+            TaskListChanged?.Invoke();
         }
 
-        private void RefreshTaskList(TaskController taskController)
+        private void RefreshTaskList()
         {
+            var taskController = new TaskController();
             TaskList.Children.RemoveRange(0,TaskList.Children.Count);
             ObservableCollection<PlannerModel.Task> tasksCollection = taskController.Tasks;
             var tasks= tasksCollection.Where(Filter);
@@ -78,8 +85,7 @@ namespace PlannerView
         }
         private void AddTaskBtn_Click(object sender, RoutedEventArgs e)
         {
-            Wrap.Visibility = Visibility.Visible;
-
+            ShowWrap(sender, e);
             taskEdit = new TaskEdit();
             taskEdit.ShowInTaskbar = false;
             taskEdit.IsOpen = true;
@@ -125,7 +131,12 @@ namespace PlannerView
                     Filter = (task) => task.PriorityId == 3;
                         break;
             }
-            DoRefresh(taskController);
+            DoRefresh();
+        }
+
+        private void ShowWrapBtn(object sender, RoutedEventArgs e)
+        {
+            Wrap.Visibility = Visibility.Visible;
         }
 
         private void WrapBtn_OnClick(object sender, RoutedEventArgs e)

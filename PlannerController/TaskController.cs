@@ -8,18 +8,16 @@ namespace PlannerController
 {
     public class TaskController
     {
+        /// <summary>
+        /// Хранит список задач
+        /// </summary>
         public ObservableCollection<Task> Tasks { get; private set; }
         
         public TaskController()
         {
             Tasks = GetTasks() ?? new ObservableCollection<Task>();
         }
-        public TaskController(string name, DateTime startTime, DateTime endTime, int priorityId, int categoryId):this()
-        {
-            AddTask(name, startTime, endTime, priorityId,categoryId);
-        }
-
-        public void AddTask(string name, DateTime startTime, DateTime endTime, int priorityId, int categoryId)
+        public TaskController(string name, DateTime startTime, DateTime endTime, int priorityId, int categoryId, bool isEdit = false):this()
         {
             #region Проверка условий
 
@@ -68,7 +66,66 @@ namespace PlannerController
                 PriorityId = priorityId,
                 CategoryId = categoryId
             };
-            AddTaskDb(task);
+            if (isEdit)
+            {
+                EditTask(task);
+            }
+            else
+            {
+                AddTaskDb(task);
+            }
+            Tasks = GetTasks();
+        }
+
+        public TaskController(Task task, bool isEdit = false) : this()
+        {
+            #region Проверка условий
+
+            if (string.IsNullOrWhiteSpace(task.Name))
+            {
+                throw new ArgumentException("Название задачи не может быть пустым.");
+            }
+
+            if (task.StartTime == null)
+            {
+                task.StartTime = DateTime.Now;
+            }
+
+            if (task.EndTime == null)
+            {
+                task.EndTime = DateTime.MaxValue;
+            }
+
+            if (task.EndTime <= task.StartTime)
+            {
+                throw new ArgumentException("Время начала задачи не может быть позже даты окончания");
+            }
+
+            if (task.PriorityId <= 0)
+            {
+                throw new ArgumentException("Неправильно заполнено значение приоритета.");
+            }
+
+            if (task.CategoryId <= 0)
+            {
+                throw new ArgumentException("Неправильно заполнено значение категории.");
+            }
+            
+            var tempTask = Tasks.SingleOrDefault(t => t.Name == task.Name);
+            if (tempTask != null)
+            {
+                throw new ArgumentException("Такая задача уже существует.");
+            }
+            #endregion
+            task.CreationDate = DateTime.Now;
+            if (isEdit)
+            {
+                EditTask(task);
+            }
+            else
+            {
+                AddTaskDb(task);
+            }
             Tasks = GetTasks();
         }
         private void AddTaskDb(Task task)
@@ -80,9 +137,9 @@ namespace PlannerController
             }
         }
         /// <summary>
-        /// Возвращает список категорий из БД
+        /// Возвращает список задач из БД
         /// </summary>
-        /// <returns>Список категорий</returns>
+        /// <returns>Список задач</returns>
         private ObservableCollection<Task> GetTasks()
         {
             PriorityController priorityController = new PriorityController();
@@ -113,6 +170,32 @@ namespace PlannerController
                 context.SaveChanges();
             }
 
+            Tasks = GetTasks();
+        }
+
+        public void EditTask(Task editedTask)
+        {
+            using (var context = new PlannerContext())
+            {
+                var task = context.Tasks.FirstOrDefault(x => x.Id == editedTask.Id);
+                task.Name = editedTask.Name;
+                task.CreationDate = editedTask.CreationDate;
+                task.StartTime = editedTask.StartTime;
+                task.EndTime = editedTask.EndTime;
+                task.PriorityId = editedTask.PriorityId;
+                task.CategoryId = editedTask.CategoryId;
+                context.SaveChanges();
+            }
+        }
+
+        public void DeleteTask(int id)
+        {
+            using (var context = new PlannerContext())
+            {
+                var task = context.Tasks.FirstOrDefault(x => x.Id == id);
+                context.Tasks.Remove(task);
+                context.SaveChanges();
+            }
             Tasks = GetTasks();
         }
     }

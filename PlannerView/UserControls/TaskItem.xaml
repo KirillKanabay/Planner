@@ -36,7 +36,9 @@
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" x:Name="TaskName" Width="185" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0" Padding="0 5" TextWrapping="Wrap" Height="Auto"><Run Text="Название задачи"/></TextBlock>
-                <materialDesign:PopupBox PlacementMode="BottomAndAlignLeftEdges"
+                <materialDesign:PopupBox 
+                    x:Name="PopupBox" 
+                    PlacementMode="BottomAndAlignLeftEdges"
                                          StaysOpen="True" 
                                          Grid.ColumnSpan="2" 
                                          Margin="174,0,0,0.4" 

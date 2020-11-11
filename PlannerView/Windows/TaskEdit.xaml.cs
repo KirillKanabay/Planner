@@ -21,10 +21,13 @@ namespace PlannerView.Windows
     public partial class TaskEdit : Window, INotifyPropertyChanged
     {
         private TaskModel TaskModel { get; set; }
+        private Task Task { get; set; }
         private CategoryController CategoryController { get; set; }
         private PriorityController PriorityController { get; set; }
         public delegate void CategoryHandler();
         public static event CategoryHandler RefreshCategoryListEvent ;
+
+        private bool _isEdit;
 
         private bool _isOpen;
         public bool IsOpen
@@ -64,6 +67,12 @@ namespace PlannerView.Windows
             CategoriesBox.SelectedIndex = 0;
         }
 
+        public TaskEdit(Task task):this()
+        {
+            _isEdit = true;
+            TaskModel = new TaskModel(task);
+            DataContext = TaskModel;
+        }
         public static void DoRefreshCategoryList()
         {
             RefreshCategoryListEvent?.Invoke();
@@ -130,19 +139,23 @@ namespace PlannerView.Windows
         {
             try
             {
-                var priorityId = PrioritiesBox.SelectedIndex + 1;
-                var categoryId = CategoriesBox.SelectedIndex + 1;
-
-                TaskModel.StartTime = TaskModel.StartTime.Add(TaskModel.StartTimeSpan);
-                TaskModel.EndTime = TaskModel.EndTime.Add(TaskModel.EndTimeSpan);
-
-                var taskController = new TaskController(TaskModel.Name,
-                    TaskModel.StartTime,
-                    TaskModel.EndTime,
-                    priorityId,
-                    categoryId);
-                MainWindow.SendSnackbar($"Задача \"{TaskModel.Name}\" добавлена в планировщик.");
-                MainWindow.DoRefresh(taskController);
+                var task = new Task()
+                {
+                    Id = TaskModel.Id,
+                    Name = TaskModel.Name,
+                    CreationDate = TaskModel.CreationDate,
+                    StartTime = TaskModel.StartTime.Add(TaskModel.StartTimeSpan),
+                    EndTime = TaskModel.EndTime.Add(TaskModel.EndTimeSpan),
+                    PriorityId = PrioritiesBox.SelectedIndex + 1,
+                    Priority = TaskModel.Priority,
+                    CategoryId = CategoriesBox.SelectedIndex + 1,
+                    Category = TaskModel.Category,
+                };
+                
+                var taskController = new TaskController(task, _isEdit);
+                MainWindow.SendSnackbar($"Задача \"{TaskModel.Name}\"" +   
+                                        ((!_isEdit) ? " добавлена в планировщик.":" отредактирована."));
+                MainWindow.DoRefresh();
                 Close();
             }
             catch (ArgumentException exception)

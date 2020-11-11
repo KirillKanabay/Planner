@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using PlannerController;
 using PlannerModel;
+using PlannerView.Windows;
 using UtilityLibraries;
 
 namespace PlannerView
@@ -57,17 +58,23 @@ namespace PlannerView
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             TaskController.FinishTask(Task.Id);
-            MainWindow.DoRefresh(TaskController);
+            MainWindow.DoRefresh();
         }
 
         private void DeleteTaskBtn_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            PopupBox.IsPopupOpen = false;
+            TaskController.DeleteTask(Task.Id);
+            MainWindow.DoRefresh();
         }
 
         private void EditTaskBtn_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            PopupBox.IsPopupOpen = false;
+            MainWindow.ShowWrap(sender, new RoutedEventArgs());
+            var taskEdit = new TaskEdit(Task);
+            taskEdit.ShowInTaskbar = false;
+            taskEdit.IsOpen = true;
         }
     }
 }

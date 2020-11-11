@@ -19,5 +19,24 @@ namespace PlannerView.Helpers
             EndTimeSpan = new TimeSpan(19,0,0);
             EndTime = StartTime.AddDays(1);
         }
+
+        public TaskModel(PlannerModel.Task task)
+        {
+            Id = task.Id;
+            Name = task.Name;
+            CreationDate = task.CreationDate;
+            StartTime = task.StartTime;
+            EndTime = task.EndTime;
+            PriorityId = task.PriorityId;
+            Priority = task.Priority;
+            CategoryId = task.CategoryId;
+            Category = task.Category;
+
+            StartTimeSpan = new TimeSpan(StartTime.Hour, StartTime.Minute, StartTime.Second);
+            StartTime = new DateTime(StartTime.Year, StartTime.Month, StartTime.Day);
+           
+            EndTimeSpan = new TimeSpan(EndTime.Hour, EndTime.Minute, EndTime.Second);
+            EndTime = new DateTime(EndTime.Year, EndTime.Month, EndTime.Day);
+        }
     }
 }
