@@ -151,10 +151,21 @@ namespace PlannerController
                 {
                     return null;
                 }
-                foreach (var task in context.Tasks)
+                foreach (var taskContext in context.Tasks)
                 {
-                    task.Category = categoryController.GetCategory(task.CategoryId);
-                    task.Priority = priorityController.GetPriority(task.PriorityId);
+                    var task = new Task()
+                    {
+                        Id = taskContext.Id,
+                        Name = taskContext.Name,
+                        CategoryId = taskContext.CategoryId,
+                        Category = categoryController.GetCategory(taskContext.CategoryId),
+                        PriorityId = taskContext.PriorityId,
+                        Priority = priorityController.GetPriority(taskContext.PriorityId),
+                        CreationDate = taskContext.CreationDate,
+                        EndTime = taskContext.EndTime,
+                        IsFinished = taskContext.IsFinished,
+                        StartTime = taskContext.StartTime
+                }; 
                     tasks.Add(task);
                 }
             }

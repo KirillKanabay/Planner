@@ -70,7 +70,7 @@ namespace PlannerView.Windows
                 //MessageBox.Show("Категория добавлена в планировщик", "Редактор задач", MessageBoxButton.OK, MessageBoxImage.Information);
                 Close();
             }
-            catch (ArgumentNullException exception)
+            catch (ArgumentNullException)
             {
                 MessageBox.Show("Неправильный формат цвета.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }

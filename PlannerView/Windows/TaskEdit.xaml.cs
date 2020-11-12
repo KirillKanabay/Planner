@@ -93,27 +93,6 @@ namespace PlannerView.Windows
             CategoryController = new CategoryController();
             CategoriesBox.ItemsSource = CategoryController.Items.Select(item => item.Name);
         }
-        ObservableCollection<String> GetPrioritiesName(PriorityController controller)
-        {
-            var priorities = new ObservableCollection<string>();
-            foreach (Priority priority in controller.Items)
-            {
-                priorities.Add(priority.Name);
-            }
-
-            return priorities;
-        }
-
-        ObservableCollection<String> GetCategoriesName(CategoryController controller)
-        {
-            var categories = new ObservableCollection<string>();
-            foreach (Category category in controller.Items)
-            {
-                categories.Add(category.Name);
-            }
-
-            return categories;
-        }
         private void StartTimeToggle_OnChecked(object sender, RoutedEventArgs e)
         {
             StartDate.IsEnabled = true;

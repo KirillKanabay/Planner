@@ -185,6 +185,7 @@
     <Compile Include="Validators\CorrectlyColorValidationRule.cs" />
     <Compile Include="Validators\DateValidationRule.cs" />
     <Compile Include="Validators\NotEmptyValidationRule.cs" />
+    <Compile Include="Validators\DateOrEmptyValidationRule.cs" />
     <Compile Include="Validators\TimeValidationRule.cs" />
     <Compile Include="Windows\CategoryEdit.xaml.cs">
       <DependentUpon>CategoryEdit.xaml</DependentUpon>
