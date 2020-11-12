@@ -122,6 +122,7 @@
             <Grid Grid.Row="1" Margin="0 5 0 0">
                 <materialDesign:PopupBox 
                     x:Name="FilterPopupBox"
+                    PlacementMode="RightAndAlignMiddles"
                     StaysOpen="True"
                     VerticalAlignment="Top">
                 <materialDesign:PopupBox.ToggleContent>

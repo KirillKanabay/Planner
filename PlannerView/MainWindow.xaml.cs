@@ -41,7 +41,8 @@ namespace PlannerView
         public MainWindow()
         {
             InitializeComponent();
-            MainFilter = (task) => DateTime.Now >= task.StartTime && DateTime.Now <= task.EndTime;
+            MainFilter = (task) => DateTime.Now >= new DateTime(task.StartTime.Year, task.StartTime.Month, task.StartTime.Day) 
+                                   && DateTime.Now <= new DateTime(task.EndTime.Year, task.EndTime.Month, task.EndTime.Day);
             
             TaskListChanged += RefreshTaskList;
             CloseWrapEvent += WrapBtn_OnClick;
@@ -201,8 +202,8 @@ namespace PlannerView
         private bool _isFinishedFilter = false;
         private bool _isOverdueFilter = false;
 
-        private DateTime? _startDate = null;
-        private DateTime? _endDate = null;
+        private DateTime _startDate = default;
+        private DateTime _endDate = default;
        
 
         private void AcceptFilter_OnClick(object sender, RoutedEventArgs e)
@@ -218,12 +219,12 @@ namespace PlannerView
 
             if (StartDate.Text != "")
             {
-                DateTime.TryParse(StartDate.Text, out DateTime _startDate);
+                DateTime.TryParse(StartDate.Text, out _startDate);
             }
 
             if (EndDate.Text != "")
             {
-                DateTime.TryParse(EndDate.Text, out DateTime _endDate);
+                DateTime.TryParse(EndDate.Text, out _endDate);
             }
             
             DoRefresh();
@@ -242,9 +243,9 @@ namespace PlannerView
                 _tasksCollection = _tasksCollection.Where(task => task.PriorityId == _priorityIdFilter);
             if (_categoryIdFilter > 0)
                 _tasksCollection = _tasksCollection.Where(task => task.CategoryId == _categoryIdFilter);
-            if (_startDate != null)
+            if (_startDate != default)
                 _tasksCollection = _tasksCollection.Where(task => task.StartTime >= _startDate);
-            if (_endDate != null)
+            if (_endDate != default)
                 _tasksCollection = _tasksCollection.Where(task => task.EndTime <= _endDate);
             if (_searchString != default)
             {
