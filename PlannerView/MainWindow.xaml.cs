@@ -22,29 +22,61 @@ namespace PlannerView
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region Свойства
+
+        #region Контроллеры
         private TaskController _taskController;
-        private CategoryController categoryController;
-        private PriorityController priorityController;
+        private CategoryController _categoryController;
+        private PriorityController _priorityController;
+        #endregion
+
+        #region Редакторы
         private CategoryEdit categoryEdit;
-        
-        static public TaskEdit taskEdit;
+        public static TaskEdit taskEdit;
+        #endregion
 
+        #region Делегаты
         public delegate void TaskHandler();
-        public delegate void WrapHadler(object sender,RoutedEventArgs e);
+        public delegate void WrapHandler(object sender, RoutedEventArgs e);
         public delegate void SnackbarHadler(string message);
-        
+        #endregion
+
+        #region События
         public static event TaskHandler TaskListChanged;
-        public static event WrapHadler CloseWrapEvent;
-        public static event WrapHadler ShowWrapEvent;
+        public static event WrapHandler CloseWrapEvent;
+        public static event WrapHandler ShowWrapEvent;
         public static event SnackbarHadler SnackbarNotifyEvent;
+        #endregion
 
-        public Func<PlannerModel.Task, bool> MainFilter;
+        #region Фильтрация
+        private string _searchString;
 
+        private ObservableCollection<Category> _categoriesListFilter = new ObservableCollection<Category>();
+        private ObservableCollection<Priority> _prioritiesListFilter = new ObservableCollection<Priority>();
+        private int _categoryIdFilter;
+        private int _priorityIdFilter;
+
+        private bool _isNotFinishedFilter = true;
+        private bool _isFinishedFilter = false;
+        private bool _isOverdueFilter = false;
+
+        private DateTime _startDate = default;
+        private DateTime _endDate = default;
+
+        public Func<PlannerModel.Task, bool> MenuFilter;
+        #endregion
+
+        #region Трей
+        private WindowState _prevState;
+        #endregion
+        
         private IEnumerable<PlannerModel.Task> _tasksCollection;
+        #endregion
+
         public MainWindow()
         {
             InitializeComponent();
-            MainFilter = (task) => new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day) >= new DateTime(task.StartTime.Year, task.StartTime.Month, task.StartTime.Day) 
+            MenuFilter = (task) => new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day) >= new DateTime(task.StartTime.Year, task.StartTime.Month, task.StartTime.Day) 
                                    && new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day) <= new DateTime(task.EndTime.Year, task.EndTime.Month, task.EndTime.Day);
 
             TaskListChanged += RefreshTaskList;
@@ -53,17 +85,17 @@ namespace PlannerView
             SnackbarNotifyEvent += SnackbarNotify;
 
             _taskController = new TaskController();
-            categoryController = new CategoryController();
-            priorityController = new PriorityController();
+            _categoryController = new CategoryController();
+            _priorityController = new PriorityController();
 
             //Получение списка приоритетов
             
             _categoriesListFilter.Add(new Category() { Name = "Все категории",Id = 0});
-            foreach(var category in categoryController.Items)
+            foreach(var category in _categoryController.Items)
                 _categoriesListFilter.Add(category);
 
             _prioritiesListFilter.Add(new Priority() { Name = "Все приоритеты", Id = 0 });
-            foreach (var priority in priorityController.Items)
+            foreach (var priority in _priorityController.Items)
             {
                 _prioritiesListFilter.Add(priority);
             }
@@ -115,7 +147,7 @@ namespace PlannerView
             foreach (var task in _tasksCollection)
             {
                 //if(taskController.Tasks[i].IsFinished) continue;
-                TaskItem taskItem = new TaskItem(_taskController,task,categoryController,priorityController);
+                TaskItem taskItem = new TaskItem(_taskController,task,_categoryController,_priorityController);
                 TaskList.Children.Add(taskItem);
             }
         }
@@ -149,26 +181,26 @@ namespace PlannerView
             switch (label.Content.ToString())
             {
                 case "Все задачи":
-                    MainFilter = (task) => true;
+                    MenuFilter = (task) => true;
                     break;
                 case "Бессрочные задачи":
-                    MainFilter = (task) => task.EndTime == DateTime.Parse("2099-01-01 00:00:00");
+                    MenuFilter = (task) => task.EndTime == DateTime.Parse("2099-01-01 00:00:00");
                     break;
                 case "Задачи на сегодня":
-                    MainFilter = (task) => DateTime.Now >= new DateTime(task.StartTime.Year, task.StartTime.Month, task.StartTime.Day)
+                    MenuFilter = (task) => DateTime.Now >= new DateTime(task.StartTime.Year, task.StartTime.Month, task.StartTime.Day)
                                            && DateTime.Now <= new DateTime(task.EndTime.Year, task.EndTime.Month, task.EndTime.Day);
                     break;
                 case "Предстоящие задачи":
-                    MainFilter = (task) => DateTime.Now < task.StartTime;
+                    MenuFilter = (task) => DateTime.Now < task.StartTime;
                     break;
                 case "Выполненные задачи":
-                    MainFilter = (task) => task.IsFinished;
+                    MenuFilter = (task) => task.IsFinished;
                     break; 
                 case "Просроченные задачи":
-                    MainFilter = (task) => DateTime.Now > task.EndTime && !task.IsFinished;
+                    MenuFilter = (task) => DateTime.Now > task.EndTime && !task.IsFinished;
                         break; 
                 case "Задачи срочного приоритета":
-                    MainFilter = (task) => task.PriorityId == 3;
+                    MenuFilter = (task) => task.PriorityId == 3;
                         break;
             }
             DoRefresh();
@@ -207,19 +239,7 @@ namespace PlannerView
         }
         #region Фильтрация
 
-        private string _searchString;
         
-        private ObservableCollection<Category> _categoriesListFilter = new ObservableCollection<Category>();
-        private ObservableCollection<Priority> _prioritiesListFilter = new ObservableCollection<Priority>();
-        private int _categoryIdFilter;
-        private int _priorityIdFilter;
-
-        private bool _isNotFinishedFilter = true;
-        private bool _isFinishedFilter = false;
-        private bool _isOverdueFilter = false;
-
-        private DateTime _startDate = default;
-        private DateTime _endDate = default;
        
 
         private void AcceptFilter_OnClick(object sender, RoutedEventArgs e)
@@ -248,7 +268,7 @@ namespace PlannerView
 
         public void Filter()
         {
-            _tasksCollection = _tasksCollection.Where(MainFilter);
+            _tasksCollection = _tasksCollection.Where(MenuFilter);
             if (_isNotFinishedFilter)
                 _tasksCollection = _tasksCollection.Where(task => !task.IsFinished);
             if (_isFinishedFilter)
@@ -272,5 +292,18 @@ namespace PlannerView
         }
         #endregion
 
+        private void MainWindow_OnStateChanged(object sender, EventArgs e)
+        {
+            if (WindowState == WindowState.Minimized)
+                Hide();
+            else
+                _prevState = WindowState;
+        }
+
+        private void NotifyIcon_OnTrayLeftMouseDown(object sender, RoutedEventArgs e)
+        {
+            Show();
+            WindowState = _prevState;
+        }
     }
 }
