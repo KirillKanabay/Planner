@@ -250,6 +250,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Notifications.Wpf\Notifications.Wpf.csproj">
+      <Project>{5c9a4f46-263d-4c23-b361-f09e14bb109e}</Project>
+      <Name>Notifications.Wpf</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PlannerController\PlannerController.csproj">
       <Project>{464876f9-1c26-4e0a-a508-50e20b50dc57}</Project>
       <Name>PlannerController</Name>

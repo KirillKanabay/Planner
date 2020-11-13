@@ -42,6 +42,7 @@ namespace PlannerView.Windows
                 _isOpen = value;
                 if (_isOpen)
                 {
+                    TaskNameTextBox.Focus();
                     Show();
                 }
                 else

@@ -7,8 +7,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using EO.Internal;
+using MaterialDesignThemes.Wpf;
+using Notifications.Wpf;
 using PlannerController;
 using PlannerModel;
+using PlannerView.Helpers;
 using PlannerView.Windows;
 using Task = System.Threading.Tasks.Task;
 
@@ -41,9 +44,9 @@ namespace PlannerView
         public MainWindow()
         {
             InitializeComponent();
-            MainFilter = (task) => DateTime.Now >= new DateTime(task.StartTime.Year, task.StartTime.Month, task.StartTime.Day) 
-                                   && DateTime.Now <= new DateTime(task.EndTime.Year, task.EndTime.Month, task.EndTime.Day);
-            
+            MainFilter = (task) => new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day) >= new DateTime(task.StartTime.Year, task.StartTime.Month, task.StartTime.Day) 
+                                   && new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day) <= new DateTime(task.EndTime.Year, task.EndTime.Month, task.EndTime.Day);
+
             TaskListChanged += RefreshTaskList;
             CloseWrapEvent += WrapBtn_OnClick;
             ShowWrapEvent += ShowWrapBtn;
@@ -75,10 +78,19 @@ namespace PlannerView
 
             DoRefresh();
         }
-
+        
         public static void SendSnackbar(string message)
         {
             SnackbarNotifyEvent?.Invoke(message);
+
+            var notificationManager = new NotificationManager();
+            
+            notificationManager.Show(new NotificationContent
+            {
+                Title = "Задача добавлена",
+                Message = $"{message}",
+                Type = NotificationType.Information
+            });
         }
 
         public static void ShowWrap(object sender, RoutedEventArgs e)
@@ -135,12 +147,16 @@ namespace PlannerView
                 return;
             TaskTitle.Content = label.Content.ToString();
             switch (label.Content.ToString())
-            { 
+            {
+                case "Все задачи":
+                    MainFilter = (task) => true;
+                    break;
                 case "Бессрочные задачи":
                     MainFilter = (task) => task.EndTime == DateTime.Parse("2099-01-01 00:00:00");
                     break;
                 case "Задачи на сегодня":
-                    MainFilter = (task) => DateTime.Now >= task.StartTime && DateTime.Now <= task.EndTime;
+                    MainFilter = (task) => DateTime.Now >= new DateTime(task.StartTime.Year, task.StartTime.Month, task.StartTime.Day)
+                                           && DateTime.Now <= new DateTime(task.EndTime.Year, task.EndTime.Month, task.EndTime.Day);
                     break;
                 case "Предстоящие задачи":
                     MainFilter = (task) => DateTime.Now < task.StartTime;
@@ -198,7 +214,7 @@ namespace PlannerView
         private int _categoryIdFilter;
         private int _priorityIdFilter;
 
-        private bool _isNotFinishedFilter = false;
+        private bool _isNotFinishedFilter = true;
         private bool _isFinishedFilter = false;
         private bool _isOverdueFilter = false;
 

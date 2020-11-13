@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PlannerView.Helpers
 {
-    class TaskModel: PlannerModel.Task
+    class TaskModel : PlannerModel.Task
     {
         public TimeSpan StartTimeSpan { get; set; }
         public TimeSpan EndTimeSpan { get; set; }
@@ -15,8 +15,8 @@ namespace PlannerView.Helpers
         {
             StartTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
             StartTimeSpan = new TimeSpan(19, 0, 0);
-            
-            EndTimeSpan = new TimeSpan(19,0,0);
+
+            EndTimeSpan = new TimeSpan(19, 0, 0);
             EndTime = StartTime.AddDays(1);
         }
 
@@ -34,7 +34,7 @@ namespace PlannerView.Helpers
 
             StartTimeSpan = new TimeSpan(StartTime.Hour, StartTime.Minute, StartTime.Second);
             StartTime = new DateTime(StartTime.Year, StartTime.Month, StartTime.Day);
-           
+
             EndTimeSpan = new TimeSpan(EndTime.Hour, EndTime.Minute, EndTime.Second);
             EndTime = new DateTime(EndTime.Year, EndTime.Month, EndTime.Day);
         }

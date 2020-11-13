@@ -18,10 +18,11 @@
             </ResourceDictionary.MergedDictionaries>
             <Style BasedOn="{StaticResource MaterialDesignListBoxItem}"
                    TargetType="{x:Type ListBoxItem}">
-                <Setter Property="Height" Value="50"></Setter>
+                <Setter Property="Height" Value="40"></Setter>
                 <Style.Triggers>
                     <Trigger Property="IsSelected" Value="True">
                         <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="Background" Value="#33393939"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
@@ -33,6 +34,9 @@
                         <Setter Property="Background" Value="#33393939"/>
                     </Trigger>
                 </Style.Triggers>
+            </Style>
+            <Style x:Key="SeparatorStyle" TargetType="{x:Type Separator}">
+                <Setter Property="Height" Value="20"/>
             </Style>
         </ResourceDictionary>
     </Window.Resources>
@@ -55,15 +59,21 @@
                 Click="WrapBtn_OnClick"/>
         </Grid>
         <!--Меню-->
-        <Grid Grid.Column="0" Width="280" Background="AntiqueWhite">
+        <Grid Grid.Column="0" Width="280" Background="#FFF3F3F2">
             <ListBox x:Name="Menu" 
                      Grid.Column="0" 
                      SelectionMode="Single" 
                      SelectionChanged="ListBox_SelectionChanged">
                 <ListBoxItem>
                     <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="CalendarMonth" Foreground="#383838" Margin="0 4"/>
+                        <Label FontSize="14" VerticalContentAlignment="Top">Все задачи</Label>
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="CalendarSync" Foreground="#383838" Margin="0 4"/>
-                        <Label FontSize="14">Бессрочные задачи</Label>
+                        <Label FontSize="14" VerticalContentAlignment="Top">Бессрочные задачи</Label>
                     </StackPanel>
                 </ListBoxItem>
                 <ListBoxItem IsSelected="True">
@@ -90,7 +100,7 @@
                         <Label FontSize="14">Просроченные задачи</Label>
                     </StackPanel>
                 </ListBoxItem>
-                <ListBoxItem Background="#FF6B6B">
+                <ListBoxItem Background="#99DB4C3F">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="CalendarStar" Foreground="#383838"  Margin="0 4"/>
                         <Label FontSize="14">Задачи срочного приоритета</Label>
@@ -125,75 +135,76 @@
                     PlacementMode="RightAndAlignMiddles"
                     StaysOpen="True"
                     VerticalAlignment="Top">
-                <materialDesign:PopupBox.ToggleContent>
+                    <materialDesign:PopupBox.ToggleContent>
                         <Border Padding="5" BorderBrush="#55393939" BorderThickness="1" CornerRadius="5" Style="{StaticResource HoverBorder}">
                             <StackPanel Orientation="Horizontal">
-                            <Label Padding="0">Фильтрация:</Label>
-                            <materialDesign:PackIcon Kind="FilterPlusOutline" />
-                        </StackPanel>
-                    </Border>
-                </materialDesign:PopupBox.ToggleContent>
-                <Grid Width="665" Margin="10 0 10 0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="50"></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-                <StackPanel  Grid.Row="0" Orientation="Horizontal">
-                    <ComboBox x:Name="PrioritiesBox" materialDesign:HintAssist.Hint="Приоритет" IsEditable="True" Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                <Label Padding="0">Фильтрация:</Label>
+                                <materialDesign:PackIcon Kind="FilterPlusOutline" />
+                            </StackPanel>
+                        </Border>
+                    </materialDesign:PopupBox.ToggleContent>
+                    <Grid Width="665" Margin="10 0 10 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <StackPanel  Grid.Row="0" Orientation="Horizontal">
+                            <ComboBox x:Name="PrioritiesBox" materialDesign:HintAssist.Hint="Приоритет" IsEditable="True" Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                               Height="41"  Width="150"
                               materialDesign:HintAssist.FloatingScale="1" VerticalAlignment="Top"/>
-                <ComboBox x:Name="CategoriesBox" materialDesign:HintAssist.Hint="Категория" IsEditable="True" Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                            <ComboBox x:Name="CategoriesBox" materialDesign:HintAssist.Hint="Категория" IsEditable="True" Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                           Height="41"  Width="150"
                           materialDesign:HintAssist.FloatingScale="1"
                           Margin="20 0 0 0"
                           VerticalAlignment="Top"/>
-                <WrapPanel VerticalAlignment="Center" Margin="0 0 0 9">
-                    <!--Поля ввода начала исполнения задачи-->
-                    <StackPanel Orientation="Horizontal" Margin="20 0 0 0">
-                        <DatePicker x:Name="StartDate" Width="145" HorizontalAlignment="Left" 
+                            <WrapPanel VerticalAlignment="Center" Margin="0 0 0 9">
+                                <!--Поля ввода начала исполнения задачи-->
+                                <StackPanel Orientation="Horizontal" Margin="20 0 0 0">
+                                    <DatePicker x:Name="StartDate" Width="145" HorizontalAlignment="Left" 
                             materialDesign:HintAssist.Hint="Дата начала"
                             materialDesign:HintAssist.FloatingScale="1"
                             Style="{StaticResource MaterialDesignFloatingHintDatePicker}">
-                            <DatePicker.SelectedDate>
-                                <Binding Path="StartTime" UpdateSourceTrigger="PropertyChanged">
-                                    <Binding.ValidationRules>
-                                        <validators:DateOrEmptyValidationRule ValidatesOnTargetUpdated="True" />
-                                    </Binding.ValidationRules>
-                                </Binding>
-                            </DatePicker.SelectedDate>
-                        </DatePicker>
-                    </StackPanel>
-                    <!--Поля ввод конца исполнения задачи-->
-                    <StackPanel Orientation="Horizontal" Margin="20 0 0 0">
-                        <DatePicker x:Name="EndDate" Width="145" HorizontalAlignment="Left"
+                                        <DatePicker.SelectedDate>
+                                            <Binding Path="StartTime" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <validators:DateOrEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </DatePicker.SelectedDate>
+                                    </DatePicker>
+                                </StackPanel>
+                                <!--Поля ввод конца исполнения задачи-->
+                                <StackPanel Orientation="Horizontal" Margin="20 0 0 0">
+                                    <DatePicker x:Name="EndDate" Width="145" HorizontalAlignment="Left"
                             materialDesign:HintAssist.FloatingScale="1"
                             Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
                             materialDesign:HintAssist.Hint="Дата окончания">
-                            <DatePicker.SelectedDate>
-                                <Binding Path="EndTime" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
-                                    <Binding.ValidationRules>
-                                        <validators:DateOrEmptyValidationRule ValidatesOnTargetUpdated="True" />
-                                    </Binding.ValidationRules>
-                                </Binding>
-                            </DatePicker.SelectedDate>
-                        </DatePicker>
-                    </StackPanel>
-                </WrapPanel>
-                </StackPanel>
-                <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0 0 0 10">
-                    <CheckBox
+                                        <DatePicker.SelectedDate>
+                                            <Binding Path="EndTime" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                                                <Binding.ValidationRules>
+                                                    <validators:DateOrEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </DatePicker.SelectedDate>
+                                    </DatePicker>
+                                </StackPanel>
+                            </WrapPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0 0 0 10">
+                            <CheckBox
                         x:Name="NotFinishedCheckBox"
-                        VerticalAlignment="Top">Не завершенные</CheckBox>
-                    <CheckBox
+                        VerticalAlignment="Top"
+                        IsChecked="True">Не завершенные</CheckBox>
+                            <CheckBox
                         x:Name="FinishedCheckBox"
                         VerticalAlignment="Top"
                         Margin="10 0 0 0">Завершенные</CheckBox>
-                    <CheckBox
+                            <CheckBox
                         x:Name="OverdueCheckBox"
                         VerticalAlignment="Top"
                         Margin="10 0 0 0">Просроченные</CheckBox>
-                </StackPanel>
-                <Button
+                        </StackPanel>
+                        <Button
                     Grid.Row="1"
                     x:Name="AcceptFilter"
                         VerticalContentAlignment="Center"
@@ -202,8 +213,8 @@
                         HorizontalAlignment="Right"
                         Click ="AcceptFilter_OnClick"
                         Style="{DynamicResource MaterialDesignFlatButton}"/>
-            </Grid>
-            </materialDesign:PopupBox>
+                    </Grid>
+                </materialDesign:PopupBox>
                 <Border Background="Transparent" MaxHeight="30" ToolTip="Введите название задачи или категории" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 0 35 0">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -224,8 +235,8 @@
                 </Border>
             </Grid>
             <!-- Шапка списка -->
-                <UserControl Grid.Row="2" HorizontalAlignment="Left">
-                    <userControls:HeaderTaskItem></userControls:HeaderTaskItem>
+            <UserControl Grid.Row="2" HorizontalAlignment="Left">
+                <userControls:HeaderTaskItem></userControls:HeaderTaskItem>
             </UserControl>
             <!-- Список -->
             <Grid Grid.Row="3">
