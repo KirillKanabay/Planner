@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace UtilityLibraries
 {
-    public static class ColorLibrary
+    public static class ColorExtensions
     {
         /// <summary>
         /// Генерирует случайный цвет в HEX-формате.

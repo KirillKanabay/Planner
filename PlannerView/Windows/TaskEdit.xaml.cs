@@ -78,7 +78,7 @@ namespace PlannerView.Windows
             PrioritiesBox.SelectedIndex = PriorityController.Items.IndexOf(t => t.Id == TaskModel.PriorityId);
             CategoriesBox.SelectedIndex = CategoryController.Items.IndexOf(t => t.Id == TaskModel.CategoryId);
 
-            if (TaskModel.EndTime == new DateTime(2099, 1, 1))
+            if (TaskModel.EndDate == new DateTime(2099, 1, 1))
             {
                 EndTimeToggle.IsChecked = false;
                 EndTimeToggle_OnUnchecked(null, new RoutedEventArgs());
@@ -104,7 +104,7 @@ namespace PlannerView.Windows
         {
             StartDate.IsEnabled = false;
             StartTime.IsEnabled = false;
-            TaskModel.StartTime = DateTime.Now;
+            TaskModel.StartDate = DateTime.Now;
             TaskModel.StartTimeSpan = new TimeSpan(0,0,0,0);
         }
 
@@ -114,8 +114,8 @@ namespace PlannerView.Windows
             EndTime.IsEnabled = true;
             if (TaskModel != null)
             {
-                TaskModel.EndTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day).AddDays(1);
-                EndDate.Text = TaskModel.EndTime.ToString("dd/MM/yyyy");
+                TaskModel.EndDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day).AddDays(1);
+                EndDate.Text = TaskModel.EndDate.ToString("dd/MM/yyyy");
             }
         }
 
@@ -123,7 +123,7 @@ namespace PlannerView.Windows
         {
             EndDate.IsEnabled = false;
             EndTime.IsEnabled = false;
-            TaskModel.EndTime = new DateTime(2099, 1, 1);
+            TaskModel.EndDate = new DateTime(2099, 1, 1);
             TaskModel.EndTimeSpan = new TimeSpan(0, 0, 0, 0);
         }
         private void AddCategoryBtn_OnClick(object sender, RoutedEventArgs e)
@@ -141,8 +141,8 @@ namespace PlannerView.Windows
                     Id = TaskModel.Id,
                     Name = TaskModel.Name,
                     CreationDate = TaskModel.CreationDate,
-                    StartTime = TaskModel.StartTime.Add(TaskModel.StartTimeSpan),
-                    EndTime = TaskModel.EndTime.Add(TaskModel.EndTimeSpan),
+                    StartDate = TaskModel.StartDate.Add(TaskModel.StartTimeSpan),
+                    EndDate = TaskModel.EndDate.Add(TaskModel.EndTimeSpan),
                     PriorityId = PrioritiesBox.SelectedIndex + 1,
                     Priority = TaskModel.Priority,
                     CategoryId = CategoriesBox.SelectedIndex + 1,

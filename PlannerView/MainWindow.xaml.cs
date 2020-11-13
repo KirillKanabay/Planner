@@ -30,9 +30,10 @@ namespace PlannerView
         private PriorityController _priorityController;
         #endregion
 
-        #region Редакторы
-        private CategoryEdit categoryEdit;
-        public static TaskEdit taskEdit;
+        #region Окна
+        private CategoryEdit _categoryEdit;
+        public static TaskEdit _taskEdit;
+        private Stats _statsWindow;
         #endregion
 
         #region Делегаты
@@ -69,15 +70,21 @@ namespace PlannerView
         #region Трей
         private WindowState _prevState;
         #endregion
-        
+
+        #region Уведомления
+        private NotificationManager _notificationManager;
+
+
+        #endregion
+
         private IEnumerable<PlannerModel.Task> _tasksCollection;
         #endregion
 
         public MainWindow()
         {
             InitializeComponent();
-            MenuFilter = (task) => new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day) >= new DateTime(task.StartTime.Year, task.StartTime.Month, task.StartTime.Day) 
-                                   && new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day) <= new DateTime(task.EndTime.Year, task.EndTime.Month, task.EndTime.Day);
+            MenuFilter = (task) => new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day) >= new DateTime(task.StartDate.Year, task.StartDate.Month, task.StartDate.Day) 
+                                   && new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day) <= new DateTime(task.EndDate.Year, task.EndDate.Month, task.EndDate.Day);
 
             TaskListChanged += RefreshTaskList;
             CloseWrapEvent += WrapBtn_OnClick;
@@ -114,15 +121,6 @@ namespace PlannerView
         public static void SendSnackbar(string message)
         {
             SnackbarNotifyEvent?.Invoke(message);
-
-            var notificationManager = new NotificationManager();
-            
-            notificationManager.Show(new NotificationContent
-            {
-                Title = "Задача добавлена",
-                Message = $"{message}",
-                Type = NotificationType.Information
-            });
         }
 
         public static void ShowWrap(object sender, RoutedEventArgs e)
@@ -154,18 +152,18 @@ namespace PlannerView
         private void AddTaskBtn_Click(object sender, RoutedEventArgs e)
         {
             ShowWrap(sender, e);
-            taskEdit = new TaskEdit();
-            taskEdit.ShowInTaskbar = false;
-            taskEdit.IsOpen = true;
+            _taskEdit = new TaskEdit();
+            _taskEdit.ShowInTaskbar = false;
+            _taskEdit.IsOpen = true;
         }
 
         private void AddCategoryBtn_Click(object sender, RoutedEventArgs e)
         {
             Wrap.Visibility = Visibility.Visible;
             
-            categoryEdit = new CategoryEdit();
-            categoryEdit.ShowInTaskbar = false;
-            categoryEdit.IsOpen = true;
+            _categoryEdit = new CategoryEdit();
+            _categoryEdit.ShowInTaskbar = false;
+            _categoryEdit.IsOpen = true;
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -184,26 +182,39 @@ namespace PlannerView
                     MenuFilter = (task) => true;
                     break;
                 case "Бессрочные задачи":
-                    MenuFilter = (task) => task.EndTime == DateTime.Parse("2099-01-01 00:00:00");
+                    MenuFilter = (task) => task.EndDate == DateTime.Parse("2099-01-01 00:00:00");
                     break;
                 case "Задачи на сегодня":
-                    MenuFilter = (task) => DateTime.Now >= new DateTime(task.StartTime.Year, task.StartTime.Month, task.StartTime.Day)
-                                           && DateTime.Now <= new DateTime(task.EndTime.Year, task.EndTime.Month, task.EndTime.Day);
+                    MenuFilter = (task) => DateTime.Now >= new DateTime(task.StartDate.Year, task.StartDate.Month, task.StartDate.Day)
+                                           && DateTime.Now <= new DateTime(task.EndDate.Year, task.EndDate.Month, task.EndDate.Day);
                     break;
                 case "Предстоящие задачи":
-                    MenuFilter = (task) => DateTime.Now < task.StartTime;
+                    MenuFilter = (task) => DateTime.Now < task.StartDate;
                     break;
                 case "Выполненные задачи":
                     MenuFilter = (task) => task.IsFinished;
                     break; 
                 case "Просроченные задачи":
-                    MenuFilter = (task) => DateTime.Now > task.EndTime && !task.IsFinished;
+                    MenuFilter = (task) => DateTime.Now > task.EndDate && !task.IsFinished;
                         break; 
                 case "Задачи срочного приоритета":
                     MenuFilter = (task) => task.PriorityId == 3;
                         break;
+                case "Статистика":
+                    Menu.SelectedIndex = 0;
+                    ShowStatsWindow();
+                    break;
             }
             DoRefresh();
+        }
+
+        private void ShowStatsWindow()
+        {
+            Wrap.Visibility = Visibility.Visible;
+
+            _statsWindow = new Stats();
+            _statsWindow.ShowInTaskbar = false;
+            _statsWindow.IsOpen = true;
         }
 
         private void ShowWrapBtn(object sender, RoutedEventArgs e)
@@ -213,21 +224,34 @@ namespace PlannerView
 
         private void WrapBtn_OnClick(object sender, RoutedEventArgs e)
         {
-            if (categoryEdit?.IsOpen ?? false)
+            if (_categoryEdit?.IsOpen ?? false)
             {
-                categoryEdit.IsOpen = false;
+                _categoryEdit.IsOpen = false;
             }
 
-            if (taskEdit?.IsOpen ?? false)
+            if (_taskEdit?.IsOpen ?? false)
             {
-                taskEdit.IsOpen = false;
+                _taskEdit.IsOpen = false;
             }
 
+            if (_statsWindow?.IsOpen ?? false)
+            {
+                _statsWindow.IsOpen = false;
+            }
             Wrap.Visibility = Visibility.Collapsed;
         }
 
         private void SnackbarNotify(string message)
         {
+            //TODO: Перенести в отдельную функцию
+            _notificationManager = new NotificationManager();
+            _notificationManager.Show(new NotificationContent
+            {
+                Title = "Задача добавлена",
+                Message = $"{message}",
+                Type = NotificationType.Information
+            });
+
             var messageQueue = Snackbar.MessageQueue;
             Task.Factory.StartNew(() => messageQueue.Enqueue(message));
         }
@@ -274,15 +298,15 @@ namespace PlannerView
             if (_isFinishedFilter)
                 _tasksCollection = _tasksCollection.Where(task => task.IsFinished);
             if (_isOverdueFilter)
-                _tasksCollection = _tasksCollection.Where(task => DateTime.Now > task.EndTime);
+                _tasksCollection = _tasksCollection.Where(task => DateTime.Now > task.EndDate);
             if (_priorityIdFilter > 0)
                 _tasksCollection = _tasksCollection.Where(task => task.PriorityId == _priorityIdFilter);
             if (_categoryIdFilter > 0)
                 _tasksCollection = _tasksCollection.Where(task => task.CategoryId == _categoryIdFilter);
             if (_startDate != default)
-                _tasksCollection = _tasksCollection.Where(task => task.StartTime >= _startDate);
+                _tasksCollection = _tasksCollection.Where(task => task.StartDate >= _startDate);
             if (_endDate != default)
-                _tasksCollection = _tasksCollection.Where(task => task.EndTime <= _endDate);
+                _tasksCollection = _tasksCollection.Where(task => task.EndDate <= _endDate);
             if (_searchString != default)
             {
                 Regex regex = new Regex($"{_searchString}", RegexOptions.IgnoreCase);
@@ -304,6 +328,11 @@ namespace PlannerView
         {
             Show();
             WindowState = _prevState;
+        }
+
+        private void MainWindow_OnClosed(object sender, EventArgs e)
+        {
+            _notificationManager?.Dispose();
         }
     }
 }

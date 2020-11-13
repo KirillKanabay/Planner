@@ -12,8 +12,10 @@ namespace PlannerModel
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime CreationDate { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public DateTime? FinishDate { get; set; }
+        public bool? IsOverdue { get; set; }
         public int PriorityId { get; set; }
         [ForeignKey("PriorityId")]
         public virtual Priority Priority { get; set; }

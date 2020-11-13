@@ -1,0 +1,61 @@
+﻿<Window x:Class="PlannerView.Windows.Stats"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        mc:Ignorable="d"
+        Title="Stats" Height="450" Width="800" FontFamily="Roboto" WindowStyle="None" AllowsTransparency="True" Background="Transparent" WindowStartupLocation="CenterScreen" Closed="Stats_OnClosed">
+    <Border Background="White" CornerRadius="10">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <!--Заголовок-->
+            <Label x:Name="Title" 
+               Grid.Row="0" 
+               Grid.ColumnSpan="2" 
+               Content="Статистика за XXXXXX месяц" 
+               HorizontalAlignment="Left" FontSize="18" FontWeight="Bold"  FontFamily="Roboto"/>
+            <!--Выбор промежутка времени-->
+            <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Top">
+                <Label Content="Период времени:" ToolTip="Показ статистики по выбранному периоду времени" Margin="0 0 0 0"/>
+                <RadioButton GroupName="DatePeriod" Content="За день" Margin="0 0 20 0" Checked="ToggleButton_OnChecked"/>
+                <RadioButton GroupName="DatePeriod" Content="За неделю" Margin="0 0 20 0" Checked="ToggleButton_OnChecked"/>
+                <RadioButton GroupName="DatePeriod" Content="За месяц" Margin="0 0 20 0" IsChecked="True" Checked="ToggleButton_OnChecked"/>
+            </StackPanel>
+                <!--Диаграмма-->
+            <Label Grid.Row="2" Grid.Column="0" 
+                   FontFamily="Roboto Medium" FontSize="13" 
+                   VerticalAlignment="Top" 
+                   HorizontalAlignment="Center">Диаграмма завершенных и просроченных задач за месяц:</Label>
+            <lvc:CartesianChart 
+            x:Name="Graphic"
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="0 30 0 0"
+            LegendLocation="Top">
+            </lvc:CartesianChart>
+            <Label Grid.Row="2" Grid.Column="1" FontWeight="Bold" 
+                   FontFamily="Roboto Medium" 
+                   FontSize="13"
+                   VerticalAlignment="Top" 
+                   HorizontalAlignment="Center">Круговая диаграмма состояний задач:</Label>
+            <lvc:PieChart x:Name="Chart" Grid.Row="2" Grid.Column="1" LegendLocation="Top" Hoverable="False" DataTooltip="{x:Null}" Margin="0 30 0 0">
+            </lvc:PieChart>
+                <Button Grid.Row="3" Grid.Column="1"  x:Name="Cancel" 
+                        Content="Закрыть" 
+                        VerticalAlignment="Bottom" 
+                        HorizontalAlignment="Right" 
+                        Click="Cancel_Click" 
+                        Style="{DynamicResource MaterialDesignFlatButton}"/>
+        </Grid>
+    </Border>
+</Window>

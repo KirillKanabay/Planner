@@ -61,8 +61,8 @@ namespace PlannerController
             {
                 Name = name,
                 CreationDate = DateTime.Now,
-                StartTime = startTime,
-                EndTime = endTime,
+                StartDate = startTime,
+                EndDate = endTime,
                 PriorityId = priorityId,
                 CategoryId = categoryId
             };
@@ -86,17 +86,17 @@ namespace PlannerController
                 throw new ArgumentException("Название задачи не может быть пустым.");
             }
 
-            if (task.StartTime == null)
+            if (task.StartDate == null)
             {
-                task.StartTime = DateTime.Now;
+                task.StartDate = DateTime.Now;
             }
 
-            if (task.EndTime == null)
+            if (task.EndDate == null)
             {
-                task.EndTime = DateTime.MaxValue;
+                task.EndDate = DateTime.MaxValue;
             }
 
-            if (task.EndTime <= task.StartTime)
+            if (task.EndDate <= task.StartDate)
             {
                 throw new ArgumentException("Время начала задачи не может быть позже даты окончания");
             }
@@ -162,9 +162,11 @@ namespace PlannerController
                         PriorityId = taskContext.PriorityId,
                         Priority = priorityController.GetPriority(taskContext.PriorityId),
                         CreationDate = taskContext.CreationDate,
-                        EndTime = taskContext.EndTime,
+                        EndDate = taskContext.EndDate,
                         IsFinished = taskContext.IsFinished,
-                        StartTime = taskContext.StartTime
+                        StartDate = taskContext.StartDate,
+                        FinishDate = taskContext.FinishDate,
+                        IsOverdue = taskContext.IsOverdue
                 }; 
                     tasks.Add(task);
                 }
@@ -177,6 +179,7 @@ namespace PlannerController
             using (var context = new PlannerContext())
             {
                 var task = context.Tasks.FirstOrDefault(x => x.Id == taskId);
+                task.FinishDate = DateTime.Now;
                 task.IsFinished = true;
                 context.SaveChanges();
             }
@@ -191,8 +194,8 @@ namespace PlannerController
                 var task = context.Tasks.FirstOrDefault(x => x.Id == editedTask.Id);
                 task.Name = editedTask.Name;
                 task.CreationDate = editedTask.CreationDate;
-                task.StartTime = editedTask.StartTime;
-                task.EndTime = editedTask.EndTime;
+                task.StartDate = editedTask.StartDate;
+                task.EndDate = editedTask.EndDate;
                 task.PriorityId = editedTask.PriorityId;
                 task.CategoryId = editedTask.CategoryId;
                 context.SaveChanges();

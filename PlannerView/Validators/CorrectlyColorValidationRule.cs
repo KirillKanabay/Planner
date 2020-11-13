@@ -13,7 +13,7 @@ namespace PlannerView.Validators
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            return !ColorLibrary.IsHexColor((value ?? "").ToString())
+            return !ColorExtensions.IsHexColor((value ?? "").ToString())
                 ? new ValidationResult(false, "Неправильно заполнено поле цвета")
                 : ValidationResult.ValidResult;
         }

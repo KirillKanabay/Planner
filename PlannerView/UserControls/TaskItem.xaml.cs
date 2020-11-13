@@ -36,18 +36,18 @@ namespace PlannerView
                 TaskGrid.Opacity = 0.6;
                 TaskName.TextDecorations = TextDecorations.Strikethrough;
                 FinishTaskBtn.Content = "Завершена";
-                FinishTaskBtn.Background = new SolidColorBrush(ColorLibrary.GetColor("#FF000000"));
-                FinishTaskBtn.BorderBrush = new SolidColorBrush(ColorLibrary.GetColor("#FF000000"));
+                FinishTaskBtn.Background = new SolidColorBrush(ColorExtensions.GetColor("#FF000000"));
+                FinishTaskBtn.BorderBrush = new SolidColorBrush(ColorExtensions.GetColor("#FF000000"));
                 FinishTaskBtn.IsEnabled = false;
             }
-            StartDate.Content = (Task.StartTime == DateTime.Parse("1980-01-01 00:00:00")) ? "-" 
-                : Task.StartTime.ToString("g");
-            EndDate.Content = (Task.EndTime == DateTime.Parse("2099-01-01 00:00:00")) ? "Бессрочная"
-                : Task.EndTime.ToString("g");
+            StartDate.Content = (Task.StartDate == DateTime.Parse("1980-01-01 00:00:00")) ? "-" 
+                : Task.StartDate.ToString("g");
+            EndDate.Content = (Task.EndDate == DateTime.Parse("2099-01-01 00:00:00")) ? "Бессрочная"
+                : Task.EndDate.ToString("g");
 
-            PriorityBackground.Background = new SolidColorBrush(ColorLibrary.GetColor(priority.Color));
+            PriorityBackground.Background = new SolidColorBrush(ColorExtensions.GetColor(priority.Color));
             
-            CategoryBackground.Background = new SolidColorBrush(ColorLibrary.GetColor(category.Color));
+            CategoryBackground.Background = new SolidColorBrush(ColorExtensions.GetColor(category.Color));
 
             Priority.Content = priority.Name;
             Category.Content = category.Name;

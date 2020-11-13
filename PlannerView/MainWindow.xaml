@@ -14,7 +14,7 @@
         WindowStartupLocation="CenterScreen" 
         SizeToContent="WidthAndHeight" 
         FontFamily="Roboto" 
-        StateChanged="MainWindow_OnStateChanged" WindowStyle="ThreeDBorderWindow" ResizeMode="CanMinimize">
+        StateChanged="MainWindow_OnStateChanged" WindowStyle="ThreeDBorderWindow" ResizeMode="CanMinimize" Closed="MainWindow_OnClosed">
     <Window.Resources>
         <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
@@ -40,9 +40,6 @@
                         <Setter Property="Background" Value="#33393939"/>
                     </Trigger>
                 </Style.Triggers>
-            </Style>
-            <Style x:Key="SeparatorStyle" TargetType="{x:Type Separator}">
-                <Setter Property="Height" Value="20"/>
             </Style>
         </ResourceDictionary>
     </Window.Resources>
@@ -109,6 +106,13 @@
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="CalendarStar" Foreground="#383838"  Margin="0 4"/>
                         <Label FontSize="14">Задачи срочного приоритета</Label>
+                    </StackPanel>
+                </ListBoxItem>
+                <Separator></Separator>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="CalendarStar" Foreground="#383838"  Margin="0 4"/>
+                        <Label FontSize="14">Статистика</Label>
                     </StackPanel>
                 </ListBoxItem>
             </ListBox>

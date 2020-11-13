@@ -100,10 +100,10 @@ namespace PlannerView.Windows
 
         private void CategoryEdit_OnClosed(object sender, EventArgs e)
         {
-            if (MainWindow.taskEdit?.IsOpen ?? false)
+            if (MainWindow._taskEdit?.IsOpen ?? false)
             {
                 TaskEdit.DoRefreshCategoryList();
-                MainWindow.taskEdit.Show();
+                MainWindow._taskEdit.Show();
             }
             else
             {

@@ -34,7 +34,7 @@ namespace PlannerController
             {
                 throw new ArgumentException("Название категории не может быть пустым.");
             }
-            if (!ColorLibrary.IsHexColor(color))
+            if (!ColorExtensions.IsHexColor(color))
             {
                 throw new ArgumentException("Неправильный формат цвета.");
             }
@@ -83,7 +83,7 @@ namespace PlannerController
 
         public Category GetCategory(int id)
         {
-            return Items[id - 1];
+            return Items.SingleOrDefault(item => item.Id == id);
         }
     }
 }

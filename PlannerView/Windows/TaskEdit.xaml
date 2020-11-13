@@ -31,7 +31,7 @@
                 <RowDefinition Height="0.5*"/>
             </Grid.RowDefinitions>
             <!--Заголовок-->
-            <TextBlock Grid.Row="0" FontSize="18" FontFamily="Roboto Medium">Редактор задач</TextBlock>
+            <TextBlock Grid.Row="0" FontSize="18" FontWeight="Bold"  FontFamily="Roboto">Редактор задач</TextBlock>
             <!--Поле ввода названии задачи-->
             <TextBox 
             materialDesign:HintAssist.Hint="Название задачи" 
@@ -56,7 +56,7 @@
                             materialDesign:HintAssist.FloatingScale="1"
                             Style="{StaticResource MaterialDesignFloatingHintDatePicker}">
                         <DatePicker.SelectedDate>
-                            <Binding Path="StartTime" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="StartDate" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
                                     <validators:DateValidationRule ValidatesOnTargetUpdated="True" />
                                 </Binding.ValidationRules>
@@ -86,7 +86,7 @@
                             Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
                             materialDesign:HintAssist.Hint="Дата окончания">
                         <DatePicker.SelectedDate>
-                            <Binding Path="EndTime" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                            <Binding Path="EndDate" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
                                 <Binding.ValidationRules>
                                     <validators:DateValidationRule ValidatesOnTargetUpdated="True" />
                                 </Binding.ValidationRules>
