@@ -64,7 +64,40 @@ namespace PlannerView
         private DateTime _startDate = default;
         private DateTime _endDate = default;
 
-        public Func<PlannerModel.Task, bool> MenuFilter;
+        /// <summary>
+        /// Главный фильтр меню
+        /// </summary>
+        private Func<PlannerModel.Task, bool> _menuFilterMain;
+        /// <summary>
+        /// Фильтр: все задачи
+        /// </summary>
+        private readonly Func<PlannerModel.Task, bool> _menuFilterAllTask = (task) => true;
+        /// <summary>
+        /// Фильтр: Задачи на сегодня
+        /// </summary>
+        private readonly Func<PlannerModel.Task, bool> _menuFilterTodayTask = (task) => DateTime.Today >= new DateTime(task.StartDate.Year, task.StartDate.Month, task.StartDate.Day)
+                                                                               && DateTime.Today <= new DateTime(task.EndDate.Year, task.EndDate.Month, task.EndDate.Day);
+        /// <summary>
+        /// Фильтр: Бессрочные задачи
+        /// </summary>
+        private readonly Func<PlannerModel.Task, bool> _menuFilterTermlessTask = (task) => task.EndDate == DateTime.Parse("2099-01-01 00:00:00");
+        /// <summary>
+        /// Фильтр: Предстоящие задачи
+        /// </summary>
+        private readonly Func<PlannerModel.Task, bool> _menuFilterFutureTask = (task) => DateTime.Now < task.StartDate;
+        /// <summary>
+        /// Фильтр: Завершенные задачи
+        /// </summary>
+        private readonly Func<PlannerModel.Task, bool> _menuFilterFinishedTask = (task) => task.IsFinished;
+        /// <summary>
+        /// Фильтр: Просроченные задачи
+        /// </summary>
+        private readonly Func<PlannerModel.Task, bool> _menuFilterOverdueTask = (task) => task.IsOverdue;
+        /// <summary>
+        /// Фильтр: Задачи срочного приоритета
+        /// </summary>
+        private readonly Func<PlannerModel.Task, bool> _menuFilterImmediateTask = (task) => task.PriorityId == 3;
+
         #endregion
 
         #region Трей
@@ -83,8 +116,8 @@ namespace PlannerView
         public MainWindow()
         {
             InitializeComponent();
-            MenuFilter = (task) => new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day) >= new DateTime(task.StartDate.Year, task.StartDate.Month, task.StartDate.Day) 
-                                   && new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day) <= new DateTime(task.EndDate.Year, task.EndDate.Month, task.EndDate.Day);
+            //Определяем стандартный фильтр меню
+            _menuFilterMain = _menuFilterTodayTask;
 
             TaskListChanged += RefreshTaskList;
             CloseWrapEvent += WrapBtn_OnClick;
@@ -117,7 +150,12 @@ namespace PlannerView
 
             DoRefresh();
         }
+
+        public void CountTaskForMenu()
+        {
         
+        }
+
         public static void SendSnackbar(string message)
         {
             SnackbarNotifyEvent?.Invoke(message);
@@ -179,26 +217,25 @@ namespace PlannerView
             switch (label.Content.ToString())
             {
                 case "Все задачи":
-                    MenuFilter = (task) => true;
+                    _menuFilterMain = _menuFilterAllTask;
                     break;
                 case "Бессрочные задачи":
-                    MenuFilter = (task) => task.EndDate == DateTime.Parse("2099-01-01 00:00:00");
+                    _menuFilterMain = _menuFilterTermlessTask;
                     break;
                 case "Задачи на сегодня":
-                    MenuFilter = (task) => DateTime.Now >= new DateTime(task.StartDate.Year, task.StartDate.Month, task.StartDate.Day)
-                                           && DateTime.Now <= new DateTime(task.EndDate.Year, task.EndDate.Month, task.EndDate.Day);
+                    _menuFilterMain = _menuFilterTodayTask;
                     break;
                 case "Предстоящие задачи":
-                    MenuFilter = (task) => DateTime.Now < task.StartDate;
+                    _menuFilterMain = _menuFilterFutureTask;
                     break;
                 case "Выполненные задачи":
-                    MenuFilter = (task) => task.IsFinished;
+                    _menuFilterMain = _menuFilterFinishedTask;
                     break; 
                 case "Просроченные задачи":
-                    MenuFilter = (task) => DateTime.Now > task.EndDate && !task.IsFinished;
+                    _menuFilterMain = _menuFilterOverdueTask;
                         break; 
                 case "Задачи срочного приоритета":
-                    MenuFilter = (task) => task.PriorityId == 3;
+                    _menuFilterMain = _menuFilterImmediateTask;
                         break;
                 case "Статистика":
                     Menu.SelectedIndex = 0;
@@ -240,7 +277,10 @@ namespace PlannerView
             }
             Wrap.Visibility = Visibility.Collapsed;
         }
-
+        /// <summary>
+        /// Уведомление о событиях в приложении
+        /// </summary>
+        /// <param name="message"></param>
         private void SnackbarNotify(string message)
         {
             //TODO: Перенести в отдельную функцию
@@ -255,17 +295,22 @@ namespace PlannerView
             var messageQueue = Snackbar.MessageQueue;
             Task.Factory.StartNew(() => messageQueue.Enqueue(message));
         }
-
+        /// <summary>
+        /// Обработчик поиска
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Search_OnKeyDown(object sender, KeyEventArgs e)
         {
             _searchString = SearchBox.Text.ToLower();
             DoRefresh();
         }
         #region Фильтрация
-
-        
-       
-
+        /// <summary>
+        /// Обработчик события установки фильтра
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AcceptFilter_OnClick(object sender, RoutedEventArgs e)
         {
             FilterPopupBox.IsPopupOpen = false;
@@ -292,7 +337,7 @@ namespace PlannerView
 
         public void Filter()
         {
-            _tasksCollection = _tasksCollection.Where(MenuFilter);
+            _tasksCollection = _tasksCollection.Where(_menuFilterMain);
             if (_isNotFinishedFilter)
                 _tasksCollection = _tasksCollection.Where(task => !task.IsFinished);
             if (_isFinishedFilter)

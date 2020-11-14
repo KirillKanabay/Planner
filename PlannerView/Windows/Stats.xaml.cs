@@ -82,19 +82,20 @@ namespace PlannerView.Windows
             _startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             _daysInPeriod = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
             _endDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, _daysInPeriod);
-
+            
+            Chart.Series = GetChartCollection();
+            
             UpdateStats();
 
             DataContext = this;
         }
-
+        
         private void UpdateStats()
         {
             //Если на момент вызова метода, контроллер не объявлен, выходим
             if(_taskController == null)
                 return;
             Title.Content = _title;
-            Chart.Series = GetChartCollection();
             _axesCollection = new AxesCollection()
             {
                 GetDaysOfMonthAxis()
@@ -107,7 +108,7 @@ namespace PlannerView.Windows
         {
             _allTaskCount = _tasksCollection.Count();
 
-            _isOverdueTasksCount = _tasksCollection.Count(task => task.IsOverdue ?? false);
+            _isOverdueTasksCount = _tasksCollection.Count(task => task.IsOverdue);
             _isFinishedTasksCount = _tasksCollection.Count(task => task.IsFinished);
             _inProcessTasksCount = _allTaskCount - (_isOverdueTasksCount + _isFinishedTasksCount);
 
@@ -158,7 +159,7 @@ namespace PlannerView.Windows
                     }));
 
                     overdueTasksCount.Values.Add(_tasksCollection.Count(task =>
-                        (task.IsOverdue ?? false) 
+                        (task.IsOverdue) 
                         && new DateTime(task.EndDate.Year, task.EndDate.Month, task.EndDate.Day, task.EndDate.Hour,0,0) == date));
                 }
             }
@@ -173,11 +174,10 @@ namespace PlannerView.Windows
                     }));
 
                     overdueTasksCount.Values.Add(_tasksCollection.Count(task =>
-                        (task.IsOverdue ?? false) && new DateTime(task.EndDate.Year, task.EndDate.Month, task.EndDate.Day) == date));
+                        (task.IsOverdue) && new DateTime(task.EndDate.Year, task.EndDate.Month, task.EndDate.Day) == date));
                 }
             }
             
-
             return new SeriesCollection()
             {
                 finishedTasksCount,

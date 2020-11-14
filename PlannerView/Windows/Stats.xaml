@@ -10,12 +10,12 @@
         <Grid Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"></RowDefinition>
-                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="25"></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition Height="50"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="450"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <!--Заголовок-->
@@ -25,32 +25,42 @@
                Content="Статистика за XXXXXX месяц" 
                HorizontalAlignment="Left" FontSize="18" FontWeight="Bold"  FontFamily="Roboto"/>
             <!--Выбор промежутка времени-->
-            <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Top">
-                <Label Content="Период времени:" ToolTip="Показ статистики по выбранному периоду времени" Margin="0 0 0 0"/>
-                <RadioButton GroupName="DatePeriod" Content="За день" Margin="0 0 20 0" Checked="ToggleButton_OnChecked"/>
-                <RadioButton GroupName="DatePeriod" Content="За неделю" Margin="0 0 20 0" Checked="ToggleButton_OnChecked"/>
-                <RadioButton GroupName="DatePeriod" Content="За месяц" Margin="0 0 20 0" IsChecked="True" Checked="ToggleButton_OnChecked"/>
-            </StackPanel>
-                <!--Диаграмма-->
-            <Label Grid.Row="2" Grid.Column="0" 
+            <Border Grid.Row="1" Grid.RowSpan="2" BorderThickness="0 0 1 0" BorderBrush="#55393939">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="25"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Top">
+                        <Label Content="Период времени:" ToolTip="Показ статистики по выбранному периоду времени" Margin="0 0 0 0"/>
+                        <RadioButton GroupName="DatePeriod" Content="За день" Margin="0 0 20 0" Checked="ToggleButton_OnChecked"/>
+                        <RadioButton GroupName="DatePeriod" Content="За неделю" Margin="0 0 20 0" Checked="ToggleButton_OnChecked"/>
+                        <RadioButton GroupName="DatePeriod" Content="За месяц" Margin="0 0 20 0" IsChecked="True" Checked="ToggleButton_OnChecked"/>
+                    </StackPanel>
+                    <!--Диаграмма-->
+                    <Label Grid.Row="0" Grid.Column="0" 
                    FontFamily="Roboto Medium" FontSize="13" 
                    VerticalAlignment="Top" 
-                   HorizontalAlignment="Center">Диаграмма завершенных и просроченных задач за месяц:</Label>
-            <lvc:CartesianChart 
+                   HorizontalAlignment="Left">Диаграмма завершенных и просроченных задач за месяц:</Label>
+                    <lvc:CartesianChart 
             x:Name="Graphic"
             Grid.Row="2"
             Grid.Column="0"
-            Margin="0 30 0 0"
-            LegendLocation="Top">
-            </lvc:CartesianChart>
-            <Label Grid.Row="2" Grid.Column="1" FontWeight="Bold" 
+            Margin="0,9.8,0,-0.4"
+            LegendLocation="Top" Grid.RowSpan="2">
+                    </lvc:CartesianChart>
+                </Grid>
+            </Border>
+            <Label Grid.Row="1" Grid.Column="1" FontWeight="Bold" 
                    FontFamily="Roboto Medium" 
                    FontSize="13"
                    VerticalAlignment="Top" 
-                   HorizontalAlignment="Center">Круговая диаграмма состояний задач:</Label>
-            <lvc:PieChart x:Name="Chart" Grid.Row="2" Grid.Column="1" LegendLocation="Top" Hoverable="False" DataTooltip="{x:Null}" Margin="0 30 0 0">
+                   HorizontalAlignment="Center" Content="Общая круговая диаграмма состояний задач:"/>
+            <lvc:PieChart x:Name="Chart" Grid.Row="1" Grid.Column="1" LegendLocation="Top" Hoverable="False" DataTooltip="{x:Null}" Margin="0,24.6,0,0" Grid.RowSpan="2">
             </lvc:PieChart>
-                <Button Grid.Row="3" Grid.Column="1"  x:Name="Cancel" 
+            <Button Grid.Row="3" Grid.Column="1"  x:Name="Cancel" 
                         Content="Закрыть" 
                         VerticalAlignment="Bottom" 
                         HorizontalAlignment="Right" 
