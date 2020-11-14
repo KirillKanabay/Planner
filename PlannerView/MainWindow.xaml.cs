@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -151,10 +152,11 @@ namespace PlannerView
             PrioritiesBox.SelectedIndex = 0;
             CategoriesBox.SelectedIndex = 0;
 
+            // устанавливаем метод обратного вызова
             DoRefresh();
         }
 
-        public void CountTaskForMenu()
+        private void CountTaskForMenu()
         {
             AllTaskMenuCount.Content = $"({_tasksCollection.Count(task => !task.IsFinished)})";
             TermlessTaskMenuCount.Content = $"({_tasksCollection.Where(task => !task.IsFinished).Count(_menuFilterTermlessTask)})";
@@ -183,6 +185,21 @@ namespace PlannerView
             TaskListChanged?.Invoke();
         }
 
+        private void MarkOverdueTasks()
+        {
+            foreach (var task in _tasksCollection)
+            {
+                if (task.EndDate < DateTime.Now && !task.IsFinished)
+                {
+                    _taskController.OverdueTask(task.Id);
+                }
+                else if(task.EndDate > DateTime.Now)
+                {
+                    _taskController.UnoverdueTask(task.Id);
+                }
+            }
+        }
+
         private void RefreshTaskList()
         {
             _taskController = new TaskController();
@@ -196,6 +213,7 @@ namespace PlannerView
             }
             else
             {
+                MarkOverdueTasks();
                 GridEmpty.Visibility = Visibility.Hidden;
                 foreach (var task in _tasksCollection)
                 {

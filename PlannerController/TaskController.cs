@@ -187,6 +187,28 @@ namespace PlannerController
             Tasks = GetTasks();
         }
 
+        public void OverdueTask(int taskId)
+        {
+            using (var context = new PlannerContext())
+            {
+                var task = context.Tasks.FirstOrDefault(x => x.Id == taskId);
+                task.IsOverdue = true;
+                context.SaveChanges();
+            }
+            Tasks = GetTasks();
+        }
+
+        public void UnoverdueTask(int taskId)
+        {
+            using (var context = new PlannerContext())
+            {
+                var task = context.Tasks.FirstOrDefault(x => x.Id == taskId);
+                task.IsOverdue = false;
+                context.SaveChanges();
+            }
+            Tasks = GetTasks();
+        }
+
         public void EditTask(Task editedTask)
         {
             using (var context = new PlannerContext())

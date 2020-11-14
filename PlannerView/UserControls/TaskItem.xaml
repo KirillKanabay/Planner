@@ -71,7 +71,7 @@
                        HorizontalAlignment="Center"
                        BorderThickness="0" 
                        Content="29.10.2020, 19:00"/>
-                <Border Grid.Column="2" Background="#15C651" CornerRadius="12" Height="25" Width="Auto">
+                <Border Grid.Column="2" Background="#15C651" CornerRadius="12" Height="25" Width="Auto" x:Name="BorderEndDate">
                     <Label x:Name="EndDate" 
                            Foreground="#FFFFFF" 
                            Width="Auto" 

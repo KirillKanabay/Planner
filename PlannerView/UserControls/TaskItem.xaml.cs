@@ -31,19 +31,30 @@ namespace PlannerView
            
             
             TaskName.Text = Task.Name;
+
+            StartDate.Content = (Task.StartDate == DateTime.Parse("1980-01-01 00:00:00")) ? "-"
+                : Task.StartDate.ToString("g");
+            EndDate.Content = (Task.EndDate == DateTime.Parse("2099-01-01 00:00:00")) ? "Бессрочная"
+                : Task.EndDate.ToString("g");
+
             if (Task.IsFinished)
             {
                 TaskGrid.Opacity = 0.6;
+                TaskGrid.Background = new SolidColorBrush(ColorExtensions.GetColor("#3015C651"));
                 TaskName.TextDecorations = TextDecorations.Strikethrough;
                 FinishTaskBtn.Content = "Завершена";
                 FinishTaskBtn.Background = new SolidColorBrush(ColorExtensions.GetColor("#FF000000"));
                 FinishTaskBtn.BorderBrush = new SolidColorBrush(ColorExtensions.GetColor("#FF000000"));
                 FinishTaskBtn.IsEnabled = false;
             }
-            StartDate.Content = (Task.StartDate == DateTime.Parse("1980-01-01 00:00:00")) ? "-" 
-                : Task.StartDate.ToString("g");
-            EndDate.Content = (Task.EndDate == DateTime.Parse("2099-01-01 00:00:00")) ? "Бессрочная"
-                : Task.EndDate.ToString("g");
+
+            if (Task.IsOverdue)
+            {
+                TaskGrid.Background = new SolidColorBrush(ColorExtensions.GetColor("#55FF6B6B"));
+                TaskGrid.Background = new SolidColorBrush(ColorExtensions.GetColor("#55FF6B6B"));
+                EndDate.Content = "Просрочена";
+                BorderEndDate.Background = new SolidColorBrush(ColorExtensions.GetColor("#FFFF6B6B"));
+            }
 
             PriorityBackground.Background = new SolidColorBrush(ColorExtensions.GetColor(priority.Color));
             
