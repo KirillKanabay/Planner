@@ -128,6 +128,9 @@ namespace PlannerView
             _categoryController = new CategoryController();
             _priorityController = new PriorityController();
 
+            _tasksCollection = _taskController.Tasks;
+
+            CountTaskForMenu();
             //Получение списка приоритетов
             
             _categoriesListFilter.Add(new Category() { Name = "Все категории",Id = 0});
@@ -153,7 +156,13 @@ namespace PlannerView
 
         public void CountTaskForMenu()
         {
-        
+            AllTaskMenuCount.Content = $"({_tasksCollection.Count(task => !task.IsFinished)})";
+            TermlessTaskMenuCount.Content = $"({_tasksCollection.Where(task => !task.IsFinished).Count(_menuFilterTermlessTask)})";
+            TodayTaskMenuCount.Content = $"({_tasksCollection.Where(task => !task.IsFinished).Count(_menuFilterTodayTask)})";
+            FutureTaskMenuCount.Content = $"({_tasksCollection.Where(task => !task.IsFinished).Count(_menuFilterFutureTask)})";
+            FinishedTaskMenuCount.Content = $"({_tasksCollection.Count(_menuFilterFinishedTask)})";
+            OverdueTaskMenuCount.Content = $"({_tasksCollection.Where(task => !task.IsFinished).Count(_menuFilterOverdueTask)})";
+            ImmediateTaskMenuCount.Content = $"({_tasksCollection.Where(task => !task.IsFinished).Count(_menuFilterImmediateTask)})";
         }
 
         public static void SendSnackbar(string message)
@@ -179,13 +188,23 @@ namespace PlannerView
             _taskController = new TaskController();
             TaskList.Children.RemoveRange(0,TaskList.Children.Count);
             _tasksCollection = _taskController.Tasks;
+            CountTaskForMenu();
             Filter();
-            foreach (var task in _tasksCollection)
+            if (!_tasksCollection.Any())
             {
-                //if(taskController.Tasks[i].IsFinished) continue;
-                TaskItem taskItem = new TaskItem(_taskController,task,_categoryController,_priorityController);
-                TaskList.Children.Add(taskItem);
+                GridEmpty.Visibility = Visibility.Visible;
             }
+            else
+            {
+                GridEmpty.Visibility = Visibility.Hidden;
+                foreach (var task in _tasksCollection)
+                {
+                    //if(taskController.Tasks[i].IsFinished) continue;
+                    TaskItem taskItem = new TaskItem(_taskController, task, _categoryController, _priorityController);
+                    TaskList.Children.Add(taskItem);
+                }
+            }
+            
         }
         private void AddTaskBtn_Click(object sender, RoutedEventArgs e)
         {

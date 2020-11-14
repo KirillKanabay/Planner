@@ -21,7 +21,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
+
             <Style BasedOn="{StaticResource MaterialDesignListBoxItem}"
                    TargetType="{x:Type ListBoxItem}">
                 <Setter Property="Height" Value="40"></Setter>
@@ -70,42 +70,49 @@
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="CalendarMonth" Foreground="#383838" Margin="0 4"/>
                         <Label FontSize="14" VerticalContentAlignment="Top">Все задачи</Label>
+                        <Label x:Name="AllTaskMenuCount" FontSize="14" VerticalContentAlignment="Top">(x)</Label>
                     </StackPanel>
                 </ListBoxItem>
                 <ListBoxItem>
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="CalendarSync" Foreground="#383838" Margin="0 4"/>
                         <Label FontSize="14" VerticalContentAlignment="Top">Бессрочные задачи</Label>
+                        <Label x:Name="TermlessTaskMenuCount" FontSize="14" VerticalContentAlignment="Top">(x)</Label>
                     </StackPanel>
                 </ListBoxItem>
                 <ListBoxItem IsSelected="True">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="CalendarToday" Foreground="#383838"  Margin="0 4"/>
                         <Label FontSize="14">Задачи на сегодня</Label>
+                        <Label x:Name="TodayTaskMenuCount" FontSize="14" VerticalContentAlignment="Top">(x)</Label>
                     </StackPanel>
                 </ListBoxItem>
                 <ListBoxItem>
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="CalendarArrowRight" Foreground="#383838" Margin="0 4"/>
                         <Label FontSize="14">Предстоящие задачи</Label>
+                        <Label x:Name="FutureTaskMenuCount" FontSize="14" VerticalContentAlignment="Top">(x)</Label>
                     </StackPanel>
                 </ListBoxItem>
                 <ListBoxItem>
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="CalendarCheck" Foreground="#383838"  Margin="0 4"/>
-                        <Label FontSize="14">Выполненные задачи</Label>
+                        <Label  FontSize="14">Выполненные задачи</Label>
+                        <Label x:Name="FinishedTaskMenuCount" FontSize="14" VerticalContentAlignment="Top">(x)</Label>
                     </StackPanel>
                 </ListBoxItem>
                 <ListBoxItem>
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="CalendarRemove" Foreground="#383838"  Margin="0 4"/>
                         <Label FontSize="14">Просроченные задачи</Label>
+                        <Label x:Name="OverdueTaskMenuCount" FontSize="14" VerticalContentAlignment="Top">(x)</Label>
                     </StackPanel>
                 </ListBoxItem>
                 <ListBoxItem Background="#99DB4C3F">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="CalendarStar" Foreground="#383838"  Margin="0 4"/>
                         <Label FontSize="14">Задачи срочного приоритета</Label>
+                        <Label x:Name="ImmediateTaskMenuCount" FontSize="14" VerticalContentAlignment="Top">(x)</Label>
                     </StackPanel>
                 </ListBoxItem>
                 <Separator></Separator>
@@ -249,7 +256,7 @@
             </UserControl>
             <!-- Список -->
             <Grid Grid.Row="3">
-                <ScrollViewer VerticalScrollBarVisibility="Visible">
+                <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,0,0,-0.4">
                     <StackPanel x:Name="TaskList" 
                         Orientation="Vertical"
                         HorizontalAlignment="Left"
@@ -257,6 +264,17 @@
                     </StackPanel>
                 </ScrollViewer>
             </Grid>
+        </Grid>
+        <Grid Grid.Column="1" x:Name="GridEmpty" HorizontalAlignment="Right" VerticalAlignment="Top" Height="540" Width="1100" Visibility="Visible"  Opacity="0.8">
+            <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 160 0">
+                <Image Source="Resources/Хвост.png" Height="53" Width="30" Canvas.Left="53" Canvas.Top="42"/>
+                <Image Source="Resources/Table.png" HorizontalAlignment="Center" Height="57" Width="144"/>
+                <Image Source="Resources/Cat1.png" Height="84" Width="58" Canvas.Left="44" Canvas.Top="-56"/>
+
+            </Canvas>
+            <Image Source="Resources/Cat2.png" Margin="855,121,-65,247" RenderTransformOrigin="0.497,0.585" >
+            </Image>
+
         </Grid>
         <materialDesign:Snackbar Grid.Column="1"  MessageQueue="{materialDesign:MessageQueue}"
                                  x:Name="Snackbar" HorizontalAlignment="Right"/>
@@ -268,6 +286,6 @@
             TrayLeftMouseDown="NotifyIcon_OnTrayLeftMouseDown"
         />
     </Grid>
-    
+
 </Window> 
  
