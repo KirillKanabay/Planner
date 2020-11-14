@@ -145,7 +145,7 @@ namespace PlannerView.Windows
                     EndDate = TaskModel.EndDate.Add(TaskModel.EndTimeSpan),
                     PriorityId = PrioritiesBox.SelectedIndex + 1,
                     Priority = TaskModel.Priority,
-                    CategoryId = CategoriesBox.SelectedIndex + 1,
+                    CategoryId = CategoryController.GetCategoryByName(CategoriesBox.Text).Id,
                     Category = TaskModel.Category,
                 };
                 

@@ -158,7 +158,7 @@ namespace PlannerController
                         Id = taskContext.Id,
                         Name = taskContext.Name,
                         CategoryId = taskContext.CategoryId,
-                        Category = categoryController.GetCategory(taskContext.CategoryId),
+                        Category = categoryController.GetCategoryById(taskContext.CategoryId),
                         PriorityId = taskContext.PriorityId,
                         Priority = priorityController.GetPriority(taskContext.PriorityId),
                         CreationDate = taskContext.CreationDate,

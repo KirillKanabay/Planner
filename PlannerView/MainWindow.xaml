@@ -122,6 +122,12 @@
                         <Label FontSize="14">Статистика</Label>
                     </StackPanel>
                 </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="CalendarStar" Foreground="#383838"  Margin="0 4"/>
+                        <Label FontSize="14">Диаграмма Ганта</Label>
+                    </StackPanel>
+                </ListBoxItem>
             </ListBox>
         </Grid>
         <!--Планировщик-->

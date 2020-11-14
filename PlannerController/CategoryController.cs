@@ -81,9 +81,14 @@ namespace PlannerController
             return categories;
         }
 
-        public Category GetCategory(int id)
+        public Category GetCategoryById(int id)
         {
             return Items.SingleOrDefault(item => item.Id == id);
+        }
+
+        public Category GetCategoryByName(string name)
+        {
+            return Items.SingleOrDefault(item => item.Name == name);
         }
     }
 }

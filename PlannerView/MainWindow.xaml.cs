@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -193,7 +194,7 @@ namespace PlannerView
                 {
                     _taskController.OverdueTask(task.Id);
                 }
-                else if(task.EndDate > DateTime.Now)
+                else if(task.EndDate > DateTime.Now && !task.IsFinished && task.IsOverdue)
                 {
                     _taskController.UnoverdueTask(task.Id);
                 }
@@ -267,6 +268,7 @@ namespace PlannerView
                     break;
                 case "Выполненные задачи":
                     _menuFilterMain = _menuFilterFinishedTask;
+                    FinishedCheckBox.IsChecked = true;
                     break; 
                 case "Просроченные задачи":
                     _menuFilterMain = _menuFilterOverdueTask;
@@ -372,15 +374,18 @@ namespace PlannerView
             DoRefresh();
         }
 
-        public void Filter()
+        private void Filter()
         {
             _tasksCollection = _tasksCollection.Where(_menuFilterMain);
-            if (_isNotFinishedFilter)
-                _tasksCollection = _tasksCollection.Where(task => !task.IsFinished);
-            if (_isFinishedFilter)
-                _tasksCollection = _tasksCollection.Where(task => task.IsFinished);
-            if (_isOverdueFilter)
-                _tasksCollection = _tasksCollection.Where(task => DateTime.Now > task.EndDate);
+            _tasksCollection = _tasksCollection.Where(task => _isNotFinishedFilter && !task.IsFinished
+                                                            || _isFinishedFilter && task.IsFinished
+                                                            || _isOverdueFilter && task.IsOverdue);
+            //if (_isNotFinishedFilter)
+            //    _tasksCollection = _tasksCollection.Where(task => !task.IsFinished);
+            //if (_isFinishedFilter)
+            //    _tasksCollection = _tasksCollection.Where(task => task.IsFinished);
+            //if (_isOverdueFilter)
+            //    _tasksCollection = _tasksCollection.Where(task => DateTime.Now > task.EndDate);
             if (_priorityIdFilter > 0)
                 _tasksCollection = _tasksCollection.Where(task => task.PriorityId == _priorityIdFilter);
             if (_categoryIdFilter > 0)
@@ -394,9 +399,19 @@ namespace PlannerView
                 Regex regex = new Regex($"{_searchString}", RegexOptions.IgnoreCase);
                 _tasksCollection = _tasksCollection.Where(task => regex.IsMatch(task.Name));
             }
-               
+
+            Sort();
         }
         #endregion
+
+        private void Sort()
+        {
+            _tasksCollection = _tasksCollection.OrderByDescending(task => task.IsOverdue)
+                                                .ThenByDescending(task => task.PriorityId)
+                                                .ThenBy(task => task.Category.Name)
+                                                .ThenBy(task => task.EndDate)
+                                                .ThenBy(task => task.Name);
+        }
 
         private void MainWindow_OnStateChanged(object sender, EventArgs e)
         {

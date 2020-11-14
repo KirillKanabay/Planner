@@ -117,7 +117,7 @@ namespace PlannerView.Windows
             _isFinishedTasks = new ObservableValue(_isFinishedTasksCount);
 
             PointLabel = chartPoint =>
-                string.Format("{0}", (chartPoint.Y>0) ? chartPoint.Y.ToString(): "");
+                string.Format("{0}({1:P1})", (chartPoint.Y>0) ? chartPoint.Y.ToString(): "",chartPoint.Participation);
 
             return new SeriesCollection()
             {

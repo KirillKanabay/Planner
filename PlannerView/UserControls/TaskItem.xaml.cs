@@ -27,7 +27,7 @@ namespace PlannerView
             TaskController = taskController;
             Task = task;
             var priority = priorityController.GetPriority(Task.PriorityId);
-            var category = categoryController.GetCategory(Task.CategoryId);
+            var category = categoryController.GetCategoryById(Task.CategoryId);
            
             
             TaskName.Text = Task.Name;
