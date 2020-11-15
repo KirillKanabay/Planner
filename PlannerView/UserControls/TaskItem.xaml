@@ -113,12 +113,13 @@
                         x:Name="CategoryBackground" 
                         Background="#15C651" 
                         CornerRadius="12" 
-                        Height="Auto" Margin="0 5 10 5">
+                        Height="{Binding ElementName=Category, Path=ActualHeight}" 
+                        Margin="0 5 10 5">
                     <TextBlock 
                         x:Name="Category"
                         Text="Название категории"
                         Foreground="White"
-                        Width="232" 
+                        Width="280" 
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Center"
                         TextAlignment="Center"

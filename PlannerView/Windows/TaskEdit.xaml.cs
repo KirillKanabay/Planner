@@ -114,7 +114,7 @@ namespace PlannerView.Windows
             EndTime.IsEnabled = true;
             if (TaskModel != null)
             {
-                TaskModel.EndDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day).AddDays(1);
+                TaskModel.EndDate = TaskModel.StartDate.AddDays(1);
                 EndDate.Text = TaskModel.EndDate.ToString("dd/MM/yyyy");
             }
         }

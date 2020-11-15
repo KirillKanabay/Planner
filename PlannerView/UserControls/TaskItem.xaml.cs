@@ -23,9 +23,9 @@ namespace PlannerView
 
         public TaskItem()
         {
-            
+            DataContext = this;
         }
-        public TaskItem(Task task)
+        public TaskItem(Task task):this()
         {
             InitializeComponent();
             _taskController = new TaskController();
