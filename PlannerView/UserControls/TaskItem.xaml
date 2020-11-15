@@ -51,8 +51,8 @@
                                          Width="26" 
                                          Foreground="#FF383838"
                                          Padding="0 0 0 0">
-                    <StackPanel Width="190" Height="60">
-                        <Button x:Name="EditTaskBtn" 
+                    <StackPanel Width="190" Height="90">
+                        <Button x:Name="EditTaskContextBtn" 
                             Height="30" 
                             VerticalContentAlignment="Center"
                             Click="EditTaskBtn_OnClick">
@@ -61,12 +61,20 @@
                                 <Label>Редактировать задачу</Label>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="DeleteTaskBtn"
+                        <Button x:Name="DeleteTaskContextBtn"
                             Height="30" VerticalContentAlignment="Center"
                             Click="DeleteTaskBtn_OnClick">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="Delete" Foreground="#383838"  Margin="0 3"/>
                                 <Label>Удалить задачу</Label>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="FinishTaskContextBtn"
+                                Height="30" VerticalContentAlignment="Center"
+                                Click="FinishTaskButton_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Check" Foreground="#383838"  Margin="0 3"/>
+                                <Label>Завершить задачу</Label>
                             </StackPanel>
                         </Button>
                     </StackPanel>
@@ -129,7 +137,7 @@
                     BorderBrush="#FF15C651"
                     VerticalContentAlignment="Center" 
                     HorizontalContentAlignment="Center" 
-                    Click="Button_Click"/>
+                    Click="FinishTaskButton_Click"/>
             </Grid>
         </Border>
     </Grid>

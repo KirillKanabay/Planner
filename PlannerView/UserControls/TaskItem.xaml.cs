@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using PlannerController;
 using PlannerModel;
+using PlannerView.Helpers;
 using PlannerView.Windows;
 using UtilityLibraries;
 
@@ -69,10 +70,11 @@ namespace PlannerView
         }
 
 
-        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void FinishTaskButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             _taskController.FinishTask(_task.Id);
             MainWindow.DoRefresh();
+            MainWindow.SendSnackbar($"Задача \"{_task.Name}\" завершена.");
         }
 
         private void DeleteTaskBtn_OnClick(object sender, RoutedEventArgs e)
@@ -80,6 +82,7 @@ namespace PlannerView
             PopupBox.IsPopupOpen = false;
             _taskController.DeleteTask(_task.Id);
             MainWindow.DoRefresh();
+            MainWindow.SendSnackbar($"Задача \"{_task.Name}\" удалена.");
         }
 
         private void EditTaskBtn_OnClick(object sender, RoutedEventArgs e)

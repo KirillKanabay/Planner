@@ -69,7 +69,14 @@ namespace PlannerView.Windows
             }
         }
 
-        private string _title;
+        private string title
+        {
+            set
+            {
+                Title.Content = value;
+            }
+        }
+        
         #endregion
 
         public Stats()
@@ -78,7 +85,7 @@ namespace PlannerView.Windows
             _taskController = new TaskController();
             _tasksCollection = _taskController.Tasks;
 
-            _title = $"Статистика за {_startDate.ToString("MMMM")} месяц";
+            title = $"Статистика за {_startDate.ToString("MMMM")} месяц";
             _startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             _daysInPeriod = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
             _endDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, _daysInPeriod);
@@ -95,7 +102,6 @@ namespace PlannerView.Windows
             //Если на момент вызова метода, контроллер не объявлен, выходим
             if(_taskController == null)
                 return;
-            Title.Content = _title;
             _axesCollection = new AxesCollection()
             {
                 GetDaysOfMonthAxis()
@@ -230,6 +236,7 @@ namespace PlannerView.Windows
                     _startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
                     _daysInPeriod = 1;
                     _endDate = _startDate;
+                    title = $"Статистика за {_startDate:d}";
                     break;
 
                 case "За неделю":
@@ -237,15 +244,18 @@ namespace PlannerView.Windows
                     _startDate = new DateTime(_startDate.Year, _startDate.Month, DateTimeExtensions.GetNumberOfMonday(_startDate));
                     _endDate = _startDate.AddDays(6);
                     _daysInPeriod = 7;
+                    title = $"Статистика за {_startDate:d} - {_endDate:d}";
                     break;
 
                 case "За месяц":
                     _startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
                     _daysInPeriod = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
                     _endDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, _daysInPeriod);
+                    title = $"Статистика за {_startDate:MMMM} месяц";
                     break;
             }
             UpdateStats();
         }
+
     }
 }

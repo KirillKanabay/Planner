@@ -43,7 +43,7 @@
                     <Label Grid.Row="0" Grid.Column="0" 
                    FontFamily="Roboto Medium" FontSize="13" 
                    VerticalAlignment="Top" 
-                   HorizontalAlignment="Left">Диаграмма завершенных и просроченных задач за месяц:</Label>
+                   HorizontalAlignment="Left">Диаграмма завершенных и просроченных задач:</Label>
                     <lvc:CartesianChart 
             x:Name="Graphic"
             Grid.Row="2"

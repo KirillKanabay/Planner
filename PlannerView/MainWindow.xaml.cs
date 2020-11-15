@@ -397,7 +397,8 @@ namespace PlannerView
 
         private void Sort()
         {
-            _tasksCollection = _tasksCollection.OrderByDescending(task => task.IsOverdue)
+            _tasksCollection = _tasksCollection.OrderBy(task => task.IsFinished)
+                                                .ThenByDescending(task => task.IsOverdue)
                                                 .ThenByDescending(task => task.PriorityId)
                                                 .ThenBy(task => task.Category.Name)
                                                 .ThenBy(task => task.EndDate)
