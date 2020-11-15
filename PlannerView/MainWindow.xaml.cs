@@ -418,5 +418,69 @@ namespace PlannerView
             if(GridGantt != null)
                 GridGantt.Visibility = Visibility.Hidden;
         }
+
+        private void AllTaskMenuBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Menu.SelectedIndex = 0;
+            _menuFilterMain = _menuFilterAllTask;
+            DoRefresh();
+        }
+
+        private void TermlessTaskMenuBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Menu.SelectedIndex = 1;
+            _menuFilterMain = _menuFilterTermlessTask;
+            DoRefresh();
+        }
+
+        private void TodayTaskMenuBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Menu.SelectedIndex = 2;
+            _menuFilterMain = _menuFilterTodayTask;
+            DoRefresh();
+        }
+
+        private void FutureTaskMenuBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Menu.SelectedIndex = 3;
+            _menuFilterMain = _menuFilterFutureTask;
+            DoRefresh();
+        }
+
+        private void FinishedTaskMenuBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Menu.SelectedIndex = 4;
+            _menuFilterMain = _menuFilterFinishedTask;
+            DoRefresh();
+        }
+
+        private void OverdueTaskMenuBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Menu.SelectedIndex = 5;
+            _menuFilterMain = _menuFilterOverdueTask;
+            DoRefresh();
+        }
+
+        private void ImmediateTaskMenuBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Menu.SelectedIndex = 6;
+            _menuFilterMain = _menuFilterImmediateTask;
+            DoRefresh();
+        }
+
+        private void StatsMenuBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Menu.SelectedIndex = 8;
+        }
+
+        private void GanttMenuBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Menu.SelectedIndex = 9;
+        }
+
+        private void InfoMenuBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Menu.SelectedIndex = 11;
+        }
     }
 }

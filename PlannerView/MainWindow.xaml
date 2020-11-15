@@ -9,7 +9,7 @@
         xmlns:validators="clr-namespace:PlannerView.Validators"
         mc:Ignorable="d"
         x:Name="Window"
-        Title="Planner" Height="800" Width="1198.4" 
+        Title="Planner" Height="672.8" Width="1198.4" 
         WindowStartupLocation="CenterScreen" 
         SizeToContent="WidthAndHeight" 
         StateChanged="MainWindow_OnStateChanged" WindowStyle="ThreeDBorderWindow" ResizeMode="CanMinimize"
@@ -56,15 +56,15 @@
                 Background="Black" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Center"
-                Width="1400" 
-                Height="600" BorderBrush="Black"
-                Click="WrapBtn_OnClick"/>
+                Width="1228"  
+                Height="710" BorderBrush="Black"
+                Click="WrapBtn_OnClick" Margin="2,-67,2,0.2"/>
         </Grid>
         <Grid Grid.Column="0" Background="White">
-            <ListView Margin="0 15">
+            <ListView x:Name="Menu" Margin="0 15">
                 <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
-                    <Button  HorizontalAlignment="Left"
-                             BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112">
+                    <Button x:Name="AllTaskMenuBtn"  HorizontalAlignment="Left"
+                             BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112" Click="AllTaskMenuBtn_Click">
                         <StackPanel Margin="0" Orientation="Vertical">
                             <materialDesign:PackIcon Kind="CalendarMonth" HorizontalAlignment="Center" Height="20" Width="30"/>
                             <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal" Width="auto">Все</TextBlock>
@@ -72,8 +72,8 @@
                     </Button>
                 </ListViewItem>
                 <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
-                    <Button  HorizontalAlignment="Left"
-                             BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112">
+                    <Button x:Name="TermlessTaskMenuBtn" HorizontalAlignment="Left"
+                            BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112" Click="TermlessTaskMenuBtn_Click">
                         <StackPanel Margin="0" Orientation="Vertical">
                             <materialDesign:PackIcon Kind="CalendarSync" HorizontalAlignment="Center" Height="20" Width="30"/>
                             <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">Бессрочные</TextBlock>
@@ -81,8 +81,8 @@
                     </Button>
                 </ListViewItem>
                 <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
-                    <Button  HorizontalAlignment="Left"
-                             BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112">
+                    <Button x:Name="TodayTaskMenuBtn" HorizontalAlignment="Left"
+                             BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112" Click="TodayTaskMenuBtn_Click">
                         <StackPanel Margin="0" Orientation="Vertical">
                             <materialDesign:PackIcon Kind="CalendarToday" HorizontalAlignment="Center" Height="20" Width="30"/>
                             <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">На сегодня</TextBlock>
@@ -90,8 +90,8 @@
                     </Button>
                 </ListViewItem>
                 <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
-                    <Button  HorizontalAlignment="Left"
-                             BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112">
+                    <Button x:Name="FutureTaskMenuBtn" HorizontalAlignment="Left"
+                            BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112" Click="FutureTaskMenuBtn_Click">
                         <StackPanel Margin="0" Orientation="Vertical">
                             <materialDesign:PackIcon Kind="CalendarArrowRight" HorizontalAlignment="Center" Height="20" Width="30"/>
                             <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">Предстоящие</TextBlock>
@@ -99,8 +99,8 @@
                     </Button>
                 </ListViewItem>
                 <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
-                    <Button  HorizontalAlignment="Left"
-                             BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112">
+                    <Button x:Name="FinishedTaskMenuBtn" HorizontalAlignment="Left"
+                            BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112" Click="FinishedTaskMenuBtn_Click">
                         <StackPanel Margin="0" Orientation="Vertical">
                             <materialDesign:PackIcon Kind="CalendarCheck" HorizontalAlignment="Center" Height="20" Width="30"/>
                             <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">Выполненные</TextBlock>
@@ -108,8 +108,8 @@
                     </Button>
                 </ListViewItem>
                 <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
-                    <Button  HorizontalAlignment="Left"
-                             BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112">
+                    <Button x:Name="OverdueTaskMenuBtn" HorizontalAlignment="Left"
+                            BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112" Click="OverdueTaskMenuBtn_Click">
                         <StackPanel Margin="0" Orientation="Vertical">
                             <materialDesign:PackIcon Kind="CalendarRemove" HorizontalAlignment="Center" Height="20" Width="30"/>
                             <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">Просроченные</TextBlock>
@@ -117,8 +117,8 @@
                     </Button>
                 </ListViewItem>
                 <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
-                    <Button  HorizontalAlignment="Left"
-                             BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112">
+                    <Button x:Name="ImmediateTaskMenuBtn" HorizontalAlignment="Left"
+                            BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112" Click="ImmediateTaskMenuBtn_Click">
                         <StackPanel Margin="0" Orientation="Vertical">
                             <materialDesign:PackIcon Kind="CalendarStar" HorizontalAlignment="Center" Height="20" Width="30"/>
                             <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">Срочного приоритета</TextBlock>
@@ -127,8 +127,8 @@
                 </ListViewItem>
                 <Separator></Separator>
                 <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
-                    <Button  HorizontalAlignment="Left"
-                             BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112">
+                    <Button x:Name="StatsMenuBtn" HorizontalAlignment="Left"
+                            BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112" Click="StatsMenuBtn_Click">
                         <StackPanel Margin="0" Orientation="Vertical">
                             <materialDesign:PackIcon Kind="ChartLine" HorizontalAlignment="Center" Height="20" Width="30"/>
                             <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">Статистика</TextBlock>
@@ -136,8 +136,8 @@
                     </Button>
                 </ListViewItem>
                 <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
-                    <Button  HorizontalAlignment="Left"
-                             BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112">
+                    <Button x:Name="GanttMenuBtn" HorizontalAlignment="Left"
+                            BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112" Click="GanttMenuBtn_Click">
                         <StackPanel Margin="0" Orientation="Vertical">
                             <materialDesign:PackIcon Kind="ChartGantt" HorizontalAlignment="Center" Height="20" Width="30"/>
                             <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">Диаграмма Ганта</TextBlock>
@@ -146,8 +146,8 @@
                 </ListViewItem>
                 <Separator></Separator>
                 <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
-                    <Button  HorizontalAlignment="Left"
-                             BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112">
+                    <Button x:Name="InfoMenuBtn" HorizontalAlignment="Left"
+                            BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112" Click="InfoMenuBtn_Click">
                         <StackPanel Margin="0" Orientation="Vertical">
                             <materialDesign:PackIcon Kind="InformationOutline" HorizontalAlignment="Center" Height="20" Width="30"/>
                             <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">О программе</TextBlock>
@@ -157,7 +157,7 @@
             </ListView>
         </Grid>
         <!--Планировщик-->
-        <Grid Grid.Column="1" Margin="20 20 0 20" x:Name="GridMain" HorizontalAlignment="Right" VerticalAlignment="Top" Height="540" Width="1100">
+        <Grid Grid.Column="1" Margin="20 20 0 20" x:Name="GridMain" HorizontalAlignment="Right" VerticalAlignment="Top" Height="600" Width="1100">
             <Grid.RowDefinitions>
                 <RowDefinition Height="35"></RowDefinition>
                 <RowDefinition Height="40"></RowDefinition>
@@ -299,7 +299,131 @@
         </Grid>
         <!--404-->
         <Grid Grid.Column="1" x:Name="GridEmpty" HorizontalAlignment="Right" VerticalAlignment="Top" Height="540" Width="1100" Visibility="Visible"  Opacity="0.8">
-            <Image Source="Resources/404.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="321" Height="375" Margin="0 100 0 0">
+            <Image HorizontalAlignment="Center" VerticalAlignment="Center" Width="700" Height="410" Margin="0 200 0 0">
+                <Image.Source>
+                    <DrawingImage>
+                        <DrawingImage.Drawing>
+                            <DrawingGroup ClipGeometry="M0,0 V500 H500 V0 H0 Z">
+                                <DrawingGroup.Transform>
+                                    <TranslateTransform X="0" Y="0.10000000149011612" />
+                                </DrawingGroup.Transform>
+                                <DrawingGroup Opacity="1">
+                                    <DrawingGroup Opacity="0">
+                                        <DrawingGroup.ClipGeometry>
+                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,0,500,500" />
+                                        </DrawingGroup.ClipGeometry>
+                                    </DrawingGroup>
+                                    <DrawingGroup Opacity="1">
+                                        <DrawingGroup.ClipGeometry>
+                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,0,500,500" />
+                                        </DrawingGroup.ClipGeometry>
+                                        <DrawingGroup Opacity="1">
+                                            <GeometryDrawing Brush="#FFE2E2E2" Geometry="F1 M500,500z M0,0z M417.7,405.4C417.7,405.4 382.8,421.8 359.4,411 336,400.2 263.8,395.4 218.9,405.4 152.3,420.1 132.6,396.1 139.6,380.3L193.4,373.3C193.4,373.3 262.8,375.8 314.8,376.4 366.8,377 415.2,396.7 417.7,405.4z" />
+                                            <GeometryDrawing Brush="#FFE2E2E2" Geometry="F1 M500,500z M0,0z M381.2,353.8C381.2,373.2 318,389 240,389 162,389 98.8,373.2 98.8,353.8 98.8,334.4 162,318.6 240,318.6 318,318.6 381.2,334.3 381.2,353.8z" />
+                                            <GeometryDrawing Brush="#FF3C2A34" Geometry="F1 M500,500z M0,0z M186.9,352.5C186.9,352.5 136.1,363.3 147.3,391.1 155.3,411 249.3,389 296.2,390.1 329.8,390.9 355.9,397.8 365.4,402.3 421.2,428.4 446.4,389.4 384.3,375.3 353.5,368.3 328.8,367.6 294.2,369.3 240.1,371.9 183.2,382.9 180.2,378.2 175.4,370.5 217.3,358.6 217.3,358.6 217.3,358.6 212,343 186.9,352.5z" />
+                                            <GeometryDrawing Brush="#FFE2E2E2" Geometry="F1 M500,500z M0,0z M180.4,155.2C180.4,155.2 170.7,181.9 145.1,222.3 125.2,253.7 92.8,352.9 236.4,360.2 380,367.5 347.7,282.1 334.6,235.8 321.5,189.5 340.5,94.5 284.6,85.9 228.7,77.3 231.7,84.8 211.5,98.1 205.6,102.1 180.4,155.2 180.4,155.2z" />
+                                            <GeometryDrawing Brush="#FFF4EFD7" Geometry="F1 M500,500z M0,0z M339.8,254.2C339.8,254.2 289.9,251.7 284.8,206.6 284.8,206.6 302,247.5 336.6,242.4 336.6,242.4 338.6,249.8 339.8,254.2z" />
+                                            <GeometryDrawing Brush="#FFF4EFD7" Geometry="F1 M500,500z M0,0z M209.5,247C209.5,247 192.2,271.5 171.6,258.5 151,245.5 139.5,232.2 139.5,232.2L147.1,217.5C147.1,217.6,165.2,257.6,209.5,247z" />
+                                            <GeometryDrawing Brush="#FFF4EFD7" Geometry="F1 M500,500z M0,0z M136.7,244.4C136.7,244.4 102,325 197.4,330.3 292.8,335.6 346.9,327.2 345.3,278 345.3,278 363.9,341.4 307.7,354.8 256.7,366.8 181.9,365.4 156,340 130.1,314.6 113.3,279.5 136.7,244.4z" />
+                                            <GeometryDrawing Brush="#FF3C2A34" Geometry="F1 M500,500z M0,0z M291,92.8L362.6,92.2C362.6,92.2,357.2,113.8,292.1,124.2L291,92.8z" />
+                                            <GeometryDrawing Brush="#FFF58981" Geometry="F1 M500,500z M0,0z M308.9,98.8L348.6,100.4C348.6,100.4,334.8,111.3,316,113.8L308.9,98.8z" />
+                                            <GeometryDrawing Brush="#FF3C2A34" Geometry="F1 M500,500z M0,0z M238,95.9L207.1,39.6C207.1,39.6,199.5,82.1,204.1,110.1L238,95.9z" />
+                                            <GeometryDrawing Brush="#FFF58981" Geometry="F1 M500,500z M0,0z M224.8,86.7L211.1,57.8C211.1,57.8 207.7,79.6 206.3,100.6 206.3,100.7 222.8,93.9 224.8,86.7z" />
+                                            <GeometryDrawing Brush="#FF3C2A34" Geometry="F1 M500,500z M0,0z M258.9,82.8C258.9,82.8 277,150.4 238.5,163.7 200,177 180.3,155.1 180.3,155.1 180.3,155.1 189.5,134.1 196.6,116.7 209.4,85.4 241.1,80 258.9,82.8z" />
+                                            <GeometryDrawing Brush="#FF3C2A34" Geometry="F1 M500,500z M0,0z M275.3,84.7C275.3,84.7 257.4,152.5 279.7,166.2 302,179.9 327,162.4 327,162.4 327,162.4 333.2,85 275.3,84.7z" />
+                                            <GeometryDrawing Brush="#FF3C2A34" Geometry="F1 M500,500z M0,0z M257.7,209" />
+                                            <GeometryDrawing Brush="#FF3C2A34" Geometry="F1 M500,500z M0,0z M264.5,168.3L265.1,179.2 267.3,179.8 265.3,168.6 264.5,168.3z" />
+                                            <GeometryDrawing Brush="#FF3C2A34" Geometry="F1 M500,500z M0,0z M288,174.3C288,174.3 274.8,200.6 254.4,188.9 254.4,188.9 270.4,193.4 288,174.3z" />
+                                            <GeometryDrawing Brush="#FFFAB217" Geometry="F1 M500,500z M0,0z M209.6,130.2L247.4,130.4C247.4,130.4 254.2,153.5 230.3,155.3 206.4,157.1 209.6,130.2 209.6,130.2z" />
+                                            <GeometryDrawing Brush="#FF3C2A34" Geometry="F1 M500,500z M0,0z M213.9,126.5L243.4,126.7C243.4,126.7 248.7,144.7 230.1,146.2 211.5,147.7 213.9,126.5 213.9,126.5z" />
+                                            <GeometryDrawing Brush="#FFFFFAEF" Geometry="F1 M500,500z M0,0z M245.3,133.8C245.3,135 244.3,135.9 243.1,135.9 241.9,135.9 241,134.9 241,133.7 241,132.5 242,131.6 243.2,131.6 243.2,131.6 243.2,131.6 243.2,131.6 244.4,131.7 245.3,132.6 245.3,133.8 245.3,133.8 245.3,133.8 245.3,133.8z" />
+                                            <GeometryDrawing Brush="#FFFAB217" Geometry="F1 M500,500z M0,0z M277.2,130.6L315,130.8C315,130.8 321.8,153.9 297.9,155.7 274,157.5 277.2,130.6 277.2,130.6z" />
+                                            <GeometryDrawing Brush="#FF3C2A34" Geometry="F1 M500,500z M0,0z M281.5,126.9L311,127.1C311,127.1 316.3,145.1 297.7,146.6 279.1,148.1 281.5,126.9 281.5,126.9z" />
+                                            <GeometryDrawing Brush="#FFFFFAEF" Geometry="F1 M500,500z M0,0z M313,134.2C313,135.4 312,136.3 310.8,136.3 309.6,136.3 308.7,135.3 308.7,134.1 308.7,132.9 309.7,132 310.9,132 312,132.1 313,133.1 313,134.2z" />
+                                            <GeometryDrawing Brush="#FF6E7C7D" Geometry="F1 M500,500z M0,0z M249.2,150.8C249.2,150.8 238,169.4 208.5,159.5 222.7,163.6 238,160.4 249.2,150.8z" />
+                                            <GeometryDrawing Brush="#FF6E7C7D" Geometry="F1 M500,500z M0,0z M251.6,114.9L251.5,126 207.3,125.7 249.3,123.9 251.6,114.9z" />
+                                            <GeometryDrawing Brush="#FF6E7C7D" Geometry="F1 M500,500z M0,0z M276.3,117.2L277.1,128.2 317,127.8 279.6,126.1 276.3,117.2z" />
+                                            <GeometryDrawing Brush="#FF6E7C7D" Geometry="F1 M500,500z M0,0z M278.8,151C278.8,151 294.9,179.3 314.8,152.9 314.8,152.9 298,175.7 278.8,151z" />
+                                            <GeometryDrawing Brush="#FF3C2A34" Geometry="F1 M500,500z M0,0z M307,96.5C307,96.5 324.7,96.1 329.5,107 329.5,107 317.1,98.1 306.7,98.2 306.7,98.2 322.3,100.4 325.3,110.9 325.3,110.9 314.6,98.3 305,99.9L307,96.5z" />
+                                            <GeometryDrawing Brush="#FF3C2A34" Geometry="F1 M500,500z M0,0z M229.6,88.6C229.6,88.6 221.5,72.9 209.6,73.9 209.6,73.9 223.3,80.5 228.2,89.7 228.2,89.7 218.8,77.1 208.1,79.4 208.1,79.4 224.2,82.7 227.5,92L229.6,88.6z" />
+                                            <GeometryDrawing Brush="#FFDBECCC" Geometry="F1 M500,500z M0,0z M256.1,167.2L186.2,144.8C186.2,144.8,223.5,160,256.1,167.2z" />
+                                            <GeometryDrawing Brush="#FFDBECCC" Geometry="F1 M500,500z M0,0z M256.1,167.2L179.7,163.6C179.8,163.6,221.2,169,256.1,167.2z" />
+                                            <GeometryDrawing Brush="#FFDBECCC" Geometry="F1 M500,500z M0,0z M251.5,168.5L181.3,182C181.3,182,219.9,177.8,251.5,168.5z" />
+                                            <GeometryDrawing Brush="#FFDBECCC" Geometry="F1 M500,500z M0,0z M272.7,162.5L340.5,134.4C340.5,134.4,304.7,152.6,272.7,162.5z" />
+                                            <GeometryDrawing Brush="#FFDBECCC" Geometry="F1 M500,500z M0,0z M272.7,162.5L348.5,152.6C348.5,152.6,307.7,161.4,272.7,162.5z" />
+                                            <GeometryDrawing Brush="#FFDBECCC" Geometry="F1 M500,500z M0,0z M277.4,163.4L348.5,171C348.5,171,309.7,170.1,277.4,163.4z" />
+                                            <GeometryDrawing Brush="#FFDBECCC" Geometry="F1 M500,500z M0,0z M317.2,173.1C317.2,173.1 294.1,175.1 277.9,206.6 277.8,206.6 286.5,169.9 317.2,173.1z" />
+                                            <GeometryDrawing Brush="#FFDBECCC" Geometry="F1 M500,500z M0,0z M316.7,270.6C316.7,270.6 244.8,186.5 172.2,276.7 172.2,276.7 230,196.7 316.7,270.6z" />
+                                            <GeometryDrawing Brush="#FF3C2A34" Geometry="F1 M500,500z M0,0z M128.5,298.9C128.5,298.9 170.4,338.3 163.1,352.2 149.7,378 117.1,358.5 105.9,335.5 91.8,306.7 98.4,271.5 128.5,298.9z" />
+                                            <GeometryDrawing Brush="#FF3C2A34" Geometry="F1 M500,500z M0,0z M337.6,246.5C337.6,246.5 292.8,240.1 285.3,209.8 281.3,193.4 303,174.2 316.8,174.4 330.6,174.6 316.9,191.3 316.8,203.5 316.8,205.3 330.2,209.5 330.2,209.5 330.2,209.5 335.8,233.1 337.6,246.5z" />
+                                            <GeometryDrawing Brush="#FFDF9FA1" Geometry="F1 M500,500z M0,0z M143.4,334.9C143.4,334.9 131.5,313 123.3,322.2 115.1,331.4 127.6,349.5 139.4,350.2 151.2,350.9 143.4,334.9 143.4,334.9z" />
+                                            <GeometryDrawing Brush="#FFDF9FA1" Geometry="F1 M500,500z M0,0z M128.9,306.7C128.9,306.7 133.2,313.5 128.7,314.6 123,315.9 123,299.4 128.9,306.7z" />
+                                            <GeometryDrawing Brush="#FFDF9FA1" Geometry="F1 M500,500z M0,0z M118.6,310.6C118.6,310.6 124.6,316 120.6,318.2 115.4,321.1 110.8,305.3 118.6,310.6z" />
+                                            <GeometryDrawing Brush="#FFDF9FA1" Geometry="F1 M500,500z M0,0z M111.1,319.2C111.1,319.2 118.8,321.5 116.1,325.3 112.6,330 101.8,317.6 111.1,319.2z" />
+                                            <GeometryDrawing Brush="#FF3C2A34" Geometry="F1 M500,500z M0,0z M351.5,298.9C351.5,298.9 309.6,338.3 316.9,352.2 330.3,378 362.9,358.5 374.1,335.5 388.2,306.7 381.6,271.5 351.5,298.9z" />
+                                            <GeometryDrawing Brush="#FFDF9FA1" Geometry="F1 M500,500z M0,0z M336.6,334.9C336.6,334.9 348.5,313 356.7,322.2 364.9,331.4 352.3,349.5 340.6,350.2 328.9,350.9 336.6,334.9 336.6,334.9z" />
+                                            <GeometryDrawing Brush="#FFDF9FA1" Geometry="F1 M500,500z M0,0z M351,306.7C351,306.7 346.8,313.5 351.2,314.6 357,315.9 357,299.4 351,306.7z" />
+                                            <GeometryDrawing Brush="#FFDF9FA1" Geometry="F1 M500,500z M0,0z M361.4,310.6C361.4,310.6 355.4,316 359.4,318.2 364.6,321.1 369.2,305.3 361.4,310.6z" />
+                                            <GeometryDrawing Brush="#FFDF9FA1" Geometry="F1 M500,500z M0,0z M368.9,319.2C368.9,319.2 361.2,321.5 363.9,325.3 367.4,330 378.2,317.6 368.9,319.2z" />
+                                            <GeometryDrawing Brush="#FFF58981" Geometry="F1 M500,500z M0,0z M258,159.9C258,159.9 268.5,154.3 271.3,159.5 271.3,159.5 266.6,171 265.4,171 264.2,171 258,159.9 258,159.9z" />
+                                            <GeometryDrawing Brush="#FF6E7C7D" Geometry="F1 M500,500z M0,0z M244.2,100.9C244.2,100.9 232.9,106 216.9,104.3 216.9,104.3 232.7,109.5 244.2,100.9z" />
+                                            <GeometryDrawing Brush="#FF6E7C7D" Geometry="F1 M500,500z M0,0z M307.7,105.5C307.7,105.5 295.3,105.2 281.6,96.8 281.6,96.8 293.6,108.2 307.7,105.5z" />
+                                            <GeometryDrawing Brush="#FF6E7C7D" Geometry="F1 M500,500z M0,0z M312.6,177.4L302.7,193C302.7,193,313.2,187.8,312.6,177.4z" />
+                                            <GeometryDrawing Brush="#FF6E7C7D" Geometry="F1 M500,500z M0,0z M319.5,180.1L309.6,195.7C309.6,195.7,320.1,190.4,319.5,180.1z" />
+                                            <GeometryDrawing Brush="#FF15C651" Geometry="F1 M500,500z M0,0z M128.2,241.3L332.7,203.2 355.7,335.1 150,373.7 128.2,241.3z" />
+                                            <GeometryDrawing Geometry="F1 M500,500z M0,0z M171.6,258.4C171.6,258.4 189.2,273.8 208.9,247.7 208.9,247.7 187.3,262.1 170.3,250.1L171.6,258.4z">
+                                                <GeometryDrawing.Brush>
+                                                    <SolidColorBrush Color="#FFBC8611" Opacity="0.2" />
+                                                </GeometryDrawing.Brush>
+                                            </GeometryDrawing>
+                                            <GeometryDrawing Brush="#FF3C2A34" Geometry="F1 M500,500z M0,0z M165.6,186.9C165.6,186.9 174.9,210.5 181.3,220.2 187.7,229.9 215.9,239.3 209.5,247.1 209.5,247.1 191.4,266.9 164.3,246.1 151.6,236.4 145.1,222.4 145.1,222.4 145.1,222.4 150.2,206.6 165.6,186.9z" />
+                                            <GeometryDrawing Brush="#FF6E7C7D" Geometry="F1 M500,500z M0,0z M184.9,243.9L201.7,251.7C201.7,251.7,195.1,241.9,184.9,243.9z" />
+                                            <GeometryDrawing Brush="#FF6E7C7D" Geometry="F1 M500,500z M0,0z M189.6,238.7L206.3,246.5C206.4,246.5,199.8,236.7,189.6,238.7z" />
+                                            <DrawingGroup Opacity="1">
+                                                <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M160.5,272.8L161.3,277 155.4,278.1 158.7,296 154.4,296.8 151.1,278.9 145.2,280 144.4,275.8 160.5,272.8z" />
+                                                <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M173,277L177.1,276.2 180,292 175.9,292.8 175.6,290.9C174.7,292.7 173.1,293.7 170.9,294.1 168.8,294.5 166.9,294 165.1,292.7 163.3,291.4 162.2,289.5 161.8,287.2 161.4,284.9 161.8,282.8 163,280.9 164.2,279 165.9,277.9 167.9,277.5 170.1,277.1 172,277.5 173.5,278.8L173,277z M167.6,289.5C168.6,290.2 169.7,290.4 170.9,290.2 172.1,290 173.1,289.4 173.8,288.4 174.5,287.4 174.7,286.3 174.4,285 174.2,283.7 173.5,282.7 172.6,282 171.6,281.3 170.5,281.1 169.2,281.3 167.9,281.5 167,282.1 166.3,283.1 165.6,284.1 165.4,285.2 165.7,286.5 166,287.8 166.6,288.8 167.6,289.5z" />
+                                                <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M198.2,288.6L193.5,289.5 186.5,283.4 187.8,290.5 183.7,291.3 180.8,275.6 184.9,274.8 186.2,281.7 190.3,273.8 195.1,272.9 190.2,281.8 198.2,288.6z" />
+                                                <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M208.6,270.4L211.6,269.8 214.5,285.5 210.5,286.2 208.8,277.3 203.1,287.6 200.1,288.2 197.2,272.5 201.2,271.8 202.9,280.7 208.6,270.4z" />
+                                                <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M232.8,282.2L228.1,283.1 223.8,278.9 221.3,284.3 216.6,285.2 220.9,276.1 214,269.4 218.7,268.5 222.7,272.3 225.1,267.3 229.8,266.4 225.7,275.1 232.8,282.2z" />
+                                                <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M250.4,270.6C252.1,271.1 253.2,272.2 253.5,273.9 253.7,275.2 253.4,276.5 252.5,277.6 251.6,278.7 250.1,279.4 248.1,279.8 244.9,280.4 242.5,279.5 240.9,277.2L243.8,274.6C244.6,275.9 245.8,276.4 247.4,276.1 248.2,276 248.7,275.7 249.1,275.3 249.5,274.9 249.6,274.5 249.5,274 249.3,273 248.6,272.7 247.4,272.9L245.2,273.3 244.6,269.8 246.3,269.5C247.5,269.3 248,268.7 247.9,267.7 247.8,267.2 247.6,266.9 247.2,266.7 246.8,266.5 246.3,266.4 245.7,266.6 244.3,266.9 243.5,267.7 243.1,269.1L239.5,267.8C240.2,265.2 242.1,263.6 245,263 246.8,262.7 248.3,262.9 249.5,263.6 250.7,264.3 251.5,265.3 251.7,266.6 251.7,268.4 251.4,269.7 250.4,270.6z" />
+                                                <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M265.8,259.8L269.9,259 272.8,274.7 268.7,275.5 268.4,273.6C267.5,275.4 265.9,276.4 263.7,276.8 261.6,277.2 259.7,276.7 257.9,275.4 256.1,274.1 255,272.2 254.6,269.9 254.2,267.6 254.6,265.5 255.8,263.6 257,261.7 258.7,260.6 260.8,260.2 263,259.8 264.9,260.2 266.4,261.5L265.8,259.8z M260.4,272.3C261.4,273 262.5,273.2 263.7,273 264.9,272.8 265.9,272.2 266.6,271.2 267.3,270.2 267.5,269.1 267.3,267.8 267.1,266.5 266.4,265.5 265.5,264.8 264.5,264.1 263.4,263.9 262.1,264.1 260.8,264.3 259.9,264.9 259.2,265.9 258.5,266.9 258.3,268 258.6,269.3 258.8,270.6 259.4,271.6 260.4,272.3z" />
+                                                <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M289.9,267.7L292,267.3 293.5,275.3 289.5,276 288.7,271.8 278.9,273.6 279.7,277.8 275.7,278.5 274.2,270.5 276.1,270.1C276.8,268.6,276.9,266.7,276.4,264.3L275.2,257.9 287.5,255.6 289.9,267.7z M280.6,269.4L286,268.4 284.5,260.1 280,261 280.5,263.7C281,265.9,281,267.8,280.6,269.4z" />
+                                                <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M303.7,252.8L307.8,252 310.7,267.7 306.6,268.5 306.3,266.6C305.4,268.4 303.8,269.4 301.6,269.8 299.5,270.2 297.6,269.7 295.8,268.4 294,267.1 292.9,265.2 292.5,262.9 292.1,260.6 292.5,258.5 293.7,256.6 294.9,254.7 296.6,253.6 298.6,253.2 300.8,252.8 302.7,253.2 304.2,254.5L303.7,252.8z M298.3,265.2C299.3,265.9 300.4,266.1 301.6,265.9 302.9,265.7 303.8,265.1 304.5,264.1 305.2,263.1 305.4,262 305.2,260.7 305,259.4 304.3,258.4 303.4,257.7 302.4,257 301.3,256.8 300,257 298.7,257.2 297.8,257.8 297.1,258.8 296.4,259.8 296.2,260.9 296.5,262.2 296.7,263.6 297.3,264.6 298.3,265.2z" />
+                                                <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M320.7,249.6L324.8,248.8 327.7,264.5 323.6,265.3 322.7,260.3C321.6,260.9 320.4,261.3 319.1,261.6 317.2,262 315.6,261.8 314.3,261 313,260.2 312.1,258.9 311.8,257.1L310.8,251.5 314.9,250.7 315.9,255.9C316.2,257.5 317.3,258.1 319.3,257.7 320.4,257.5 321.4,257.1 322.2,256.5L320.7,249.6z" />
+                                            </DrawingGroup>
+                                            <DrawingGroup Opacity="1">
+                                                <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M188.7,304.6L193,303.8 190.2,320.6C189.4,325.3,187,327.9,183.1,328.4L182.4,324.6C183.5,324.4 184.3,324.1 184.8,323.5 185.3,323 185.7,322.2 185.9,321.1L176.7,306.7 181,305.9 187.2,315.7 188.7,304.6z" />
+                                                <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M213.2,300.1L217.3,299.3 220.2,315 216.1,315.8 215,309.8 208.7,311 209.8,317 205.7,317.8 202.8,302.1 206.9,301.3 208,307.2 214.3,306 213.2,300.1z" />
+                                                <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M232.9,296.4L237,295.6 239.9,311.3 235.8,312.1 235.5,310.2C234.6,312 233,313 230.8,313.4 228.7,313.8 226.8,313.3 225,312 223.2,310.7 222.1,308.8 221.7,306.5 221.3,304.2 221.7,302.1 222.9,300.2 224.1,298.3 225.8,297.2 227.8,296.8 230,296.4 231.9,296.8 233.4,298.1L232.9,296.4z M227.5,308.9C228.5,309.6 229.6,309.8 230.8,309.6 232,309.4 233,308.8 233.7,307.8 234.4,306.8 234.6,305.7 234.4,304.4 234.2,303.1 233.5,302.1 232.6,301.4 231.7,300.7 230.5,300.5 229.2,300.7 227.9,300.9 227,301.5 226.3,302.5 225.6,303.5 225.4,304.6 225.7,305.9 225.9,307.2 226.5,308.2 227.5,308.9z" />
+                                                <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M251.1,309.8C248.7,310.2 246.6,309.8 244.7,308.5 242.8,307.2 241.7,305.4 241.2,303 240.8,300.7 241.2,298.5 242.5,296.6 243.8,294.7 245.6,293.5 248,293.1 249.5,292.8 251,292.9 252.4,293.4 253.8,293.9 254.9,294.7 255.8,295.8L252.7,298.5C252.3,297.9 251.7,297.5 251,297.2 250.3,296.9 249.5,296.9 248.7,297 247.5,297.2 246.6,297.8 245.9,298.8 245.3,299.8 245,300.9 245.3,302.1 245.5,303.3 246.1,304.3 247.1,304.9 248,305.6 249.1,305.8 250.3,305.6 251.1,305.4 251.8,305.1 252.4,304.6 253,304.1 253.4,303.5 253.5,302.8L257.4,304.2C256.9,305.6 256.1,306.7 255,307.7 254,308.9 252.7,309.5 251.1,309.8z" />
+                                                <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M275.7,288.5L279.8,287.7 282.7,303.4 278.6,304.2 277.5,298.2 271.2,299.4 272.3,305.4 268.2,306.2 265.3,290.5 269.4,289.7 270.5,295.6 276.8,294.4 275.7,288.5z" />
+                                                <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M288.7,295.9C289.6,297.8 291.3,298.5 293.7,298 295.3,297.7 296.3,297 296.9,295.8L300.5,297.1C299.4,299.6 297.3,301.2 294.3,301.7 291.7,302.2 289.5,301.8 287.6,300.5 285.7,299.2 284.6,297.4 284.1,295 283.7,292.6 284.1,290.5 285.3,288.6 286.6,286.7 288.4,285.6 290.8,285.1 293.1,284.7 295.2,285.1 297,286.4 298.8,287.7 299.9,289.5 300.3,291.9 300.4,292.4 300.4,293 300.5,293.6L288.7,295.9z M288,292.8L296,291.3C295.6,290.3 294.9,289.6 294.1,289.2 293.3,288.8 292.4,288.7 291.5,288.9 290.4,289.1 289.6,289.5 288.9,290.2 288.4,290.9 288.1,291.8 288,292.8z" />
+                                                <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M313.5,281.5L314.2,285.4 309.3,286.3 311.5,298.1 307.4,298.9 305.2,287.1 300.2,288 299.5,284.1 313.5,281.5z" />
+                                            </DrawingGroup>
+                                        </DrawingGroup>
+                                    </DrawingGroup>
+                                    <DrawingGroup Opacity="0.40000000596046448" Transform="0.983254907563955,-0.182235525492147,0.182235525492147,0.983254907563955,279.223,307.551">
+                                        <DrawingGroup.ClipGeometry>
+                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,0,500,500" />
+                                        </DrawingGroup.ClipGeometry>
+                                        <DrawingGroup Opacity="1" Transform="1,0,0,1,14.399,22.9">
+                                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M3.1,14L10.9,14C12.6,14,14,12.6,14,10.9L14,3.1C14,2.9 14,2.8 14,2.6 15.5,1.4 16.9,0.700000000000001 17.9,1 13.4,-0.899999999999999 7.9,9 6.8,10.9L2.9,5 6.5,7.1C8.3,4.7 10.6,2.6 13.1,0.899999999999999 12.5,0.299999999999999 11.7,-0.100000000000001 10.9,-0.100000000000001L3.1,0C1.4,0,0,1.4,0,3.1L0,10.9C0,12.6 1.4,14 3.1,14 3.1,14 3.1,14 3.1,14L3.1,14z" />
+                                        </DrawingGroup>
+                                        <DrawingGroup Opacity="1">
+                                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M33.3,26C34,26 34.5,26.2 35,26.7 35.5,27.2 35.7,27.7 35.7,28.4 35.7,29.1 35.5,29.6 35,30.1 34.5,30.6 34,30.8 33.3,30.8L32.1,30.8 32.1,33.1 30.7,33.1 30.7,26.1 33.3,26z M33.3,29.4C33.6,29.4 33.8,29.3 34,29.1 34.2,28.9 34.3,28.6 34.3,28.3 34.3,28 34.2,27.7 34,27.5 33.8,27.3 33.6,27.2 33.3,27.2L32.1,27.2 32.1,29.3 33.3,29.4z" />
+                                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M36.5,33L36.5,25.7 37.8,25.7 37.8,33 36.5,33z" />
+                                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M42.8,28L44.1,28 44.1,33 42.8,33 42.8,32.4C42.4,32.9 41.9,33.1 41.2,33.1 40.5,33.1 40,32.8 39.5,32.3 39,31.8 38.8,31.2 38.8,30.4 38.8,29.7 39,29 39.5,28.5 40,28 40.5,27.7 41.2,27.7 41.9,27.7 42.4,27.9 42.8,28.4L42.8,28z M40.4,31.5C40.7,31.8 41,31.9 41.4,31.9 41.8,31.9 42.1,31.8 42.4,31.5 42.7,31.2 42.8,30.9 42.8,30.5 42.8,30.1 42.7,29.7 42.4,29.5 42.1,29.2 41.8,29.1 41.4,29.1 41,29.1 40.7,29.2 40.4,29.5 40.1,29.8 40,30.1 40,30.5 40,30.9 40.2,31.3 40.4,31.5z" />
+                                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M48,27.9C48.5,27.9 49,28.1 49.4,28.4 49.8,28.8 49.9,29.3 49.9,29.9L49.9,33 48.6,33 48.6,30.1C48.6,29.8 48.5,29.5 48.3,29.3 48.1,29.1 47.9,29 47.6,29 47.3,29 47,29.1 46.8,29.3 46.6,29.5 46.5,29.8 46.5,30.2L46.5,32.9 45.2,32.9 45.2,27.9 46.5,27.9 46.5,28.5C46.9,28.1,47.4,27.9,48,27.9z" />
+                                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M53.8,27.9C54.3,27.9 54.8,28.1 55.2,28.4 55.6,28.8 55.7,29.3 55.7,29.9L55.7,33 54.4,33 54.4,30.1C54.4,29.8 54.3,29.5 54.1,29.3 53.9,29.1 53.7,29 53.4,29 53.1,29 52.8,29.1 52.6,29.3 52.4,29.5 52.3,29.8 52.3,30.2L52.3,32.9 51,33 51,28 52.3,28 52.3,28.6C52.6,28.1,53.1,27.9,53.8,27.9z" />
+                                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M57.9,31.1C58.1,31.7 58.5,32 59.3,32 59.8,32 60.2,31.8 60.4,31.5L61.4,32.1C60.9,32.8 60.2,33.2 59.2,33.2 58.4,33.2 57.7,32.9 57.2,32.4 56.7,31.9 56.5,31.3 56.5,30.5 56.5,29.7 56.7,29.1 57.2,28.6 57.7,28.1 58.3,27.8 59.1,27.8 59.8,27.8 60.4,28.1 60.9,28.6 61.4,29.1 61.6,29.7 61.6,30.5 61.6,30.7 61.6,30.8 61.6,31L57.9,31.1z M57.9,30.1L60.5,30.1C60.4,29.8 60.3,29.5 60,29.3 59.8,29.1 59.5,29 59.2,29 58.9,29 58.6,29.1 58.3,29.3 58.1,29.5 57.9,29.7 57.9,30.1z" />
+                                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M500,500z M0,0z M63.9,28.9C64,28.6 64.2,28.3 64.5,28.2 64.8,28 65.1,28 65.4,28L65.4,29.4C65,29.4 64.7,29.4 64.3,29.6 64,29.8 63.8,30.2 63.8,30.6L63.8,33 62.5,33 62.5,28 63.8,28 63.9,28.9z" />
+                                        </DrawingGroup>
+                                    </DrawingGroup>
+                                </DrawingGroup>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+                </Image.Source>
             </Image>
 
         </Grid>
@@ -309,13 +433,13 @@
               x:Name="GridGantt" 
               HorizontalAlignment="Right" 
               VerticalAlignment="Top" 
-              Height="600" 
+              Height="780" 
               Width="1100"
               Visibility="Collapsed">
             <userControls:GanttUserControl>
             </userControls:GanttUserControl>
         </Grid>
-            <materialDesign:Snackbar Grid.Column="1"  MessageQueue="{materialDesign:MessageQueue}"
+        <materialDesign:Snackbar Grid.Column="1"  MessageQueue="{materialDesign:MessageQueue}"
                                      x:Name="Snackbar" HorizontalAlignment="Right"/>
     </Grid>
 

@@ -118,7 +118,7 @@
                         x:Name="Category"
                         Text="Название категории"
                         Foreground="White"
-                        Width="280" 
+                        Width="260" 
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Center"
                         TextAlignment="Center"
