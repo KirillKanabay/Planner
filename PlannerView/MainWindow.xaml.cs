@@ -128,7 +128,7 @@ namespace PlannerView
             //Получение списка приоритетов
             
             _categoriesListFilter.Add(new Category() { Name = "Все категории",Id = 0});
-            foreach(var category in _categoryController.Items)
+            foreach(var category in _categoryController.Categories)
                 _categoriesListFilter.Add(category);
 
             _prioritiesListFilter.Add(new Priority() { Name = "Все приоритеты", Id = 0 });
@@ -149,13 +149,13 @@ namespace PlannerView
 
         private void CountTaskForMenu()
         {
-            AllTaskMenuCount.Content = $"({_tasksCollection.Count(task => !task.IsFinished)})";
-            TermlessTaskMenuCount.Content = $"({_tasksCollection.Where(task => !task.IsFinished).Count(_menuFilterTermlessTask)})";
-            TodayTaskMenuCount.Content = $"({_tasksCollection.Where(task => !task.IsFinished).Count(_menuFilterTodayTask)})";
-            FutureTaskMenuCount.Content = $"({_tasksCollection.Where(task => !task.IsFinished).Count(_menuFilterFutureTask)})";
-            FinishedTaskMenuCount.Content = $"({_tasksCollection.Count(_menuFilterFinishedTask)})";
-            OverdueTaskMenuCount.Content = $"({_tasksCollection.Where(task => !task.IsFinished).Count(_menuFilterOverdueTask)})";
-            ImmediateTaskMenuCount.Content = $"({_tasksCollection.Where(task => !task.IsFinished).Count(_menuFilterImmediateTask)})";
+            //AllTaskMenuCount.Content = $"({_tasksCollection.Count(task => !task.IsFinished)})";
+            //TermlessTaskMenuCount.Content = $"({_tasksCollection.Where(task => !task.IsFinished).Count(_menuFilterTermlessTask)})";
+            //TodayTaskMenuCount.Content = $"({_tasksCollection.Where(task => !task.IsFinished).Count(_menuFilterTodayTask)})";
+            //FutureTaskMenuCount.Content = $"({_tasksCollection.Where(task => !task.IsFinished).Count(_menuFilterFutureTask)})";
+            //FinishedTaskMenuCount.Content = $"({_tasksCollection.Count(_menuFilterFinishedTask)})";
+            //OverdueTaskMenuCount.Content = $"({_tasksCollection.Where(task => !task.IsFinished).Count(_menuFilterOverdueTask)})";
+            //ImmediateTaskMenuCount.Content = $"({_tasksCollection.Where(task => !task.IsFinished).Count(_menuFilterImmediateTask)})";
         }
 
         public static void SendSnackbar(string message)
@@ -234,50 +234,50 @@ namespace PlannerView
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ShowGridMain();
+            //ShowGridMain();
 
-            var item = (ListBox) sender;
-            var lbi = (ListBoxItem) item.SelectedItem;
-            var stackPanel = (StackPanel) lbi?.Content;
-            var label = (Label) stackPanel?.Children[1];
+            //var item = (ListBox) sender;
+            //var lbi = (ListBoxItem) item.SelectedItem;
+            //var stackPanel = (StackPanel) lbi?.Content;
+            //var label = (Label) stackPanel?.Children[1];
             
-            if(label == null)
-                return;
-            TaskTitle.Content = label.Content.ToString();
-            switch (label.Content.ToString())
-            {
-                case "Все задачи":
-                    _menuFilterMain = _menuFilterAllTask;
-                    break;
-                case "Бессрочные задачи":
-                    _menuFilterMain = _menuFilterTermlessTask;
-                    break;
-                case "Задачи на сегодня":
-                    _menuFilterMain = _menuFilterTodayTask;
-                    break;
-                case "Предстоящие задачи":
-                    _menuFilterMain = _menuFilterFutureTask;
-                    break;
-                case "Выполненные задачи":
-                    _menuFilterMain = _menuFilterFinishedTask;
-                    FinishedCheckBox.IsChecked = true;
-                    break; 
-                case "Просроченные задачи":
-                    _menuFilterMain = _menuFilterOverdueTask;
-                        break; 
-                case "Задачи срочного приоритета":
-                    _menuFilterMain = _menuFilterImmediateTask;
-                        break;
-                case "Статистика":
-                    Menu.SelectedIndex = 0;
-                    ShowStatsWindow();
-                    break;
-                case "Диаграмма Ганта":
-                    GridMain.Visibility = Visibility.Hidden;
-                    GridGantt.Visibility = Visibility.Visible;
-                    break;
-            }
-            DoRefresh();
+            //if(label == null)
+            //    return;
+            //TaskTitle.Content = label.Content.ToString();
+            //switch (label.Content.ToString())
+            //{
+            //    case "Все задачи":
+            //        _menuFilterMain = _menuFilterAllTask;
+            //        break;
+            //    case "Бессрочные задачи":
+            //        _menuFilterMain = _menuFilterTermlessTask;
+            //        break;
+            //    case "Задачи на сегодня":
+            //        _menuFilterMain = _menuFilterTodayTask;
+            //        break;
+            //    case "Предстоящие задачи":
+            //        _menuFilterMain = _menuFilterFutureTask;
+            //        break;
+            //    case "Выполненные задачи":
+            //        _menuFilterMain = _menuFilterFinishedTask;
+            //        FinishedCheckBox.IsChecked = true;
+            //        break; 
+            //    case "Просроченные задачи":
+            //        _menuFilterMain = _menuFilterOverdueTask;
+            //            break; 
+            //    case "Задачи срочного приоритета":
+            //        _menuFilterMain = _menuFilterImmediateTask;
+            //            break;
+            //    case "Статистика":
+            //        Menu.SelectedIndex = 0;
+            //        ShowStatsWindow();
+            //        break;
+            //    case "Диаграмма Ганта":
+            //        GridMain.Visibility = Visibility.Hidden;
+            //        GridGantt.Visibility = Visibility.Visible;
+            //        break;
+            //}
+            //DoRefresh();
         }
 
         private void ShowStatsWindow()

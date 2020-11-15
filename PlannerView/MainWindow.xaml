@@ -7,14 +7,13 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:userControls="clr-namespace:PlannerView.UserControls"
         xmlns:validators="clr-namespace:PlannerView.Validators"
-        xmlns:tb="http://www.hardcodet.net/taskbar"
         mc:Ignorable="d"
         x:Name="Window"
-        Title="Planner" Height="600" Width="1400" 
+        Title="Planner" Height="800" Width="1198.4" 
         WindowStartupLocation="CenterScreen" 
         SizeToContent="WidthAndHeight" 
-        FontFamily="Roboto" 
-        StateChanged="MainWindow_OnStateChanged" WindowStyle="ThreeDBorderWindow" ResizeMode="CanMinimize">
+        StateChanged="MainWindow_OnStateChanged" WindowStyle="ThreeDBorderWindow" ResizeMode="CanMinimize"
+        Background="#F6F5F8" FontFamily="SF Pro Display">
     <Window.Resources>
         <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
@@ -45,7 +44,7 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="280"></ColumnDefinition>
+            <ColumnDefinition Width="112"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <!--Обертка-->
@@ -61,75 +60,101 @@
                 Height="600" BorderBrush="Black"
                 Click="WrapBtn_OnClick"/>
         </Grid>
-        <!--Меню-->
-        <Grid Grid.Column="0" Width="280" Background="#FFF3F3F2">
-            <ListBox x:Name="Menu" 
-                     Grid.Column="0" 
-                     SelectionMode="Single" 
-                     SelectionChanged="ListBox_SelectionChanged">
-                <ListBoxItem>
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="CalendarMonth" Foreground="#383838" Margin="0 4"/>
-                        <Label FontSize="14" VerticalContentAlignment="Top">Все задачи</Label>
-                        <Label x:Name="AllTaskMenuCount" FontSize="14" VerticalContentAlignment="Top">(x)</Label>
-                    </StackPanel>
-                </ListBoxItem>
-                <ListBoxItem>
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="CalendarSync" Foreground="#383838" Margin="0 4"/>
-                        <Label FontSize="14" VerticalContentAlignment="Top">Бессрочные задачи</Label>
-                        <Label x:Name="TermlessTaskMenuCount" FontSize="14" VerticalContentAlignment="Top">(x)</Label>
-                    </StackPanel>
-                </ListBoxItem>
-                <ListBoxItem IsSelected="True">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="CalendarToday" Foreground="#383838"  Margin="0 4"/>
-                        <Label FontSize="14">Задачи на сегодня</Label>
-                        <Label x:Name="TodayTaskMenuCount" FontSize="14" VerticalContentAlignment="Top">(x)</Label>
-                    </StackPanel>
-                </ListBoxItem>
-                <ListBoxItem>
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="CalendarArrowRight" Foreground="#383838" Margin="0 4"/>
-                        <Label FontSize="14">Предстоящие задачи</Label>
-                        <Label x:Name="FutureTaskMenuCount" FontSize="14" VerticalContentAlignment="Top">(x)</Label>
-                    </StackPanel>
-                </ListBoxItem>
-                <ListBoxItem>
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="CalendarCheck" Foreground="#383838"  Margin="0 4"/>
-                        <Label  FontSize="14">Выполненные задачи</Label>
-                        <Label x:Name="FinishedTaskMenuCount" FontSize="14" VerticalContentAlignment="Top">(x)</Label>
-                    </StackPanel>
-                </ListBoxItem>
-                <ListBoxItem>
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="CalendarRemove" Foreground="#383838"  Margin="0 4"/>
-                        <Label FontSize="14">Просроченные задачи</Label>
-                        <Label x:Name="OverdueTaskMenuCount" FontSize="14" VerticalContentAlignment="Top">(x)</Label>
-                    </StackPanel>
-                </ListBoxItem>
-                <ListBoxItem Background="#99DB4C3F">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="CalendarStar" Foreground="#383838"  Margin="0 4"/>
-                        <Label FontSize="14">Задачи срочного приоритета</Label>
-                        <Label x:Name="ImmediateTaskMenuCount" FontSize="14" VerticalContentAlignment="Top">(x)</Label>
-                    </StackPanel>
-                </ListBoxItem>
+        <Grid Grid.Column="0" Background="White">
+            <ListView Margin="0 15">
+                <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
+                    <Button  HorizontalAlignment="Left"
+                             BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112">
+                        <StackPanel Margin="0" Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="CalendarMonth" HorizontalAlignment="Center" Height="20" Width="30"/>
+                            <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal" Width="auto">Все</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ListViewItem>
+                <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
+                    <Button  HorizontalAlignment="Left"
+                             BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112">
+                        <StackPanel Margin="0" Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="CalendarSync" HorizontalAlignment="Center" Height="20" Width="30"/>
+                            <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">Бессрочные</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ListViewItem>
+                <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
+                    <Button  HorizontalAlignment="Left"
+                             BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112">
+                        <StackPanel Margin="0" Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="CalendarToday" HorizontalAlignment="Center" Height="20" Width="30"/>
+                            <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">На сегодня</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ListViewItem>
+                <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
+                    <Button  HorizontalAlignment="Left"
+                             BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112">
+                        <StackPanel Margin="0" Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="CalendarArrowRight" HorizontalAlignment="Center" Height="20" Width="30"/>
+                            <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">Предстоящие</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ListViewItem>
+                <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
+                    <Button  HorizontalAlignment="Left"
+                             BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112">
+                        <StackPanel Margin="0" Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="CalendarCheck" HorizontalAlignment="Center" Height="20" Width="30"/>
+                            <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">Выполненные</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ListViewItem>
+                <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
+                    <Button  HorizontalAlignment="Left"
+                             BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112">
+                        <StackPanel Margin="0" Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="CalendarRemove" HorizontalAlignment="Center" Height="20" Width="30"/>
+                            <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">Просроченные</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ListViewItem>
+                <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
+                    <Button  HorizontalAlignment="Left"
+                             BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112">
+                        <StackPanel Margin="0" Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="CalendarStar" HorizontalAlignment="Center" Height="20" Width="30"/>
+                            <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">Срочного приоритета</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ListViewItem>
                 <Separator></Separator>
-                <ListBoxItem>
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="CalendarStar" Foreground="#383838"  Margin="0 4"/>
-                        <Label FontSize="14">Статистика</Label>
-                    </StackPanel>
-                </ListBoxItem>
-                <ListBoxItem>
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="CalendarStar" Foreground="#383838"  Margin="0 4"/>
-                        <Label FontSize="14">Диаграмма Ганта</Label>
-                    </StackPanel>
-                </ListBoxItem>
-            </ListBox>
+                <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
+                    <Button  HorizontalAlignment="Left"
+                             BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112">
+                        <StackPanel Margin="0" Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="ChartLine" HorizontalAlignment="Center" Height="20" Width="30"/>
+                            <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">Статистика</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ListViewItem>
+                <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
+                    <Button  HorizontalAlignment="Left"
+                             BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112">
+                        <StackPanel Margin="0" Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="ChartGantt" HorizontalAlignment="Center" Height="20" Width="30"/>
+                            <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">Диаграмма Ганта</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ListViewItem>
+                <Separator></Separator>
+                <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
+                    <Button  HorizontalAlignment="Left"
+                             BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112">
+                        <StackPanel Margin="0" Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="InformationOutline" HorizontalAlignment="Center" Height="20" Width="30"/>
+                            <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">О программе</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ListViewItem>
+            </ListView>
         </Grid>
         <!--Планировщик-->
         <Grid Grid.Column="1" Margin="20 20 0 20" x:Name="GridMain" HorizontalAlignment="Right" VerticalAlignment="Top" Height="540" Width="1100">

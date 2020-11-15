@@ -40,7 +40,7 @@ namespace PlannerView.UserControls
         {
             InitializeComponent();
             
-            _categoryList = new CategoryController().Items.Skip(1);
+            _categoryList = new CategoryController().Categories.Skip(1);
 
             foreach (var category in _categoryList)
             {
@@ -144,8 +144,5 @@ namespace PlannerView.UserControls
             var handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
-
-
-        
     }
 }

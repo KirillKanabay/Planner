@@ -76,7 +76,7 @@ namespace PlannerView.Windows
             DataContext = TaskModel;
 
             PrioritiesBox.SelectedIndex = PriorityController.Items.IndexOf(t => t.Id == TaskModel.PriorityId);
-            CategoriesBox.SelectedIndex = CategoryController.Items.IndexOf(t => t.Id == TaskModel.CategoryId);
+            CategoriesBox.SelectedIndex = CategoryController.Categories.IndexOf(t => t.Id == TaskModel.CategoryId);
 
             if (TaskModel.EndDate == new DateTime(2099, 1, 1))
             {
@@ -92,7 +92,7 @@ namespace PlannerView.Windows
         private void RefreshCategoryList()
         {
             CategoryController = new CategoryController();
-            CategoriesBox.ItemsSource = CategoryController.Items.Select(item => item.Name);
+            CategoriesBox.ItemsSource = CategoryController.Categories.Select(item => item.Name);
         }
         private void StartTimeToggle_OnChecked(object sender, RoutedEventArgs e)
         {
@@ -130,7 +130,7 @@ namespace PlannerView.Windows
         {
             Hide();
             new CategoryEdit().ShowDialog();
-            CategoriesBox.ItemsSource = CategoryController.Items.Select(item => item.Name);
+            CategoriesBox.ItemsSource = CategoryController.Categories.Select(item => item.Name);
         }
         private void Save_Click(object sender, RoutedEventArgs e)
         {

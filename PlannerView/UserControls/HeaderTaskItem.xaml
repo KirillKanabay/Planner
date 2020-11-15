@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PlannerView.UserControls"
              mc:Ignorable="d" 
-             Width="Auto" Height="Auto" Background="White" 
-             FontFamily="Roboto Medium">
+             Width="Auto" Height="Auto"
+             FontFamily="SF Pro Display">
     <Grid>
         <Border BorderBrush="#33707070" BorderThickness="0 2">
             <Grid VerticalAlignment="Center" Height="Auto">

@@ -14,11 +14,11 @@ namespace PlannerController
         /// <summary>
         /// Список категорий
         /// </summary>
-        public ObservableCollection<Category> Items { get; private set; }
+        public ObservableCollection<Category> Categories { get; private set; }
 
         public CategoryController()
         {
-            Items = GetCategories() ?? new ObservableCollection<Category>();
+            Categories = GetCategories() ?? new ObservableCollection<Category>();
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace PlannerController
         /// <param name="color">Цвет категории</param>
         public CategoryController(string name, string color)
         {
-            Items = GetCategories();
+            Categories = GetCategories();
             #region Проверка условий
             if (string.IsNullOrEmpty(name))
             {
@@ -40,7 +40,7 @@ namespace PlannerController
             }
             #endregion
 
-            var currentCategory = Items.SingleOrDefault(item => item.Name == name);
+            var currentCategory = Categories.SingleOrDefault(item => item.Name == name);
             if (currentCategory == null)
             {
                 AddCategory(new Category(name, color));
@@ -50,7 +50,7 @@ namespace PlannerController
                 throw new ArgumentException("Такая категория уже существует.");
             }
             //Обновляем список категорий
-            Items = GetCategories();
+            Categories = GetCategories();
         }
         /// <summary>
         /// Добавляет категорию в БД
@@ -83,12 +83,12 @@ namespace PlannerController
 
         public Category GetCategoryById(int id)
         {
-            return Items.SingleOrDefault(item => item.Id == id);
+            return Categories.SingleOrDefault(item => item.Id == id);
         }
 
         public Category GetCategoryByName(string name)
         {
-            return Items.SingleOrDefault(item => item.Name == name);
+            return Categories.SingleOrDefault(item => item.Name == name);
         }
     }
 }

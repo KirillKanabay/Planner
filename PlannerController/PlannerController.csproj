@@ -52,7 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CategoryController.cs" />
-    <Compile Include="IController.cs" />
     <Compile Include="Migrations\202011031057438_AddPriorityMigration.cs" />
     <Compile Include="Migrations\202011031057438_AddPriorityMigration.designer.cs">
       <DependentUpon>202011031057438_AddPriorityMigration.cs</DependentUpon>
