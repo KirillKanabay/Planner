@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilityLibraries", "Utility
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlannerView", "PlannerView\PlannerView.csproj", "{DDDC0EC8-5627-4DE3-8FE1-019EE99077D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.Wpf", "Notifications.Wpf\Notifications.Wpf.csproj", "{5C9A4F46-263D-4C23-B361-F09E14BB109E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,16 +60,6 @@ Global
 		{DDDC0EC8-5627-4DE3-8FE1-019EE99077D8}.Release 4.6.1|Any CPU.Build.0 = Release|Any CPU
 		{DDDC0EC8-5627-4DE3-8FE1-019EE99077D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDDC0EC8-5627-4DE3-8FE1-019EE99077D8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C9A4F46-263D-4C23-B361-F09E14BB109E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C9A4F46-263D-4C23-B361-F09E14BB109E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C9A4F46-263D-4C23-B361-F09E14BB109E}.Release 4.0|Any CPU.ActiveCfg = Release 4.0|Any CPU
-		{5C9A4F46-263D-4C23-B361-F09E14BB109E}.Release 4.0|Any CPU.Build.0 = Release 4.0|Any CPU
-		{5C9A4F46-263D-4C23-B361-F09E14BB109E}.Release 4.5|Any CPU.ActiveCfg = Release 4.5|Any CPU
-		{5C9A4F46-263D-4C23-B361-F09E14BB109E}.Release 4.5|Any CPU.Build.0 = Release 4.5|Any CPU
-		{5C9A4F46-263D-4C23-B361-F09E14BB109E}.Release 4.6.1|Any CPU.ActiveCfg = Release 4.6.1|Any CPU
-		{5C9A4F46-263D-4C23-B361-F09E14BB109E}.Release 4.6.1|Any CPU.Build.0 = Release 4.6.1|Any CPU
-		{5C9A4F46-263D-4C23-B361-F09E14BB109E}.Release|Any CPU.ActiveCfg = Release 4.6.1|Any CPU
-		{5C9A4F46-263D-4C23-B361-F09E14BB109E}.Release|Any CPU.Build.0 = Release 4.6.1|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using EO.Internal;
-using MaterialDesignThemes.Wpf;
-using Notifications.Wpf;
 using PlannerController;
 using PlannerModel;
-using PlannerView.Helpers;
-using PlannerView.UserControls;
 using PlannerView.Windows;
 using Task = System.Threading.Tasks.Task;
 
@@ -108,8 +101,6 @@ namespace PlannerView
         #endregion
 
         #region Уведомления
-        private NotificationManager _notificationManager;
-
 
         #endregion
 
@@ -419,10 +410,6 @@ namespace PlannerView
             WindowState = _prevState;
         }
 
-        private void MainWindow_OnClosed(object sender, EventArgs e)
-        {
-            _notificationManager?.Dispose();
-        }
 
         private void ShowGridMain()
         {
