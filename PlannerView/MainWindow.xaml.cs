@@ -14,6 +14,7 @@ using Notifications.Wpf;
 using PlannerController;
 using PlannerModel;
 using PlannerView.Helpers;
+using PlannerView.UserControls;
 using PlannerView.Windows;
 using Task = System.Threading.Tasks.Task;
 
@@ -141,9 +142,7 @@ namespace PlannerView
 
             _prioritiesListFilter.Add(new Priority() { Name = "Все приоритеты", Id = 0 });
             foreach (var priority in _priorityController.Items)
-            {
                 _prioritiesListFilter.Add(priority);
-            }
 
 
             PrioritiesBox.ItemsSource = _prioritiesListFilter.Select(item => item.Name);
@@ -219,7 +218,7 @@ namespace PlannerView
                 foreach (var task in _tasksCollection)
                 {
                     //if(taskController.Tasks[i].IsFinished) continue;
-                    TaskItem taskItem = new TaskItem(_taskController, task, _categoryController, _priorityController);
+                    TaskItem taskItem = new TaskItem(task);
                     TaskList.Children.Add(taskItem);
                 }
             }
@@ -244,6 +243,8 @@ namespace PlannerView
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            ShowGridMain();
+
             var item = (ListBox) sender;
             var lbi = (ListBoxItem) item.SelectedItem;
             var stackPanel = (StackPanel) lbi?.Content;
@@ -279,6 +280,10 @@ namespace PlannerView
                 case "Статистика":
                     Menu.SelectedIndex = 0;
                     ShowStatsWindow();
+                    break;
+                case "Диаграмма Ганта":
+                    GridMain.Visibility = Visibility.Hidden;
+                    GridGantt.Visibility = Visibility.Visible;
                     break;
             }
             DoRefresh();
@@ -322,15 +327,6 @@ namespace PlannerView
         /// <param name="message"></param>
         private void SnackbarNotify(string message)
         {
-            //TODO: Перенести в отдельную функцию
-            _notificationManager = new NotificationManager();
-            _notificationManager.Show(new NotificationContent
-            {
-                Title = "Задача добавлена",
-                Message = $"{message}",
-                Type = NotificationType.Information
-            });
-
             var messageQueue = Snackbar.MessageQueue;
             Task.Factory.StartNew(() => messageQueue.Enqueue(message));
         }
@@ -377,15 +373,10 @@ namespace PlannerView
         private void Filter()
         {
             _tasksCollection = _tasksCollection.Where(_menuFilterMain);
+            
             _tasksCollection = _tasksCollection.Where(task => _isNotFinishedFilter && !task.IsFinished
                                                             || _isFinishedFilter && task.IsFinished
                                                             || _isOverdueFilter && task.IsOverdue);
-            //if (_isNotFinishedFilter)
-            //    _tasksCollection = _tasksCollection.Where(task => !task.IsFinished);
-            //if (_isFinishedFilter)
-            //    _tasksCollection = _tasksCollection.Where(task => task.IsFinished);
-            //if (_isOverdueFilter)
-            //    _tasksCollection = _tasksCollection.Where(task => DateTime.Now > task.EndDate);
             if (_priorityIdFilter > 0)
                 _tasksCollection = _tasksCollection.Where(task => task.PriorityId == _priorityIdFilter);
             if (_categoryIdFilter > 0)
@@ -430,6 +421,14 @@ namespace PlannerView
         private void MainWindow_OnClosed(object sender, EventArgs e)
         {
             _notificationManager?.Dispose();
+        }
+
+        private void ShowGridMain()
+        {
+            if(GridMain != null)
+                GridMain.Visibility = Visibility.Visible;
+            if(GridGantt != null)
+                GridGantt.Visibility = Visibility.Hidden;
         }
     }
 }

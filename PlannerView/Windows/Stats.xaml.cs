@@ -110,14 +110,15 @@ namespace PlannerView.Windows
 
             _isOverdueTasksCount = _tasksCollection.Count(task => task.IsOverdue);
             _isFinishedTasksCount = _tasksCollection.Count(task => task.IsFinished);
-            _inProcessTasksCount = _allTaskCount - (_isOverdueTasksCount + _isFinishedTasksCount);
+            int isOverdueAndFinishedTasksCount = _tasksCollection.Count(task => task.IsFinished && task.IsOverdue);
+            _inProcessTasksCount = _allTaskCount - (_isOverdueTasksCount + _isFinishedTasksCount - isOverdueAndFinishedTasksCount);
 
             _inProcessTasks = new ObservableValue(_inProcessTasksCount);
             _isOverdueTasks = new ObservableValue(_isOverdueTasksCount);
             _isFinishedTasks = new ObservableValue(_isFinishedTasksCount);
 
             PointLabel = chartPoint =>
-                string.Format("{0}({1:P1})", (chartPoint.Y>0) ? chartPoint.Y.ToString(): "",chartPoint.Participation);
+                string.Format("{0} ({1:P1})", chartPoint.Y,chartPoint.Participation);
 
             return new SeriesCollection()
             {

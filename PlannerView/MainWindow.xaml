@@ -48,6 +48,7 @@
             <ColumnDefinition Width="280"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
+        <!--Обертка-->
         <Grid Visibility="Collapsed" x:Name="Wrap" Grid.ColumnSpan="2"  Panel.ZIndex="1000">
             <Button
                 x:Name="WrapBtn"
@@ -271,19 +272,27 @@
                 </ScrollViewer>
             </Grid>
         </Grid>
+        <!--404-->
         <Grid Grid.Column="1" x:Name="GridEmpty" HorizontalAlignment="Right" VerticalAlignment="Top" Height="540" Width="1100" Visibility="Visible"  Opacity="0.8">
-            <Canvas HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 160 0">
-                <Image Source="Resources/Хвост.png" Height="53" Width="30" Canvas.Left="53" Canvas.Top="42"/>
-                <Image Source="Resources/Table.png" HorizontalAlignment="Center" Height="57" Width="144"/>
-                <Image Source="Resources/Cat1.png" Height="84" Width="58" Canvas.Left="44" Canvas.Top="-56"/>
-
-            </Canvas>
-            <Image Source="Resources/Cat2.png" Margin="855,121,-65,247" RenderTransformOrigin="0.497,0.585" >
+            <Image Source="Resources/404.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="321" Height="375" Margin="0 100 0 0">
             </Image>
 
         </Grid>
-        <materialDesign:Snackbar Grid.Column="1"  MessageQueue="{materialDesign:MessageQueue}"
-                                 x:Name="Snackbar" HorizontalAlignment="Right"/>
+        <!--Гант-->
+        <Grid Grid.Column="1" 
+              
+              x:Name="GridGantt" 
+              HorizontalAlignment="Right" 
+              VerticalAlignment="Top" 
+              Height="600" 
+              Width="1100"
+              Visibility="Collapsed">
+            <userControls:GanttUserControl>
+            </userControls:GanttUserControl>
+        </Grid>
+            <materialDesign:Snackbar Grid.Column="1"  MessageQueue="{materialDesign:MessageQueue}"
+                                     x:Name="Snackbar" HorizontalAlignment="Right"/>
+        <!--Трей-->
         <tb:TaskbarIcon 
             x:Name="NotifyIcon"
             Visibility="Visible"

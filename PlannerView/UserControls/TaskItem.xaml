@@ -34,7 +34,15 @@
                     <ColumnDefinition Width="280"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" x:Name="TaskName" Width="232" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,5,0,4.4" Padding="0 5" TextWrapping="Wrap" Height="Auto"><Run Text="Название задачи"/></TextBlock>
+                <TextBlock Grid.Column="0" 
+                           x:Name="TaskName" 
+                           Width="232" 
+                           HorizontalAlignment="Left" 
+                           VerticalAlignment="Center" 
+                           Margin="5,5,0,4.4" 
+                           Padding="0 5" 
+                           TextWrapping="Wrap" 
+                           Height="Auto"><Run Text="Название задачи"/></TextBlock>
                 <materialDesign:PopupBox 
                     x:Name="PopupBox" 
                     PlacementMode="BottomAndAlignLeftEdges"
@@ -97,8 +105,18 @@
                         x:Name="CategoryBackground" 
                         Background="#15C651" 
                         CornerRadius="12" 
-                        Height="25" Margin="0 0 10 0">
-                    <Label x:Name="Category" Foreground="#FFF" Content="Название категории" Width="Auto" HorizontalContentAlignment="Center" VerticalAlignment="Center" Margin="5 0"/>
+                        Height="Auto" Margin="0 5 10 5">
+                    <TextBlock 
+                        x:Name="Category"
+                        Text="Название категории"
+                        Foreground="White"
+                        Width="232" 
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Center"
+                        TextAlignment="Center"
+                        Margin="5 0" 
+                        Padding="0 5" 
+                        TextWrapping="Wrap"/>
                 </Border>
                 <Button Grid.Column="5" 
                     x:Name="FinishTaskBtn"

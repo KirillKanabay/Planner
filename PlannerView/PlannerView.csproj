@@ -185,6 +185,9 @@
     <Compile Include="Helpers\DelegateCommand.cs" />
     <Compile Include="Helpers\TaskModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="UserControls\GanttUserControl.xaml.cs">
+      <DependentUpon>GanttUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\HeaderTaskItem.xaml.cs">
       <DependentUpon>HeaderTaskItem.xaml</DependentUpon>
     </Compile>
@@ -217,6 +220,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UserControls\GanttUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\HeaderTaskItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -290,14 +297,10 @@
     <Resource Include="Resources\favicon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Cat1.png" />
-    <Resource Include="Resources\Cat2.png" />
+    <Resource Include="Resources\CategoryHelp.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Хвост.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Table.png" />
+    <Resource Include="Resources\404.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets')" />

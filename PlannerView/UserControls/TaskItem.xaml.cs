@@ -14,30 +14,33 @@ namespace PlannerView
     /// </summary>
     public partial class TaskItem : UserControl
     {
-        private readonly TaskController TaskController;
-        private readonly PlannerModel.Task Task;
+        private readonly TaskController _taskController;
+        private readonly PlannerModel.Task _task;
+
+        private readonly Category _category;
+        private readonly Priority _priority;
 
         public TaskItem()
         {
             
         }
-        public TaskItem(TaskController taskController,Task task, CategoryController categoryController, PriorityController priorityController)
+        public TaskItem(Task task)
         {
             InitializeComponent();
-            TaskController = taskController;
-            Task = task;
-            var priority = priorityController.GetPriority(Task.PriorityId);
-            var category = categoryController.GetCategoryById(Task.CategoryId);
+            _taskController = new TaskController();
+            _task = task;
+            _priority = new PriorityController().GetPriority(_task.PriorityId);
+            _category = new CategoryController().GetCategoryById(_task.CategoryId);
            
             
-            TaskName.Text = Task.Name;
+            TaskName.Text = _task.Name;
 
-            StartDate.Content = (Task.StartDate == DateTime.Parse("1980-01-01 00:00:00")) ? "-"
-                : Task.StartDate.ToString("g");
-            EndDate.Content = (Task.EndDate == DateTime.Parse("2099-01-01 00:00:00")) ? "Бессрочная"
-                : Task.EndDate.ToString("g");
+            StartDate.Content = (_task.StartDate == DateTime.Parse("1980-01-01 00:00:00")) ? "-"
+                : _task.StartDate.ToString("g");
+            EndDate.Content = (_task.EndDate == DateTime.Parse("2099-01-01 00:00:00")) ? "Бессрочная"
+                : _task.EndDate.ToString("g");
 
-            if (Task.IsFinished)
+            if (_task.IsFinished)
             {
                 TaskGrid.Opacity = 0.6;
                 TaskGrid.Background = new SolidColorBrush(ColorExtensions.GetColor("#3015C651"));
@@ -48,7 +51,7 @@ namespace PlannerView
                 FinishTaskBtn.IsEnabled = false;
             }
 
-            if (Task.IsOverdue)
+            if (_task.IsOverdue)
             {
                 TaskGrid.Background = new SolidColorBrush(ColorExtensions.GetColor("#55FF6B6B"));
                 TaskGrid.Background = new SolidColorBrush(ColorExtensions.GetColor("#55FF6B6B"));
@@ -56,26 +59,26 @@ namespace PlannerView
                 BorderEndDate.Background = new SolidColorBrush(ColorExtensions.GetColor("#FFFF6B6B"));
             }
 
-            PriorityBackground.Background = new SolidColorBrush(ColorExtensions.GetColor(priority.Color));
+            PriorityBackground.Background = new SolidColorBrush(ColorExtensions.GetColor(_priority.Color));
             
-            CategoryBackground.Background = new SolidColorBrush(ColorExtensions.GetColor(category.Color));
+            CategoryBackground.Background = new SolidColorBrush(ColorExtensions.GetColor(_category.Color));
 
-            Priority.Content = priority.Name;
-            Category.Content = category.Name;
+            Priority.Content = _priority.Name;
+            Category.Text = _category.Name;
 
         }
 
 
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            TaskController.FinishTask(Task.Id);
+            _taskController.FinishTask(_task.Id);
             MainWindow.DoRefresh();
         }
 
         private void DeleteTaskBtn_OnClick(object sender, RoutedEventArgs e)
         {
             PopupBox.IsPopupOpen = false;
-            TaskController.DeleteTask(Task.Id);
+            _taskController.DeleteTask(_task.Id);
             MainWindow.DoRefresh();
         }
 
@@ -83,7 +86,7 @@ namespace PlannerView
         {
             PopupBox.IsPopupOpen = false;
             MainWindow.ShowWrap(sender, new RoutedEventArgs());
-            var taskEdit = new TaskEdit(Task);
+            var taskEdit = new TaskEdit(_task);
             taskEdit.ShowInTaskbar = false;
             taskEdit.IsOpen = true;
         }
