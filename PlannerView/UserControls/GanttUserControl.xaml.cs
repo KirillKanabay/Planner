@@ -36,6 +36,12 @@ namespace PlannerView.UserControls
         private IEnumerable<PlannerModel.Task> _tasksCollection;
         public Func<ChartPoint, string> PointLabel { get; set; }
 
+        private string title
+        {
+            get => title;
+            set => Title.Content = value;
+        }
+
         public GanttUserControl()
         {
             InitializeComponent();
@@ -70,11 +76,14 @@ namespace PlannerView.UserControls
             {
                 Gantt.Visibility = Visibility.Visible;
                 GetGantt(_tasksCollection);
+                title = $"Диаграмма Ганта для: \"{CategoriesBox.Text}\"";
             }
             else
             {
                 Gantt.Visibility = Visibility.Collapsed;
                 HelpImage.Visibility = Visibility.Visible;
+                title = "Диаграмма Ганта";
+                MessageBox.Show("В данной категории отсутствуют задачи, удовлетворяющие для построения графика Ганта.","Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -93,6 +102,8 @@ namespace PlannerView.UserControls
                 new RowSeries
                 {
                     Values = _values,
+                    Title = "",
+                    LabelPoint = PointLabel,
                     DataLabels = true
                 }
             };

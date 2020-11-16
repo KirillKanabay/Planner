@@ -124,8 +124,6 @@ namespace PlannerView
 
             _tasksCollection = _taskController.Tasks;
 
-            CountTaskForMenu();
-            //Получение списка приоритетов
             
             _categoriesListFilter.Add(new Category() { Name = "Все категории",Id = 0});
             foreach(var category in _categoryController.Categories)
@@ -146,18 +144,7 @@ namespace PlannerView
             // устанавливаем метод обратного вызова
             DoRefresh();
         }
-
-        private void CountTaskForMenu()
-        {
-            //AllTaskMenuCount.Content = $"({_tasksCollection.Count(task => !task.IsFinished)})";
-            //TermlessTaskMenuCount.Content = $"({_tasksCollection.Where(task => !task.IsFinished).Count(_menuFilterTermlessTask)})";
-            //TodayTaskMenuCount.Content = $"({_tasksCollection.Where(task => !task.IsFinished).Count(_menuFilterTodayTask)})";
-            //FutureTaskMenuCount.Content = $"({_tasksCollection.Where(task => !task.IsFinished).Count(_menuFilterFutureTask)})";
-            //FinishedTaskMenuCount.Content = $"({_tasksCollection.Count(_menuFilterFinishedTask)})";
-            //OverdueTaskMenuCount.Content = $"({_tasksCollection.Where(task => !task.IsFinished).Count(_menuFilterOverdueTask)})";
-            //ImmediateTaskMenuCount.Content = $"({_tasksCollection.Where(task => !task.IsFinished).Count(_menuFilterImmediateTask)})";
-        }
-
+        
         public static void SendSnackbar(string message)
         {
             SnackbarNotifyEvent?.Invoke(message);
@@ -199,7 +186,6 @@ namespace PlannerView
             _taskController = new TaskController();
             TaskList.Children.RemoveRange(0,TaskList.Children.Count);
             _tasksCollection = _taskController.Tasks;
-            CountTaskForMenu();
             Filter();
             if (!_tasksCollection.Any())
             {
@@ -234,55 +220,7 @@ namespace PlannerView
             _categoryEdit.ShowInTaskbar = false;
             _categoryEdit.IsOpen = true;
         }
-
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //ShowGridMain();
-
-            //var item = (ListBox) sender;
-            //var lbi = (ListBoxItem) item.SelectedItem;
-            //var stackPanel = (StackPanel) lbi?.Content;
-            //var label = (Label) stackPanel?.Children[1];
-            
-            //if(label == null)
-            //    return;
-            //TaskTitle.Content = label.Content.ToString();
-            //switch (label.Content.ToString())
-            //{
-            //    case "Все задачи":
-            //        _menuFilterMain = _menuFilterAllTask;
-            //        break;
-            //    case "Бессрочные задачи":
-            //        _menuFilterMain = _menuFilterTermlessTask;
-            //        break;
-            //    case "Задачи на сегодня":
-            //        _menuFilterMain = _menuFilterTodayTask;
-            //        break;
-            //    case "Предстоящие задачи":
-            //        _menuFilterMain = _menuFilterFutureTask;
-            //        break;
-            //    case "Выполненные задачи":
-            //        _menuFilterMain = _menuFilterFinishedTask;
-            //        FinishedCheckBox.IsChecked = true;
-            //        break; 
-            //    case "Просроченные задачи":
-            //        _menuFilterMain = _menuFilterOverdueTask;
-            //            break; 
-            //    case "Задачи срочного приоритета":
-            //        _menuFilterMain = _menuFilterImmediateTask;
-            //            break;
-            //    case "Статистика":
-            //        Menu.SelectedIndex = 0;
-            //        ShowStatsWindow();
-            //        break;
-            //    case "Диаграмма Ганта":
-            //        GridMain.Visibility = Visibility.Hidden;
-            //        GridGantt.Visibility = Visibility.Visible;
-            //        break;
-            //}
-            //DoRefresh();
-        }
-
+        
         private void ShowStatsWindow()
         {
             Wrap.Visibility = Visibility.Visible;
@@ -439,6 +377,11 @@ namespace PlannerView
         {
             Menu.SelectedIndex = 0;
             _menuFilterMain = _menuFilterAllTask;
+
+            _isNotFinishedFilter = true;
+            _isFinishedFilter = false;
+            _isOverdueFilter = false;
+
             DoRefresh();
         }
 
@@ -446,6 +389,11 @@ namespace PlannerView
         {
             Menu.SelectedIndex = 1;
             _menuFilterMain = _menuFilterTermlessTask;
+
+            _isNotFinishedFilter = true;
+            _isFinishedFilter = false;
+            _isOverdueFilter = false;
+
             DoRefresh();
         }
 
@@ -453,6 +401,11 @@ namespace PlannerView
         {
             Menu.SelectedIndex = 2;
             _menuFilterMain = _menuFilterTodayTask;
+
+            _isNotFinishedFilter = true;
+            _isFinishedFilter = false;
+            _isOverdueFilter = true;
+
             DoRefresh();
         }
 
@@ -460,6 +413,11 @@ namespace PlannerView
         {
             Menu.SelectedIndex = 3;
             _menuFilterMain = _menuFilterFutureTask;
+
+            _isNotFinishedFilter = true;
+            _isFinishedFilter = false;
+            _isOverdueFilter = false;
+
             DoRefresh();
         }
 
@@ -467,12 +425,22 @@ namespace PlannerView
         {
             Menu.SelectedIndex = 4;
             _menuFilterMain = _menuFilterFinishedTask;
+
+            _isNotFinishedFilter = false;
+            _isFinishedFilter = true;
+            _isOverdueFilter = false;
+
             DoRefresh();
         }
 
         private void OverdueTaskMenuBtn_Click(object sender, RoutedEventArgs e)
         {
             Menu.SelectedIndex = 5;
+
+            _isNotFinishedFilter = false;
+            _isFinishedFilter = false;
+            _isOverdueFilter = true;
+
             _menuFilterMain = _menuFilterOverdueTask;
             DoRefresh();
         }
@@ -480,13 +448,17 @@ namespace PlannerView
         private void ImmediateTaskMenuBtn_Click(object sender, RoutedEventArgs e)
         {
             Menu.SelectedIndex = 6;
+
+            _isNotFinishedFilter = true;
+            _isFinishedFilter = false;
+            _isOverdueFilter = true;
+            
             _menuFilterMain = _menuFilterImmediateTask;
             DoRefresh();
         }
 
         private void StatsMenuBtn_Click(object sender, RoutedEventArgs e)
         {
-            Menu.SelectedIndex = 8;
             ShowStatsWindow();
         }
 
@@ -500,7 +472,6 @@ namespace PlannerView
 
         private void InfoMenuBtn_Click(object sender, RoutedEventArgs e)
         {
-            Menu.SelectedIndex = 11;
         }
     }
 }

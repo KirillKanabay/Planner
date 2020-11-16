@@ -78,7 +78,7 @@
                         </StackPanel>
                     </Button>
                 </ListViewItem>
-                <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
+                <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5" IsSelected="True">
                     <Button x:Name="TodayTaskMenuBtn" HorizontalAlignment="Left"
                              BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Black" Height="Auto" Width="112" Click="TodayTaskMenuBtn_Click">
                         <StackPanel Margin="0" Orientation="Vertical">
