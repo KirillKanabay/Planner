@@ -193,6 +193,9 @@ namespace PlannerView
 
         private void RefreshTaskList()
         {
+            GridMain.Visibility = Visibility.Visible;
+            GridGantt.Visibility = Visibility.Hidden;
+
             _taskController = new TaskController();
             TaskList.Children.RemoveRange(0,TaskList.Children.Count);
             _tasksCollection = _taskController.Tasks;
@@ -399,18 +402,31 @@ namespace PlannerView
         private void MainWindow_OnStateChanged(object sender, EventArgs e)
         {
             if (WindowState == WindowState.Minimized)
-                Hide();
+            {
+                if (_statsWindow?.IsOpen ?? false)
+                {
+                    _statsWindow.Hide();
+                }
+
+                if (_taskEdit?.IsOpen ?? false)
+                {
+                    _taskEdit.Hide();
+                }
+            }
             else
-                _prevState = WindowState;
+            {
+                if (_statsWindow?.IsOpen ?? false)
+                {
+                    _statsWindow.Show();
+                }
+
+                if (_taskEdit?.IsOpen ?? false)
+                {
+                    _taskEdit.Show();
+                }
+            }
         }
-
-        private void NotifyIcon_OnTrayLeftMouseDown(object sender, RoutedEventArgs e)
-        {
-            Show();
-            WindowState = _prevState;
-        }
-
-
+        
         private void ShowGridMain()
         {
             if(GridMain != null)
@@ -471,11 +487,15 @@ namespace PlannerView
         private void StatsMenuBtn_Click(object sender, RoutedEventArgs e)
         {
             Menu.SelectedIndex = 8;
+            ShowStatsWindow();
         }
 
         private void GanttMenuBtn_Click(object sender, RoutedEventArgs e)
         {
             Menu.SelectedIndex = 9;
+            GridEmpty.Visibility = Visibility.Hidden;
+            GridMain.Visibility = Visibility.Hidden;
+            GridGantt.Visibility = Visibility.Visible;
         }
 
         private void InfoMenuBtn_Click(object sender, RoutedEventArgs e)

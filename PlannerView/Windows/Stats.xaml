@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
-        Title="Stats" Height="450" Width="800" FontFamily="Roboto" WindowStyle="None" AllowsTransparency="True" Background="Transparent" WindowStartupLocation="CenterScreen" Closed="Stats_OnClosed">
+        Title="Stats" Height="450" Width="800" FontFamily="SF Pro Display" WindowStyle="None" AllowsTransparency="True" Background="Transparent" WindowStartupLocation="CenterScreen" Closed="Stats_OnClosed">
     <Border Background="White" CornerRadius="10">
         <Grid Margin="20">
             <Grid.RowDefinitions>
@@ -23,7 +23,7 @@
                Grid.Row="0" 
                Grid.ColumnSpan="2" 
                Content="Статистика за XXXXXX месяц" 
-               HorizontalAlignment="Left" FontSize="18" FontWeight="Bold"  FontFamily="Roboto"/>
+               HorizontalAlignment="Left" FontSize="18" FontWeight="Bold" />
             <!--Выбор промежутка времени-->
             <Border Grid.Row="1" Grid.RowSpan="2" BorderThickness="0 0 1 0" BorderBrush="#55393939">
                 <Grid>
@@ -41,7 +41,8 @@
                     </StackPanel>
                     <!--Диаграмма-->
                     <Label Grid.Row="0" Grid.Column="0" 
-                   FontFamily="Roboto Medium" FontSize="13" 
+                   FontSize="13" 
+                   FontWeight="SemiBold"
                    VerticalAlignment="Top" 
                    HorizontalAlignment="Left">Диаграмма завершенных и просроченных задач:</Label>
                     <lvc:CartesianChart 
@@ -53,8 +54,8 @@
                     </lvc:CartesianChart>
                 </Grid>
             </Border>
-            <Label Grid.Row="1" Grid.Column="1" FontWeight="Bold" 
-                   FontFamily="Roboto Medium" 
+            <Label Grid.Row="1" Grid.Column="1" FontWeight="SemiBold"
+                   FontFamily="SF Pro Display"
                    FontSize="13"
                    VerticalAlignment="Top" 
                    HorizontalAlignment="Center" Content="Общая круговая диаграмма состояний задач:"/>

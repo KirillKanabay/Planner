@@ -8,7 +8,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:validators="clr-namespace:PlannerView.Validators"
     mc:Ignorable="d"
-        Title="CategoryEdit" Height="250" Width="315.6" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" FontFamily="Roboto Bk" Closed="CategoryEdit_OnClosed" AllowsTransparency="True" Background="Transparent">
+        Title="CategoryEdit" Height="250" Width="315.6" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" FontFamily="SF Pro display" Closed="CategoryEdit_OnClosed" AllowsTransparency="True" Background="Transparent">
     <Border Background="White" CornerRadius="10">
             <Grid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Margin="16">
         <Grid.RowDefinitions>
@@ -17,14 +17,14 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBlock FontSize="18" FontFamily="Roboto Medium">Редактор категорий</TextBlock>
+        <TextBlock FontSize="18" FontWeight="Bold">Редактор категорий</TextBlock>
         <TextBox 
             materialDesign:HintAssist.Hint="Название категории" 
                  x:Name="CategoryTextBox"
                  Style="{DynamicResource MaterialDesignFloatingHintTextBox}"                 
                  FontSize="16" 
                  Grid.Row="1"
-                 Margin="0 8 0 8" FontFamily="Roboto">
+                 Margin="0 8 0 8">
             <TextBox.Text>
                 <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>

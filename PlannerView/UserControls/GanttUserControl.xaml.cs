@@ -66,13 +66,14 @@ namespace PlannerView.UserControls
                 $"Начало: {new DateTime((long)chartPoint.XStart).ToString("dd MMM")} ,конец: {new DateTime((long)chartPoint.X).ToString("dd MMM")}";
             Formatter = value => new DateTime((long)value).ToString("dd MMM");
 
-            if (_tasksCollection.Count() >= 1)
+            if (_tasksCollection.Any())
             {
                 Gantt.Visibility = Visibility.Visible;
                 GetGantt(_tasksCollection);
             }
             else
             {
+                Gantt.Visibility = Visibility.Collapsed;
                 HelpImage.Visibility = Visibility.Visible;
             }
         }

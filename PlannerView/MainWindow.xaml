@@ -54,11 +54,9 @@
                 Cursor="Arrow"
                 Opacity="0.4"
                 Background="Black" 
-                HorizontalAlignment="Center" 
-                VerticalAlignment="Center"
-                Width="1228"  
+                VerticalAlignment="Center"  
                 Height="710" BorderBrush="Black"
-                Click="WrapBtn_OnClick" Margin="2,-67,2,0.2"/>
+                Click="WrapBtn_OnClick" Margin="-14,-67,-35,0.2"/>
         </Grid>
         <Grid Grid.Column="0" Background="White">
             <ListView x:Name="Menu" Margin="0 15">
@@ -429,11 +427,10 @@
         </Grid>
         <!--Гант-->
         <Grid Grid.Column="1" 
-              
               x:Name="GridGantt" 
               HorizontalAlignment="Right" 
               VerticalAlignment="Top" 
-              Height="780" 
+              Height="600" 
               Width="1100"
               Visibility="Collapsed">
             <userControls:GanttUserControl>

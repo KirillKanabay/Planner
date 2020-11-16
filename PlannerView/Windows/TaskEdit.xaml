@@ -8,7 +8,14 @@
         xmlns:validators="clr-namespace:PlannerView.Validators"
         x:Class="PlannerView.Windows.TaskEdit"
         mc:Ignorable="d"
-        Title="Редактор задач" Height="382.6" Width="657.6" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" Closed="TaskEdit_OnClosed" AllowsTransparency="True" Background="Transparent">
+        Title="Редактор задач" Height="382.6" Width="657.6" 
+        ResizeMode="NoResize" 
+        WindowStartupLocation="CenterScreen" 
+        WindowStyle="None" 
+        Closed="TaskEdit_OnClosed" 
+        AllowsTransparency="True" 
+        Background="Transparent"
+        FontFamily="SF Pro display">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -31,7 +38,7 @@
                 <RowDefinition Height="0.5*"/>
             </Grid.RowDefinitions>
             <!--Заголовок-->
-            <TextBlock Grid.Row="0" FontSize="18" FontWeight="Bold"  FontFamily="Roboto">Редактор задач</TextBlock>
+            <TextBlock Grid.Row="0" FontSize="18" FontWeight="Bold">Редактор задач</TextBlock>
             <!--Поле ввода названии задачи-->
             <TextBox 
             materialDesign:HintAssist.Hint="Название задачи" 
@@ -51,7 +58,8 @@
             <WrapPanel Grid.Row="2">
                 <!--Поля ввода начала исполнения задачи-->
                 <StackPanel Orientation="Horizontal" Height="62">
-                    <DatePicker x:Name="StartDate" Width="145" HorizontalAlignment="Left" Margin="0,18,0,2.4" 
+                    <DatePicker x:Name="StartDate" Width="145" 
+                                HorizontalAlignment="Left" Margin="0,18,0,2.4" 
                             materialDesign:HintAssist.Hint="Дата начала"
                             materialDesign:HintAssist.FloatingScale="1"
                             Style="{StaticResource MaterialDesignFloatingHintDatePicker}">
