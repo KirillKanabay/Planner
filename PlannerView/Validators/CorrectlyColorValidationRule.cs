@@ -9,6 +9,9 @@ using UtilityLibraries;
 
 namespace PlannerView.Validators
 {
+    /// <summary>
+    /// Валидатор: Правильный формат цвета
+    /// </summary>
     class CorrectlyColorValidationRule: ValidationRule
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)

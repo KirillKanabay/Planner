@@ -1,24 +1,23 @@
-﻿using System;
+﻿using PlannerController;
+using PlannerModel;
+using PlannerView.Helpers;
+using PlannerView.Windows;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using PlannerController;
-using PlannerModel;
-using PlannerView.Windows;
 using Task = System.Threading.Tasks.Task;
 
 namespace PlannerView
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия планировщика задач
     /// </summary>
     public partial class MainWindow : Window
     {
-        #region Свойства
+        #region Поля и свойства
 
         #region Контроллеры
         private TaskController _taskController;
@@ -27,80 +26,68 @@ namespace PlannerView
         #endregion
 
         #region Окна
-        private CategoryEdit _categoryEdit;
         public static TaskEdit _taskEdit;
         private Stats _statsWindow;
+
+        //Свойство заголовка планировщика задач
+        private string title
+        {
+            get => title;
+            set => TaskTitle.Content = value;
+        }
         #endregion
 
         #region Делегаты
+        /// <summary>
+        /// Делегат обновления задачи
+        /// </summary>
         public delegate void TaskHandler();
+        /// <summary>
+        /// Делегат фоновой обертки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public delegate void WrapHandler(object sender, RoutedEventArgs e);
+        /// <summary>
+        /// Делегат уведомления
+        /// </summary>
+        /// <param name="message"></param>
         public delegate void SnackbarHadler(string message);
         #endregion
 
         #region События
+        /// <summary>
+        /// Событие изменения списка задач
+        /// </summary>
         public static event TaskHandler TaskListChanged;
+        /// <summary>
+        /// Событие закрытия фоновой обертки
+        /// </summary>
         public static event WrapHandler CloseWrapEvent;
+        /// <summary>
+        /// Cобытие открытия фоновой обертки
+        /// </summary>
         public static event WrapHandler ShowWrapEvent;
+        /// <summary>
+        /// Событие уведомления
+        /// </summary>
         public static event SnackbarHadler SnackbarNotifyEvent;
         #endregion
 
         #region Фильтрация
-        private string _searchString;
-
-        private ObservableCollection<Category> _categoriesListFilter = new ObservableCollection<Category>();
-        private ObservableCollection<Priority> _prioritiesListFilter = new ObservableCollection<Priority>();
-        private int _categoryIdFilter;
-        private int _priorityIdFilter;
-
-        private bool _isNotFinishedFilter = true;
-        private bool _isFinishedFilter = false;
-        private bool _isOverdueFilter = false;
-
-        private DateTime _startDate = default;
-        private DateTime _endDate = default;
-
         /// <summary>
-        /// Главный фильтр меню
+        /// Фильтр
         /// </summary>
-        private Func<PlannerModel.Task, bool> _menuFilterMain;
+        private readonly Filter _filter;
+        // private string _searchString;
         /// <summary>
-        /// Фильтр: все задачи
+        /// Список категорий для фильтра
         /// </summary>
-        private readonly Func<PlannerModel.Task, bool> _menuFilterAllTask = (task) => true;
+        private readonly ObservableCollection<Category> _categoriesListFilter = new ObservableCollection<Category>();
         /// <summary>
-        /// Фильтр: Задачи на сегодня
+        /// Список приоритетов для фильтра
         /// </summary>
-        private readonly Func<PlannerModel.Task, bool> _menuFilterTodayTask = (task) => DateTime.Today >= new DateTime(task.StartDate.Year, task.StartDate.Month, task.StartDate.Day)
-                                                                               && DateTime.Today <= new DateTime(task.EndDate.Year, task.EndDate.Month, task.EndDate.Day);
-        /// <summary>
-        /// Фильтр: Бессрочные задачи
-        /// </summary>
-        private readonly Func<PlannerModel.Task, bool> _menuFilterTermlessTask = (task) => task.EndDate == DateTime.Parse("2099-01-01 00:00:00");
-        /// <summary>
-        /// Фильтр: Предстоящие задачи
-        /// </summary>
-        private readonly Func<PlannerModel.Task, bool> _menuFilterFutureTask = (task) => DateTime.Now < task.StartDate;
-        /// <summary>
-        /// Фильтр: Завершенные задачи
-        /// </summary>
-        private readonly Func<PlannerModel.Task, bool> _menuFilterFinishedTask = (task) => task.IsFinished;
-        /// <summary>
-        /// Фильтр: Просроченные задачи
-        /// </summary>
-        private readonly Func<PlannerModel.Task, bool> _menuFilterOverdueTask = (task) => task.IsOverdue;
-        /// <summary>
-        /// Фильтр: Задачи срочного приоритета
-        /// </summary>
-        private readonly Func<PlannerModel.Task, bool> _menuFilterImmediateTask = (task) => task.PriorityId == 3;
-
-        #endregion
-
-        #region Трей
-        private WindowState _prevState;
-        #endregion
-
-        #region Уведомления
+        private readonly ObservableCollection<Priority> _prioritiesListFilter = new ObservableCollection<Priority>();
 
         #endregion
 
@@ -111,40 +98,44 @@ namespace PlannerView
         {
             InitializeComponent();
             //Определяем стандартный фильтр меню
-            _menuFilterMain = _menuFilterTodayTask;
+            _filter = new Filter();
+            //_menuFilterMain = _menuFilterTodayTask;
 
+            //Подписка событий
             TaskListChanged += RefreshTaskList;
             CloseWrapEvent += WrapBtn_OnClick;
             ShowWrapEvent += ShowWrapBtn;
             SnackbarNotifyEvent += SnackbarNotify;
 
+            //Инициализация контроллеров
             _taskController = new TaskController();
             _categoryController = new CategoryController();
             _priorityController = new PriorityController();
 
+            //Инициализация списка задач
             _tasksCollection = _taskController.Tasks;
 
-            
-            _categoriesListFilter.Add(new Category() { Name = "Все категории",Id = 0});
-            foreach(var category in _categoryController.Categories)
+            //Определяем списки задач для фильтров категории и приоритета
+            _categoriesListFilter.Add(new Category() { Name = "Все категории", Id = 0 });
+            foreach (var category in _categoryController.Categories)
                 _categoriesListFilter.Add(category);
 
             _prioritiesListFilter.Add(new Priority() { Name = "Все приоритеты", Id = 0 });
-            foreach (var priority in _priorityController.Items)
+            foreach (var priority in _priorityController.Priorities)
                 _prioritiesListFilter.Add(priority);
 
-
+            //Заполнение списков в фильтре
             PrioritiesBox.ItemsSource = _prioritiesListFilter.Select(item => item.Name);
             CategoriesBox.ItemsSource = _categoriesListFilter.Select(item => item.Name);
-            //Получение списка категорий
 
             PrioritiesBox.SelectedIndex = 0;
             CategoriesBox.SelectedIndex = 0;
 
-            // устанавливаем метод обратного вызова
+            // Обновление списка задач
             DoRefresh();
         }
-        
+
+        #region Методы взаимодействия с главным окном из других окон
         public static void SendSnackbar(string message)
         {
             SnackbarNotifyEvent?.Invoke(message);
@@ -163,37 +154,28 @@ namespace PlannerView
             TaskListChanged?.Invoke();
         }
 
-        private void MarkOverdueTasks()
-        {
-            foreach (var task in _tasksCollection)
-            {
-                if (task.EndDate < DateTime.Now && !task.IsFinished)
-                {
-                    _taskController.OverdueTask(task.Id);
-                }
-                else if(task.EndDate > DateTime.Now && !task.IsFinished && task.IsOverdue)
-                {
-                    _taskController.UnoverdueTask(task.Id);
-                }
-            }
-        }
+        #endregion
 
+        #region Вспомогательные методы
+        /// <summary>
+        /// Обновление списка задач
+        /// </summary>
         private void RefreshTaskList()
         {
             GridMain.Visibility = Visibility.Visible;
             GridGantt.Visibility = Visibility.Hidden;
 
             _taskController = new TaskController();
-            TaskList.Children.RemoveRange(0,TaskList.Children.Count);
-            _tasksCollection = _taskController.Tasks;
-            Filter();
+            TaskList.Children.RemoveRange(0, TaskList.Children.Count);
+            _tasksCollection = _filter.FilterTasks(_taskController.Tasks);
+
             if (!_tasksCollection.Any())
             {
                 GridEmpty.Visibility = Visibility.Visible;
             }
             else
             {
-                MarkOverdueTasks();
+                _taskController.MarkOverdueTasks();
                 GridEmpty.Visibility = Visibility.Hidden;
                 foreach (var task in _tasksCollection)
                 {
@@ -202,8 +184,14 @@ namespace PlannerView
                     TaskList.Children.Add(taskItem);
                 }
             }
-            
+
         }
+
+        /// <summary>
+        /// Событие нажатия кнопки добавления задачи
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddTaskBtn_Click(object sender, RoutedEventArgs e)
         {
             ShowWrap(sender, e);
@@ -211,16 +199,9 @@ namespace PlannerView
             _taskEdit.ShowInTaskbar = false;
             _taskEdit.IsOpen = true;
         }
-
-        private void AddCategoryBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Wrap.Visibility = Visibility.Visible;
-            
-            _categoryEdit = new CategoryEdit();
-            _categoryEdit.ShowInTaskbar = false;
-            _categoryEdit.IsOpen = true;
-        }
-        
+        /// <summary>
+        /// Открытие окна статистики
+        /// </summary>
         private void ShowStatsWindow()
         {
             Wrap.Visibility = Visibility.Visible;
@@ -229,19 +210,22 @@ namespace PlannerView
             _statsWindow.ShowInTaskbar = false;
             _statsWindow.IsOpen = true;
         }
-
+        /// <summary>
+        /// Показ обертки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ShowWrapBtn(object sender, RoutedEventArgs e)
         {
             Wrap.Visibility = Visibility.Visible;
         }
-
+        /// <summary>
+        /// Закрытие обертки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void WrapBtn_OnClick(object sender, RoutedEventArgs e)
         {
-            if (_categoryEdit?.IsOpen ?? false)
-            {
-                _categoryEdit.IsOpen = false;
-            }
-
             if (_taskEdit?.IsOpen ?? false)
             {
                 _taskEdit.IsOpen = false;
@@ -263,80 +247,10 @@ namespace PlannerView
             Task.Factory.StartNew(() => messageQueue.Enqueue(message));
         }
         /// <summary>
-        /// Обработчик поиска
+        /// Взаимодействие вспомогательных и главной форм при сворачивании приложения
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Search_OnKeyDown(object sender, KeyEventArgs e)
-        {
-            _searchString = SearchBox.Text.ToLower();
-            DoRefresh();
-        }
-        #region Фильтрация
-        /// <summary>
-        /// Обработчик события установки фильтра
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void AcceptFilter_OnClick(object sender, RoutedEventArgs e)
-        {
-            FilterPopupBox.IsPopupOpen = false;
-
-            _categoryIdFilter = _categoriesListFilter.FirstOrDefault(item => item.Name == CategoriesBox.Text).Id;
-            _priorityIdFilter = _prioritiesListFilter.FirstOrDefault(item => item.Name == PrioritiesBox.Text).Id;
-
-            _isNotFinishedFilter = NotFinishedCheckBox?.IsChecked ?? false;
-            _isFinishedFilter = FinishedCheckBox?.IsChecked ?? false;
-            _isOverdueFilter = OverdueCheckBox?.IsChecked ?? false;
-
-            if (StartDate.Text != "")
-            {
-                DateTime.TryParse(StartDate.Text, out _startDate);
-            }
-
-            if (EndDate.Text != "")
-            {
-                DateTime.TryParse(EndDate.Text, out _endDate);
-            }
-            
-            DoRefresh();
-        }
-
-        private void Filter()
-        {
-            _tasksCollection = _tasksCollection.Where(_menuFilterMain);
-            
-            _tasksCollection = _tasksCollection.Where(task => _isNotFinishedFilter && !task.IsFinished
-                                                            || _isFinishedFilter && task.IsFinished
-                                                            || _isOverdueFilter && task.IsOverdue);
-            if (_priorityIdFilter > 0)
-                _tasksCollection = _tasksCollection.Where(task => task.PriorityId == _priorityIdFilter);
-            if (_categoryIdFilter > 0)
-                _tasksCollection = _tasksCollection.Where(task => task.CategoryId == _categoryIdFilter);
-            if (_startDate != default)
-                _tasksCollection = _tasksCollection.Where(task => task.StartDate >= _startDate);
-            if (_endDate != default)
-                _tasksCollection = _tasksCollection.Where(task => task.EndDate <= _endDate);
-            if (_searchString != default)
-            {
-                Regex regex = new Regex($"{_searchString}", RegexOptions.IgnoreCase);
-                _tasksCollection = _tasksCollection.Where(task => regex.IsMatch(task.Name));
-            }
-
-            Sort();
-        }
-        #endregion
-
-        private void Sort()
-        {
-            _tasksCollection = _tasksCollection.OrderBy(task => task.IsFinished)
-                                                .ThenByDescending(task => task.IsOverdue)
-                                                .ThenByDescending(task => task.PriorityId)
-                                                .ThenBy(task => task.Category.Name)
-                                                .ThenBy(task => task.EndDate)
-                                                .ThenBy(task => task.Name);
-        }
-
         private void MainWindow_OnStateChanged(object sender, EventArgs e)
         {
             if (WindowState == WindowState.Minimized)
@@ -364,23 +278,62 @@ namespace PlannerView
                 }
             }
         }
-        
-        private void ShowGridMain()
+
+        #endregion
+
+
+        #region Фильтрация
+        /// <summary>
+        /// Обработчик поиска
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Search_OnKeyDown(object sender, KeyEventArgs e)
         {
-            if(GridMain != null)
-                GridMain.Visibility = Visibility.Visible;
-            if(GridGantt != null)
-                GridGantt.Visibility = Visibility.Hidden;
+            _filter.searchString = SearchBox.Text.ToLower();
+            DoRefresh();
         }
 
+        /// <summary>
+        /// Обработчик события установки фильтра
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AcceptFilter_OnClick(object sender, RoutedEventArgs e)
+        {
+            FilterPopupBox.IsPopupOpen = false;
+
+            _filter.categoryIdFilter = _categoriesListFilter.FirstOrDefault(item => item.Name == CategoriesBox.Text).Id;
+            _filter.priorityIdFilter = _prioritiesListFilter.FirstOrDefault(item => item.Name == PrioritiesBox.Text).Id;
+
+            _filter.isNotFinishedFilter = NotFinishedCheckBox?.IsChecked ?? false;
+            _filter.isFinishedFilter = FinishedCheckBox?.IsChecked ?? false;
+            _filter.isOverdueFilter = OverdueCheckBox?.IsChecked ?? false;
+
+            if (StartDate.Text != "")
+            {
+                DateTime.TryParse(StartDate.Text, out _filter.startDate);
+            }
+
+            if (EndDate.Text != "")
+            {
+                DateTime.TryParse(EndDate.Text, out _filter.endDate);
+            }
+
+            DoRefresh();
+        }
+        #endregion
+
+        
+        #region Меню
         private void AllTaskMenuBtn_Click(object sender, RoutedEventArgs e)
         {
             Menu.SelectedIndex = 0;
-            _menuFilterMain = _menuFilterAllTask;
+            _filter.menuFilterMain = _filter.menuFilterAllTask;
 
-            _isNotFinishedFilter = true;
-            _isFinishedFilter = false;
-            _isOverdueFilter = false;
+            _filter.CheckFlags(true, false, false);
+
+            title = "Все задачи";
 
             DoRefresh();
         }
@@ -388,11 +341,11 @@ namespace PlannerView
         private void TermlessTaskMenuBtn_Click(object sender, RoutedEventArgs e)
         {
             Menu.SelectedIndex = 1;
-            _menuFilterMain = _menuFilterTermlessTask;
+            _filter.menuFilterMain = _filter.menuFilterTermlessTask;
 
-            _isNotFinishedFilter = true;
-            _isFinishedFilter = false;
-            _isOverdueFilter = false;
+            _filter.CheckFlags(true, false, false);
+
+            title = "Бессрочные задачи";
 
             DoRefresh();
         }
@@ -400,11 +353,11 @@ namespace PlannerView
         private void TodayTaskMenuBtn_Click(object sender, RoutedEventArgs e)
         {
             Menu.SelectedIndex = 2;
-            _menuFilterMain = _menuFilterTodayTask;
+            _filter.menuFilterMain = _filter.menuFilterTodayTask;
 
-            _isNotFinishedFilter = true;
-            _isFinishedFilter = false;
-            _isOverdueFilter = true;
+            _filter.CheckFlags(true, false, true);
+
+            title = "Задачи на сегодня";
 
             DoRefresh();
         }
@@ -412,11 +365,11 @@ namespace PlannerView
         private void FutureTaskMenuBtn_Click(object sender, RoutedEventArgs e)
         {
             Menu.SelectedIndex = 3;
-            _menuFilterMain = _menuFilterFutureTask;
+            _filter.menuFilterMain = _filter.menuFilterFutureTask;
 
-            _isNotFinishedFilter = true;
-            _isFinishedFilter = false;
-            _isOverdueFilter = false;
+            _filter.CheckFlags(true, false, false);
+
+            title = "Предстоящие задачи";
 
             DoRefresh();
         }
@@ -424,36 +377,36 @@ namespace PlannerView
         private void FinishedTaskMenuBtn_Click(object sender, RoutedEventArgs e)
         {
             Menu.SelectedIndex = 4;
-            _menuFilterMain = _menuFilterFinishedTask;
+            _filter.menuFilterMain = _filter.menuFilterFinishedTask;
 
-            _isNotFinishedFilter = false;
-            _isFinishedFilter = true;
-            _isOverdueFilter = false;
+            _filter.CheckFlags(false, true, false);
+
+            title = "Выполненные задачи";
 
             DoRefresh();
         }
 
         private void OverdueTaskMenuBtn_Click(object sender, RoutedEventArgs e)
         {
+            _filter.menuFilterMain = _filter.menuFilterOverdueTask;
             Menu.SelectedIndex = 5;
 
-            _isNotFinishedFilter = false;
-            _isFinishedFilter = false;
-            _isOverdueFilter = true;
+            _filter.CheckFlags(true, false, true);
 
-            _menuFilterMain = _menuFilterOverdueTask;
+            title = "Просроченные задачи";
+
             DoRefresh();
         }
 
         private void ImmediateTaskMenuBtn_Click(object sender, RoutedEventArgs e)
         {
+            title = "Задачи cрочного приоритета";
+
             Menu.SelectedIndex = 6;
 
-            _isNotFinishedFilter = true;
-            _isFinishedFilter = false;
-            _isOverdueFilter = true;
-            
-            _menuFilterMain = _menuFilterImmediateTask;
+            _filter.menuFilterMain = _filter.menuFilterImmediateTask;
+            _filter.CheckFlags(true, false, true);
+
             DoRefresh();
         }
 
@@ -473,5 +426,7 @@ namespace PlannerView
         private void InfoMenuBtn_Click(object sender, RoutedEventArgs e)
         {
         }
+        #endregion
+
     }
 }

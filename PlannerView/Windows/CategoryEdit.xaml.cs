@@ -1,33 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using PlannerController;
 using PlannerModel;
 using PlannerView.Annotations;
-using UtilityLibraries;
 
 namespace PlannerView.Windows
 {
     /// <summary>
-    /// Логика взаимодействия для CategoryEdit.xaml
+    /// Логика взаимодействия для Редактора категорий
     /// </summary>
     public partial class CategoryEdit : Window,INotifyPropertyChanged
     {
+        #region Поля и свойства
+        /// <summary>
+        /// Модель категории
+        /// </summary>
         private Category CategoryModel;
 
+        /// <summary>
+        /// Является ли окно открытым?
+        /// </summary>
         private bool _isOpen;
         public bool IsOpen
         {
@@ -48,26 +42,34 @@ namespace PlannerView.Windows
                 }
             }
         }
-
+        #endregion
+        
         public CategoryEdit()
         {
             InitializeComponent();
             CategoryModel = new Category();
-            this.DataContext = CategoryModel;
+            DataContext = CategoryModel;
         }
 
+        /// <summary>
+        /// Закрываем окно
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void Close(object sender, RoutedEventArgs e)
         {
             _isOpen = false;
         }
-
+        /// <summary>
+        /// Сохраняем категорию
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                // ColorTextBox.Text.
                 var categoryController = new CategoryController(CategoryModel.Name, CategoryModel?.Color);
-                //MessageBox.Show("Категория добавлена в планировщик", "Редактор задач", MessageBoxButton.OK, MessageBoxImage.Information);
                 Close();
             }
             catch (ArgumentNullException)
@@ -80,24 +82,29 @@ namespace PlannerView.Windows
             }
             
         }
-
+        /// <summary>
+        /// Закрываем окно редактора категорий
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
+        /// <summary>
+        /// Открываем канву с выбором цвета
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ColorPickerBtn_OnClick(object sender, RoutedEventArgs e)
         {
             ColorPickerPopup.IsOpen = !ColorPickerPopup.IsOpen;
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
+        /// <summary>
+        /// При закрытии редактора закрываем обертку
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CategoryEdit_OnClosed(object sender, EventArgs e)
         {
             if (MainWindow._taskEdit?.IsOpen ?? false)
@@ -110,5 +117,14 @@ namespace PlannerView.Windows
                 MainWindow.CloseWrap(sender, new RoutedEventArgs());
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
     }
 }

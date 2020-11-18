@@ -6,15 +6,24 @@ using PlannerModel;
 
 namespace PlannerController
 {
+    /// <summary>
+    /// Контроллер приоритета
+    /// </summary>
     public class PriorityController
     {
-        public ObservableCollection<Priority> Items { get; private set; }
+        /// <summary>
+        /// Список приоритетов
+        /// </summary>
+        public ObservableCollection<Priority> Priorities { get; private set; }
 
         public PriorityController()
         {
-            Items = GetPriorities();
+            Priorities = GetPriorities() ?? new ObservableCollection<Priority>();
         }
-
+        /// <summary>
+        /// Получение приоритетов из БД
+        /// </summary>
+        /// <returns>Список приоритетов</returns>
         private ObservableCollection<Priority> GetPriorities()
         {
             var priorities = new ObservableCollection<Priority>();
@@ -28,10 +37,14 @@ namespace PlannerController
 
             return priorities;
         }
-
+        /// <summary>
+        /// Получение приоритета по его id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Приоритет</returns>
         public Priority GetPriority(int id)
         {
-            return Items[id - 1];
+            return Priorities[id - 1];
         }
     }
 }

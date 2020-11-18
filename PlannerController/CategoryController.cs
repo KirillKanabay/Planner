@@ -43,7 +43,7 @@ namespace PlannerController
             var currentCategory = Categories.SingleOrDefault(item => item.Name == name);
             if (currentCategory == null)
             {
-                AddCategory(new Category(name, color));
+                AddCategoryDb(new Category(name, color));
             }
             else
             {
@@ -56,7 +56,7 @@ namespace PlannerController
         /// Добавляет категорию в БД
         /// </summary>
         /// <param name="category"> Категория </param>
-        private void AddCategory(Category category)
+        private void AddCategoryDb(Category category)
         {
             using (var context = new PlannerContext())
             {
@@ -80,12 +80,20 @@ namespace PlannerController
             }
             return categories;
         }
-
+        /// <summary>
+        /// Получение категории по ее Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Категория</returns>
         public Category GetCategoryById(int id)
         {
             return Categories.SingleOrDefault(item => item.Id == id);
         }
-
+        /// <summary>
+        /// Получения категории по ее имени
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>Категория</returns>
         public Category GetCategoryByName(string name)
         {
             return Categories.SingleOrDefault(item => item.Name == name);

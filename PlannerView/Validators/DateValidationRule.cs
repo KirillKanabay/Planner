@@ -8,6 +8,9 @@ using System.Windows.Controls;
 
 namespace PlannerView.Validators
 {
+    /// <summary>
+    /// Валидатор: Правильная дата
+    /// </summary>
     class DateValidationRule: ValidationRule
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)

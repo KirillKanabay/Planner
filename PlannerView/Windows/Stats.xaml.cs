@@ -12,33 +12,59 @@ using UtilityLibraries;
 namespace PlannerView.Windows
 {
     /// <summary>
-    /// Логика взаимодействия для Stats.xaml
+    /// Логика взаимодействия для Окна статистики
     /// </summary>
     public partial class Stats : Window
     {
+        #region Поля и свойства
         #region Свойства круговой диаграммы
+        /// <summary>
+        /// Задает название элементу графика
+        /// </summary>
         public Func<ChartPoint, string> PointLabel { get; set; }
+        /// <summary>
+        /// Контроллер задачи
+        /// </summary>
+        private readonly TaskController _taskController;
+        /// <summary>
+        /// Список задач
+        /// </summary>
+        private readonly IEnumerable<PlannerModel.Task> _tasksCollection;
 
-        private TaskController _taskController;
-        private IEnumerable<PlannerModel.Task> _tasksCollection;
-
-        private int _addedTasksCount;
+        /// <summary>
+        /// Количество завершенных задач
+        /// </summary>
         private int _isFinishedTasksCount;
+        /// <summary>
+        /// Количество просроченных задач
+        /// </summary>
         private int _isOverdueTasksCount;
+        /// <summary>
+        /// Количество задач в процессе выполнения
+        /// </summary>
         private int _inProcessTasksCount;
+        /// <summary>
+        /// Общее количество задач
+        /// </summary>
         private int _allTaskCount;
 
+        /// <summary>
+        /// Значение графика: количество задач в процессе выполнения
+        /// </summary>
         private ObservableValue _inProcessTasks;
+        /// <summary>
+        /// Значение графика: количество просроченных задач
+        /// </summary>
         private ObservableValue _isOverdueTasks;
+        /// <summary>
+        /// Значение графика: количество завершенных задач
+        /// </summary>
         private ObservableValue _isFinishedTasks;
 
-        private SeriesCollection _chartCollection;
         #endregion
 
         #region Свойства графика
-
         private AxesCollection _axesCollection;
-        private SeriesCollection _graphicCollection;
         #endregion
 
         #region Свойства промежутка времени
@@ -48,6 +74,9 @@ namespace PlannerView.Windows
         #endregion
 
         #region Свойства окна
+        /// <summary>
+        /// Является ли окно открытым
+        /// </summary>
         private bool _isOpen;
         public bool IsOpen
         {
@@ -68,7 +97,9 @@ namespace PlannerView.Windows
                 }
             }
         }
-
+        /// <summary>
+        /// Свойство задающее заголовок окну
+        /// </summary>
         private string title
         {
             set
@@ -76,16 +107,23 @@ namespace PlannerView.Windows
                 Title.Content = value;
             }
         }
-        
+
+        #endregion
+
+
         #endregion
 
         public Stats()
         {
             InitializeComponent();
+            //Получение списка задач
             _taskController = new TaskController();
             _tasksCollection = _taskController.Tasks;
 
+            //Определение заголовка
             title = $"Статистика за {_startDate.ToString("MMMM")} месяц";
+
+            //Определение промежутков времени
             _startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             _daysInPeriod = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
             _endDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, _daysInPeriod);
@@ -97,6 +135,7 @@ namespace PlannerView.Windows
             DataContext = this;
         }
         
+        //Обновление статистики
         private void UpdateStats()
         {
             //Если на момент вызова метода, контроллер не объявлен, выходим
@@ -110,6 +149,7 @@ namespace PlannerView.Windows
             Graphic.Series = GetGraphicCollection();
         }
 
+        //Получение круговой диаграммы
         private SeriesCollection GetChartCollection()
         {
             _allTaskCount = _tasksCollection.Count();
@@ -142,6 +182,7 @@ namespace PlannerView.Windows
                     Values = new ChartValues<ObservableValue> {_isFinishedTasks}}
             };
         }
+        //Получение диаграммы
         private SeriesCollection GetGraphicCollection()
         {
             LineSeries finishedTasksCount = new LineSeries()
@@ -191,6 +232,7 @@ namespace PlannerView.Windows
                 overdueTasksCount
             };
         }
+        //Получение данных дней месяца для оси графика
         private Axis GetDaysOfMonthAxis()
         {
             Axis axis = new Axis();
@@ -215,17 +257,17 @@ namespace PlannerView.Windows
 
             return axis;
         }
-
+        //Закрыть окно
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
-
+        //Закрытие обертки
         private void Stats_OnClosed(object sender, EventArgs e)
         {
             MainWindow.CloseWrap(sender, new RoutedEventArgs());
         }
-
+        //Определение промежутка времени
         private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
         {
             RadioButton rb = (RadioButton) sender;

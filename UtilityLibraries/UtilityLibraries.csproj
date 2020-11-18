@@ -45,9 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColorLibrary.cs" />
+    <Compile Include="ColorExtensions.cs" />
     <Compile Include="DateTimeExtensions.cs" />
-    <Compile Include="EntityExtensions.cs" />
     <Compile Include="LINQExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

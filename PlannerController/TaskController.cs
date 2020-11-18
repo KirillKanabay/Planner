@@ -6,77 +6,29 @@ using PlannerModel;
 
 namespace PlannerController
 {
+    /// <summary>
+    /// Контроллер задачи
+    /// </summary>
     public class TaskController
     {
         /// <summary>
         /// Хранит список задач
         /// </summary>
         public ObservableCollection<Task> Tasks { get; private set; }
-        
+
+        /// <summary>
+        /// Конструктор заполняющий список задач
+        /// </summary>
         public TaskController()
         {
             Tasks = GetTasks() ?? new ObservableCollection<Task>();
         }
-        public TaskController(string name, DateTime startTime, DateTime endTime, int priorityId, int categoryId, bool isEdit = false):this()
-        {
-            #region Проверка условий
 
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new ArgumentException("Название задачи не может быть пустым.");
-            }
-
-            if (startTime == null)
-            {
-                startTime = DateTime.Now;
-            }
-
-            if (endTime == null)
-            {
-                startTime = DateTime.MaxValue;
-            }
-
-            if (endTime <= startTime)
-            {
-                throw new ArgumentException("Время начала задачи не может быть позже даты окончания");
-            }
-
-            if (priorityId <= 0)
-            {
-                throw new ArgumentException("Неправильно заполнено значение приоритета.");
-            }
-
-            if (categoryId <= 0)
-            {
-                throw new ArgumentException("Неправильно заполнено значение категории.");
-            }
-
-            var tempTask = Tasks.SingleOrDefault(t => t.Name == name && t.CategoryId == categoryId && !isEdit);
-            if (tempTask != null)
-            {
-                throw new ArgumentException("Такая задача уже существует.");
-            }
-            #endregion
-            var task = new Task()
-            {
-                Name = name,
-                CreationDate = DateTime.Now,
-                StartDate = startTime,
-                EndDate = endTime,
-                PriorityId = priorityId,
-                CategoryId = categoryId
-            };
-            if (isEdit)
-            {
-                EditTask(task);
-            }
-            else
-            {
-                AddTaskDb(task);
-            }
-            Tasks = GetTasks();
-        }
-
+        /// <summary>
+        /// Конструктор принимающий на входе задачу, и в зависимости от флага редактируется или добавляется в бд
+        /// </summary>
+        /// <param name="task">Задача</param>
+        /// <param name="isEdit">Флаг редактирования</param>
         public TaskController(Task task, bool isEdit = false) : this()
         {
             #region Проверка условий
@@ -111,12 +63,15 @@ namespace PlannerController
                 throw new ArgumentException("Неправильно заполнено значение категории.");
             }
 
-            var tempTask = Tasks.SingleOrDefault(t => t.Name == task.Name && t.CategoryId == task.CategoryId && !isEdit);
+            var tempTask =
+                Tasks.SingleOrDefault(t => t.Name == task.Name && t.CategoryId == task.CategoryId && !isEdit);
             if (tempTask != null)
             {
                 throw new ArgumentException("Такая задача уже существует.");
             }
+
             #endregion
+
             task.CreationDate = DateTime.Now;
             if (isEdit)
             {
@@ -126,8 +81,17 @@ namespace PlannerController
             {
                 AddTaskDb(task);
             }
+
             Tasks = GetTasks();
         }
+
+
+        #region Взаимодействие с БД
+
+        /// <summary>
+        /// Добавляет задачу в БД
+        /// </summary>
+        /// <param name="task"></param>
         private void AddTaskDb(Task task)
         {
             using (var context = new PlannerContext())
@@ -136,6 +100,7 @@ namespace PlannerController
                 context.SaveChanges();
             }
         }
+
         /// <summary>
         /// Возвращает список задач из БД
         /// </summary>
@@ -151,6 +116,7 @@ namespace PlannerController
                 {
                     return null;
                 }
+
                 foreach (var taskContext in context.Tasks)
                 {
                     var task = new Task()
@@ -167,13 +133,18 @@ namespace PlannerController
                         StartDate = taskContext.StartDate,
                         FinishDate = taskContext.FinishDate,
                         IsOverdue = taskContext.IsOverdue
-                }; 
+                    };
                     tasks.Add(task);
                 }
             }
+
             return tasks;
         }
 
+        /// <summary>
+        /// Завершает задачу
+        /// </summary>
+        /// <param name="taskId">Id задачи</param>
         public void FinishTask(int taskId)
         {
             using (var context = new PlannerContext())
@@ -187,6 +158,10 @@ namespace PlannerController
             Tasks = GetTasks();
         }
 
+        /// <summary>
+        /// Помечает задачу просроченной
+        /// </summary>
+        /// <param name="taskId">Id задачи</param>
         public void OverdueTask(int taskId)
         {
             using (var context = new PlannerContext())
@@ -195,10 +170,15 @@ namespace PlannerController
                 task.IsOverdue = true;
                 context.SaveChanges();
             }
+
             Tasks = GetTasks();
         }
 
-        public void UnoverdueTask(int taskId)
+        /// <summary>
+        /// Снимает пометку просроченности у задачи
+        /// </summary>
+        /// <param name="taskId">Id задачи</param>
+        public void UnOverdueTask(int taskId)
         {
             using (var context = new PlannerContext())
             {
@@ -206,9 +186,14 @@ namespace PlannerController
                 task.IsOverdue = false;
                 context.SaveChanges();
             }
+
             Tasks = GetTasks();
         }
 
+        /// <summary>
+        /// Редактирует задачу
+        /// </summary>
+        /// <param name="editedTask">Задача</param>
         public void EditTask(Task editedTask)
         {
             using (var context = new PlannerContext())
@@ -224,6 +209,10 @@ namespace PlannerController
             }
         }
 
+        /// <summary>
+        /// Удаляет задачу
+        /// </summary>
+        /// <param name="id">Id задачи</param>
         public void DeleteTask(int id)
         {
             using (var context = new PlannerContext())
@@ -232,7 +221,33 @@ namespace PlannerController
                 context.Tasks.Remove(task);
                 context.SaveChanges();
             }
+
             Tasks = GetTasks();
         }
+
+        #endregion
+
+        #region Взаимодействие с задачей
+        /// <summary>
+        /// Пометка просроченных задач
+        /// </summary>
+        public void MarkOverdueTasks()
+        {
+            foreach (var task in Tasks)
+            {
+                if (task.EndDate < DateTime.Now && !task.IsFinished)
+                {
+                    OverdueTask(task.Id);
+                }
+                else if (task.EndDate > DateTime.Now && !task.IsFinished && task.IsOverdue)
+                {
+                    UnOverdueTask(task.Id);
+                }
+            }
+        }
+
+
+        #endregion
     }
 }
+

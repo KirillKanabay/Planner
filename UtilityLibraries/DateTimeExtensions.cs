@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace UtilityLibraries
 {
-    static public class DateTimeExtensions
+    /// <summary>
+    /// Расширение для работы с датой
+    /// </summary>
+    public static class DateTimeExtensions
     {
-        static public int GetNumberOfMonday(DateTime dt)
+        public static int GetNumberOfMonday(DateTime dt)
         {
             while (dt.DayOfWeek != DayOfWeek.Monday)
                dt = dt.AddDays(-1);

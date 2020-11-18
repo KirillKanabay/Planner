@@ -1,35 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using PlannerController;
+using PlannerModel;
+using PlannerView.Annotations;
+using PlannerView.Helpers;
+using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Documents;
-using PlannerController;
-using PlannerModel;
-using PlannerView.Annotations;
-using PlannerView.Helpers;
 using UtilityLibraries;
 
 namespace PlannerView.Windows
 {
     /// <summary>
-    /// Логика взаимодействия для TaskEdit.xaml
+    /// Логика взаимодействия для Редактора задач
     /// </summary>
     public partial class TaskEdit : Window, INotifyPropertyChanged
     {
-        private TaskModel TaskModel { get; set; }
-        private Task Task { get; set; }
+        #region Поля и свойства
+        /// <summary>
+        /// Дополненная модель задачи
+        /// </summary>
+        private ExtendedTaskModel TaskModel { get; set; }
+        /// <summary>
+        /// Контроллер категорий
+        /// </summary>
         private CategoryController CategoryController { get; set; }
+        /// <summary>
+        /// Контроллер приоритета
+        /// </summary>
         private PriorityController PriorityController { get; set; }
+        /// <summary>
+        /// Делегат обновления списка категорий
+        /// </summary>
         public delegate void CategoryHandler();
-        public static event CategoryHandler RefreshCategoryListEvent ;
+        /// <summary>
+        /// Событие обновления списка категорий
+        /// </summary>
+        public static event CategoryHandler RefreshCategoryListEvent;
 
-        private bool _isEdit;
-
+        /// <summary>
+        /// Флаг: является ли задача редактируемой
+        /// </summary>
+        private readonly bool _isEdit;
+        /// <summary>
+        /// Является ли окно открытым
+        /// </summary>
         private bool _isOpen;
         public bool IsOpen
         {
@@ -51,31 +66,42 @@ namespace PlannerView.Windows
                 }
             }
         }
+
+
+        #endregion
+
+        /// <summary>
+        /// Конструктор для создания новой задачи
+        /// </summary>
         public TaskEdit()
         {
             InitializeComponent();
             RefreshCategoryListEvent += RefreshCategoryList;
             //Привязка данных к модели задачи
-            TaskModel = new TaskModel();
+            TaskModel = new ExtendedTaskModel();
             DataContext = TaskModel;
 
             //Получение списка приоритетов
             PriorityController = new PriorityController();
-            PrioritiesBox.ItemsSource = PriorityController.Items.Select(item => item.Name);
+            PrioritiesBox.ItemsSource = PriorityController.Priorities.Select(item => item.Name);
             //Получение списка категорий
             RefreshCategoryList();
-            
+
             PrioritiesBox.SelectedIndex = 0;
             CategoriesBox.SelectedIndex = 0;
         }
-
-        public TaskEdit(Task task):this()
+        /// <summary>
+        /// Конструктор для редактирования существующей задачи
+        /// </summary>
+        /// <param name="task">Задача</param>
+        public TaskEdit(Task task) : this()
         {
             _isEdit = true;
-            TaskModel = new TaskModel(task);
+            TaskModel = new ExtendedTaskModel(task);
             DataContext = TaskModel;
 
-            PrioritiesBox.SelectedIndex = PriorityController.Items.IndexOf(t => t.Id == TaskModel.PriorityId);
+            //Устанавливаем значения задачи в поля формы
+            PrioritiesBox.SelectedIndex = PriorityController.Priorities.IndexOf(t => t.Id == TaskModel.PriorityId);
             CategoriesBox.SelectedIndex = CategoryController.Categories.IndexOf(t => t.Id == TaskModel.CategoryId);
 
             if (TaskModel.EndDate == new DateTime(2099, 1, 1))
@@ -84,30 +110,48 @@ namespace PlannerView.Windows
                 EndTimeToggle_OnUnchecked(null, new RoutedEventArgs());
             }
         }
+        /// <summary>
+        /// Статический метод вызывающий событие обновления списка категорий
+        /// </summary>
         public static void DoRefreshCategoryList()
         {
             RefreshCategoryListEvent?.Invoke();
         }
-
+        /// <summary>
+        /// Обновление списка категорий
+        /// </summary>
         private void RefreshCategoryList()
         {
             CategoryController = new CategoryController();
             CategoriesBox.ItemsSource = CategoryController.Categories.Select(item => item.Name);
         }
+        /// <summary>
+        /// Включение поля ввода даты начала
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void StartTimeToggle_OnChecked(object sender, RoutedEventArgs e)
         {
             StartDate.IsEnabled = true;
             StartTime.IsEnabled = true;
         }
-
+        /// <summary>
+        /// Отключение поля ввода даты начала
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void StartTimeToggle_OnUnchecked(object sender, RoutedEventArgs e)
         {
             StartDate.IsEnabled = false;
             StartTime.IsEnabled = false;
             TaskModel.StartDate = DateTime.Now;
-            TaskModel.StartTimeSpan = new TimeSpan(0,0,0,0);
+            TaskModel.StartTimeSpan = new TimeSpan(0, 0, 0, 0);
         }
-
+        /// <summary>
+        /// Включение поля ввода даты окончания
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EndTimeToggle_OnChecked(object sender, RoutedEventArgs e)
         {
             EndDate.IsEnabled = true;
@@ -118,7 +162,11 @@ namespace PlannerView.Windows
                 EndDate.Text = TaskModel.EndDate.ToString("dd/MM/yyyy");
             }
         }
-
+        /// <summary>
+        /// Отключение поля ввода даты окончания
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EndTimeToggle_OnUnchecked(object sender, RoutedEventArgs e)
         {
             EndDate.IsEnabled = false;
@@ -126,12 +174,22 @@ namespace PlannerView.Windows
             TaskModel.EndDate = new DateTime(2099, 1, 1);
             TaskModel.EndTimeSpan = new TimeSpan(0, 0, 0, 0);
         }
+        /// <summary>
+        /// Открытие формы редактора категорий
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddCategoryBtn_OnClick(object sender, RoutedEventArgs e)
         {
             Hide();
             new CategoryEdit().ShowDialog();
             CategoriesBox.ItemsSource = CategoryController.Categories.Select(item => item.Name);
         }
+        /// <summary>
+        /// Сохранение задачи
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -148,10 +206,10 @@ namespace PlannerView.Windows
                     CategoryId = CategoryController.GetCategoryByName(CategoriesBox.Text).Id,
                     Category = TaskModel.Category,
                 };
-                
+
                 var taskController = new TaskController(task, _isEdit);
-                MainWindow.SendSnackbar($"Задача \"{TaskModel.Name}\"" +   
-                                        ((!_isEdit) ? " добавлена в планировщик.":" отредактирована."));
+                MainWindow.SendSnackbar($"Задача \"{TaskModel.Name}\"" +
+                                        ((!_isEdit) ? " добавлена в планировщик." : " отредактирована."));
                 MainWindow.DoRefresh();
                 Close();
             }
@@ -161,7 +219,11 @@ namespace PlannerView.Windows
             }
 
         }
-
+        /// <summary>
+        /// Закрытие окна
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
