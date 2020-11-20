@@ -23,7 +23,7 @@ namespace PlannerView.UserControls
         /// </summary>
         private double _from;
         /// <summary>
-        /// Конец значения оси Y
+        /// Конец значения оси X
         /// </summary>
         private double _to;
         /// <summary>
@@ -40,17 +40,20 @@ namespace PlannerView.UserControls
         /// Список задач
         /// </summary>
         private IEnumerable<PlannerModel.Task> _tasksCollection;
+        /// <summary>
+        /// Надписи элементов графика
+        /// </summary>
         public Func<ChartPoint, string> PointLabel { get; set; }
 
         /// <summary>
-        /// Свойства заголовка контроллера
+        /// Свойства заголовка графика
         /// </summary>
         private string title
         {
             get => title;
             set => Title.Content = value;
         }
-
+        //Элементы графика
         public SeriesCollection Series { get; set; }
         //Форматирование вывода элемента графика
         public Func<double, string> Formatter { get; set; }
@@ -92,7 +95,11 @@ namespace PlannerView.UserControls
             //По умолчанию скрываем таблицу
             Gantt.Visibility = Visibility.Hidden;
         }
-        //Получение задач по выбранной категории
+        /// <summary>
+        /// Получение задач по выбранной категории
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AcceptCategoryBtn(object sender, RoutedEventArgs e)
         {
             var taskController = new TaskController();
@@ -103,7 +110,9 @@ namespace PlannerView.UserControls
             HelpImage.Visibility = Visibility.Hidden;
             InitGantt();
         }
-        //Инициализация диаграммы Ганта
+        /// <summary>
+        /// Инициализация диаграммы Ганта
+        /// </summary>
         private void InitGantt()
         {
             PointLabel = chartPoint =>

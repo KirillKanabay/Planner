@@ -35,11 +35,11 @@ namespace PlannerView.Helpers
         /// </summary>
         public bool isNotFinishedFilter = true;
         /// <summary>
-        /// Фильтр незавершенной задачи
+        /// Фильтр завершенной задачи
         /// </summary>
         public bool isFinishedFilter;
         /// <summary>
-        /// Фильтр незавершенной задачи
+        /// Фильтр просроченной задачи
         /// </summary>
         public bool isOverdueFilter;
 
@@ -92,7 +92,7 @@ namespace PlannerView.Helpers
             menuFilterMain = menuFilterTodayTask;
         }
         /// <summary>
-        /// Фильтрация задачи
+        /// Фильтрация списка задач
         /// </summary>
         /// <param name="tasksCollection">Список задач</param>
         public IEnumerable<Task> FilterTasks(IEnumerable<Task> tasksCollection)
@@ -131,7 +131,12 @@ namespace PlannerView.Helpers
                 .ThenBy(task => task.EndDate)
                 .ThenBy(task => task.Name);
         }
-
+        /// <summary>
+        /// Определение фильтров по 3-ем флагам
+        /// </summary>
+        /// <param name="isNotFinished">Флаг не завершенной задачи</param>
+        /// <param name="isFinished">Флаг завершенной задачи</param>
+        /// <param name="isOverdue">Флаг просроченной задачи</param>
         public void CheckFlags(bool isNotFinished, bool isFinished, bool isOverdue)
         {
             isNotFinishedFilter = isNotFinished;

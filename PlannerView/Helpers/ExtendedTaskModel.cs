@@ -11,7 +11,13 @@ namespace PlannerView.Helpers
     /// </summary>
     class ExtendedTaskModel : PlannerModel.Task
     {
+        /// <summary>
+        /// Время начала задачи
+        /// </summary>
         public TimeSpan StartTimeSpan { get; set; }
+        /// <summary>
+        /// Время окончания задачи
+        /// </summary>
         public TimeSpan EndTimeSpan { get; set; }
 
         public ExtendedTaskModel()

@@ -64,6 +64,9 @@ namespace PlannerView.Windows
         #endregion
 
         #region Свойства графика
+        /// <summary>
+        /// Коллекция элементов на оси
+        /// </summary>
         private AxesCollection _axesCollection;
         #endregion
 

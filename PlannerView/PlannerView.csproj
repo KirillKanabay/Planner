@@ -199,6 +199,9 @@
     <Compile Include="Validators\NotEmptyValidationRule.cs" />
     <Compile Include="Validators\DateOrEmptyValidationRule.cs" />
     <Compile Include="Validators\TimeValidationRule.cs" />
+    <Compile Include="Windows\AboutProgram.xaml.cs">
+      <DependentUpon>AboutProgram.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\CategoryEdit.xaml.cs">
       <DependentUpon>CategoryEdit.xaml</DependentUpon>
     </Compile>
@@ -229,6 +232,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\TaskItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AboutProgram.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

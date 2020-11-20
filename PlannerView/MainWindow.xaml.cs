@@ -20,15 +20,33 @@ namespace PlannerView
         #region Поля и свойства
 
         #region Контроллеры
+        /// <summary>
+        /// Контроллер задачи
+        /// </summary>
         private TaskController _taskController;
+        /// <summary>
+        /// Контроллер категории
+        /// </summary>
         private CategoryController _categoryController;
+        /// <summary>
+        /// Контроллер приоритета
+        /// </summary>
         private PriorityController _priorityController;
         #endregion
 
         #region Окна
+        /// <summary>
+        /// Окно редактора задач
+        /// </summary>
         public static TaskEdit _taskEdit;
+        /// <summary>
+        /// Окно статистики
+        /// </summary>
         private Stats _statsWindow;
-
+        /// <summary>
+        /// Окно о программе
+        /// </summary>
+        private AboutProgram _aboutProgram;
         //Свойство заголовка планировщика задач
         private string title
         {
@@ -90,7 +108,9 @@ namespace PlannerView
         private readonly ObservableCollection<Priority> _prioritiesListFilter = new ObservableCollection<Priority>();
 
         #endregion
-
+        /// <summary>
+        /// Коллекция задач
+        /// </summary>
         private IEnumerable<PlannerModel.Task> _tasksCollection;
         #endregion
 
@@ -136,19 +156,31 @@ namespace PlannerView
         }
 
         #region Методы взаимодействия с главным окном из других окон
+        /// <summary>
+        /// Статический метод вызывающий событие вызова уведомления
+        /// </summary>
+        /// <param name="message"></param>
         public static void SendSnackbar(string message)
         {
             SnackbarNotifyEvent?.Invoke(message);
         }
-
+        /// <summary>
+        /// Статический метод вызывающий событие открытие обертки
+        /// </summary>
         public static void ShowWrap(object sender, RoutedEventArgs e)
         {
             ShowWrapEvent?.Invoke(sender, e);
         }
+        /// <summary>
+        /// Статический метод вызывающий событие закрытие обертки
+        /// </summary>
         public static void CloseWrap(object sender, RoutedEventArgs e)
         {
             CloseWrapEvent?.Invoke(sender, e);
         }
+        /// <summary>
+        /// Статический метод вызывающий событие обновления списка задач
+        /// </summary>
         public static void DoRefresh()
         {
             TaskListChanged?.Invoke();
@@ -211,6 +243,17 @@ namespace PlannerView
             _statsWindow.IsOpen = true;
         }
         /// <summary>
+        /// Открытие окна о программе
+        /// </summary>
+        private void ShowAboutProgramWindow()
+        {
+            Wrap.Visibility = Visibility.Visible;
+
+            _aboutProgram = new AboutProgram();
+            _aboutProgram.ShowInTaskbar = false;
+            _aboutProgram.IsOpen = true;
+        }
+        /// <summary>
         /// Показ обертки
         /// </summary>
         /// <param name="sender"></param>
@@ -234,6 +277,11 @@ namespace PlannerView
             if (_statsWindow?.IsOpen ?? false)
             {
                 _statsWindow.IsOpen = false;
+            }
+
+            if (_aboutProgram?.IsOpen ?? false)
+            {
+                _aboutProgram.IsOpen = false;
             }
             Wrap.Visibility = Visibility.Collapsed;
         }
@@ -264,6 +312,11 @@ namespace PlannerView
                 {
                     _taskEdit.Hide();
                 }
+
+                if (_aboutProgram?.IsOpen ?? false)
+                {
+                    _aboutProgram.Hide();
+                }
             }
             else
             {
@@ -275,6 +328,11 @@ namespace PlannerView
                 if (_taskEdit?.IsOpen ?? false)
                 {
                     _taskEdit.Show();
+                }
+
+                if (_aboutProgram?.IsOpen ?? false)
+                {
+                    _aboutProgram.Show();
                 }
             }
         }
@@ -326,6 +384,11 @@ namespace PlannerView
 
         
         #region Меню
+        /// <summary>
+        /// Пункт меню: все задачи
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AllTaskMenuBtn_Click(object sender, RoutedEventArgs e)
         {
             Menu.SelectedIndex = 0;
@@ -337,7 +400,11 @@ namespace PlannerView
 
             DoRefresh();
         }
-
+        /// <summary>
+        /// Пункт меню: бессрочные задачи
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TermlessTaskMenuBtn_Click(object sender, RoutedEventArgs e)
         {
             Menu.SelectedIndex = 1;
@@ -349,7 +416,11 @@ namespace PlannerView
 
             DoRefresh();
         }
-
+        /// <summary>
+        /// Пункт меню: задачи на сегодня
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TodayTaskMenuBtn_Click(object sender, RoutedEventArgs e)
         {
             Menu.SelectedIndex = 2;
@@ -361,7 +432,11 @@ namespace PlannerView
 
             DoRefresh();
         }
-
+        /// <summary>
+        /// Пункт меню: предстоящие задачи
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FutureTaskMenuBtn_Click(object sender, RoutedEventArgs e)
         {
             Menu.SelectedIndex = 3;
@@ -373,7 +448,11 @@ namespace PlannerView
 
             DoRefresh();
         }
-
+        /// <summary>
+        /// Пункт меню: выполненные задачи
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FinishedTaskMenuBtn_Click(object sender, RoutedEventArgs e)
         {
             Menu.SelectedIndex = 4;
@@ -385,7 +464,11 @@ namespace PlannerView
 
             DoRefresh();
         }
-
+        /// <summary>
+        /// Пункт меню: просроченные задачи
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OverdueTaskMenuBtn_Click(object sender, RoutedEventArgs e)
         {
             _filter.menuFilterMain = _filter.menuFilterOverdueTask;
@@ -397,7 +480,11 @@ namespace PlannerView
 
             DoRefresh();
         }
-
+        /// <summary>
+        /// Пункт меню: задачи срочные приоритета 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ImmediateTaskMenuBtn_Click(object sender, RoutedEventArgs e)
         {
             title = "Задачи cрочного приоритета";
@@ -409,12 +496,20 @@ namespace PlannerView
 
             DoRefresh();
         }
-
+        /// <summary>
+        /// Пункт меню: статистика
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void StatsMenuBtn_Click(object sender, RoutedEventArgs e)
         {
             ShowStatsWindow();
         }
-
+        /// <summary>
+        /// Пункт меню: диаграмма Ганта
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GanttMenuBtn_Click(object sender, RoutedEventArgs e)
         {
             Menu.SelectedIndex = 9;
@@ -422,11 +517,15 @@ namespace PlannerView
             GridMain.Visibility = Visibility.Hidden;
             GridGantt.Visibility = Visibility.Visible;
         }
-
+        /// <summary>
+        /// Пункт меню: о программе
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void InfoMenuBtn_Click(object sender, RoutedEventArgs e)
         {
+            ShowAboutProgramWindow();
         }
         #endregion
-
     }
 }

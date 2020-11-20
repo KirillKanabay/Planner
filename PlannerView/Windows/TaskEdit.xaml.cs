@@ -18,9 +18,9 @@ namespace PlannerView.Windows
     {
         #region Поля и свойства
         /// <summary>
-        /// Дополненная модель задачи
+        /// Расширенная модель задачи
         /// </summary>
-        private ExtendedTaskModel TaskModel { get; set; }
+        private ExtendedTaskModel ExtendedTaskModel { get; set; }
         /// <summary>
         /// Контроллер категорий
         /// </summary>
@@ -78,8 +78,8 @@ namespace PlannerView.Windows
             InitializeComponent();
             RefreshCategoryListEvent += RefreshCategoryList;
             //Привязка данных к модели задачи
-            TaskModel = new ExtendedTaskModel();
-            DataContext = TaskModel;
+            ExtendedTaskModel = new ExtendedTaskModel();
+            DataContext = ExtendedTaskModel;
 
             //Получение списка приоритетов
             PriorityController = new PriorityController();
@@ -97,14 +97,14 @@ namespace PlannerView.Windows
         public TaskEdit(Task task) : this()
         {
             _isEdit = true;
-            TaskModel = new ExtendedTaskModel(task);
-            DataContext = TaskModel;
+            ExtendedTaskModel = new ExtendedTaskModel(task);
+            DataContext = ExtendedTaskModel;
 
             //Устанавливаем значения задачи в поля формы
-            PrioritiesBox.SelectedIndex = PriorityController.Priorities.IndexOf(t => t.Id == TaskModel.PriorityId);
-            CategoriesBox.SelectedIndex = CategoryController.Categories.IndexOf(t => t.Id == TaskModel.CategoryId);
+            PrioritiesBox.SelectedIndex = PriorityController.Priorities.IndexOf(t => t.Id == ExtendedTaskModel.PriorityId);
+            CategoriesBox.SelectedIndex = CategoryController.Categories.IndexOf(t => t.Id == ExtendedTaskModel.CategoryId);
 
-            if (TaskModel.EndDate == new DateTime(2099, 1, 1))
+            if (ExtendedTaskModel.EndDate == new DateTime(2099, 1, 1))
             {
                 EndTimeToggle.IsChecked = false;
                 EndTimeToggle_OnUnchecked(null, new RoutedEventArgs());
@@ -144,8 +144,8 @@ namespace PlannerView.Windows
         {
             StartDate.IsEnabled = false;
             StartTime.IsEnabled = false;
-            TaskModel.StartDate = DateTime.Now;
-            TaskModel.StartTimeSpan = new TimeSpan(0, 0, 0, 0);
+            ExtendedTaskModel.StartDate = DateTime.Now;
+            ExtendedTaskModel.StartTimeSpan = new TimeSpan(0, 0, 0, 0);
         }
         /// <summary>
         /// Включение поля ввода даты окончания
@@ -156,10 +156,10 @@ namespace PlannerView.Windows
         {
             EndDate.IsEnabled = true;
             EndTime.IsEnabled = true;
-            if (TaskModel != null)
+            if (ExtendedTaskModel != null)
             {
-                TaskModel.EndDate = TaskModel.StartDate.AddDays(1);
-                EndDate.Text = TaskModel.EndDate.ToString("dd/MM/yyyy");
+                ExtendedTaskModel.EndDate = ExtendedTaskModel.StartDate.AddDays(1);
+                EndDate.Text = ExtendedTaskModel.EndDate.ToString("dd/MM/yyyy");
             }
         }
         /// <summary>
@@ -171,8 +171,8 @@ namespace PlannerView.Windows
         {
             EndDate.IsEnabled = false;
             EndTime.IsEnabled = false;
-            TaskModel.EndDate = new DateTime(2099, 1, 1);
-            TaskModel.EndTimeSpan = new TimeSpan(0, 0, 0, 0);
+            ExtendedTaskModel.EndDate = new DateTime(2099, 1, 1);
+            ExtendedTaskModel.EndTimeSpan = new TimeSpan(0, 0, 0, 0);
         }
         /// <summary>
         /// Открытие формы редактора категорий
@@ -196,19 +196,19 @@ namespace PlannerView.Windows
             {
                 var task = new Task()
                 {
-                    Id = TaskModel.Id,
-                    Name = TaskModel.Name,
-                    CreationDate = TaskModel.CreationDate,
-                    StartDate = TaskModel.StartDate.Add(TaskModel.StartTimeSpan),
-                    EndDate = TaskModel.EndDate.Add(TaskModel.EndTimeSpan),
+                    Id = ExtendedTaskModel.Id,
+                    Name = ExtendedTaskModel.Name,
+                    CreationDate = ExtendedTaskModel.CreationDate,
+                    StartDate = ExtendedTaskModel.StartDate.Add(ExtendedTaskModel.StartTimeSpan),
+                    EndDate = ExtendedTaskModel.EndDate.Add(ExtendedTaskModel.EndTimeSpan),
                     PriorityId = PrioritiesBox.SelectedIndex + 1,
-                    Priority = TaskModel.Priority,
+                    Priority = ExtendedTaskModel.Priority,
                     CategoryId = CategoryController.GetCategoryByName(CategoriesBox.Text).Id,
-                    Category = TaskModel.Category,
+                    Category = ExtendedTaskModel.Category,
                 };
 
                 var taskController = new TaskController(task, _isEdit);
-                MainWindow.SendSnackbar($"Задача \"{TaskModel.Name}\"" +
+                MainWindow.SendSnackbar($"Задача \"{ExtendedTaskModel.Name}\"" +
                                         ((!_isEdit) ? " добавлена в планировщик." : " отредактирована."));
                 MainWindow.DoRefresh();
                 Close();
@@ -236,7 +236,11 @@ namespace PlannerView.Windows
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
+        /// <summary>
+        /// При закрытии окна закрываем обертку
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TaskEdit_OnClosed(object sender, EventArgs e)
         {
             MainWindow.CloseWrap(sender, new RoutedEventArgs());

@@ -50,16 +50,7 @@ namespace PlannerView.Windows
             CategoryModel = new Category();
             DataContext = CategoryModel;
         }
-
-        /// <summary>
-        /// Закрываем окно
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void Close(object sender, RoutedEventArgs e)
-        {
-            _isOpen = false;
-        }
+        
         /// <summary>
         /// Сохраняем категорию
         /// </summary>

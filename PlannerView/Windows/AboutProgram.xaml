@@ -1,0 +1,82 @@
+﻿<Window x:Class="PlannerView.Windows.AboutProgram"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PlannerView.Windows"
+        mc:Ignorable="d"
+        Title="AboutProgram" Height="300" Width="500" FontFamily="SF Pro Display" WindowStyle="None" AllowsTransparency="True" Background="Transparent" WindowStartupLocation="CenterScreen" Closed="AboutProgram_OnClosed">
+    <Border Background="White" CornerRadius="10">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                
+            </Grid.RowDefinitions>
+            <!--Заголовок-->
+            <Label x:Name="Title" 
+               Grid.Row="0" 
+               Content="О программе" 
+               HorizontalAlignment="Left" FontSize="18" FontWeight="Bold" />
+            <!--Logo-->
+            <Image Grid.Row="1">
+                <Image.Source>
+                    <DrawingImage>
+                        <DrawingImage.Drawing>
+                            <DrawingGroup ClipGeometry="M0,0 V76.744 H292.617 V0 H0 Z">
+                                <DrawingGroup Opacity="1" Transform="1,0,0,1,-14.399,-22.9">
+                                    <DrawingGroup Opacity="1" Transform="1,0,0,1,14.399,22.9">
+                                        <DrawingGroup Transform="1,0,0,1,-14.399,-22.9">
+                                            <GeometryDrawing Brush="#FFBC2D2D" Geometry="F0 M292.617,76.744z M0,0z M31.283,99.644L74.2,99.644A16.922,16.922,0,0,0,91.087,82.76L91.087,39.84A15.561,15.561,0,0,0,90.859,37C99.045,30.406 106.659,26.711 112.12,28.018 87.676,17.842 57.376,71.618 51.578,82.193L30.2,50.357 50.157,62.068C62.208,46.662,75.17,34.895,86.425,28.13A16.821,16.821,0,0,0,74.2,22.9L31.283,22.9A16.922,16.922,0,0,0,14.4,39.784L14.4,82.7A16.9,16.9,0,0,0,31.284,99.64z" />
+                                        </DrawingGroup>
+                                    </DrawingGroup>
+                                    <DrawingGroup Transform="1,0,0,1,100.016,84.11">
+                                        <DrawingGroup>
+                                            <GlyphRunDrawing ForegroundBrush="#FFBC2D2D">
+                                                <GlyphRunDrawing.GlyphRun>
+                                                    <GlyphRun PixelsPerDip="1.25" BaselineOrigin="0,0" FontRenderingEmSize="58" BidiLevel="0" IsSideways="False" ClusterMap="0 1 2 3 4 5 6" Characters="Planner" GlyphIndices="51 79 68 81 81 72 85" AdvanceWidths="35.6266666666667 16.4833333333333 31.21 35.09 35.09 31.38 23.08" GlyphOffsets="0,0 0,0 0,0 0,0 0,0 0,0 0,0" Language="en-us">
+                                                        <GlyphRun.GlyphTypeface>
+                                                            <GlyphTypeface FontUri="C:\WINDOWS\FONTS\SEGOEUIB.TTF" StyleSimulations="None" />
+                                                        </GlyphRun.GlyphTypeface>
+                                                    </GlyphRun>
+                                                </GlyphRunDrawing.GlyphRun>
+                                            </GlyphRunDrawing>
+                                        </DrawingGroup>
+                                    </DrawingGroup>
+                                </DrawingGroup>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+                </Image.Source>
+            </Image>
+            <!--Описание программы-->
+            <TextBlock Grid.Row="2" TextWrapping="Wrap" Margin="10 5" FontSize="14" TextAlignment="Justify">
+                Создаваемая программа рассчитана на людей, которые хотят повысить свою продуктивность путем планирования своей деятельности и больше не забывать выполнение той или иной задачи.
+            </TextBlock>
+            <!--Информация о програме-->
+            <StackPanel Grid.Row="3" Margin="10 10">
+                <Label x:Name="ProdVer" Content="Product version: 0.1 Alpha" FontSize="10" Padding="0"/>
+                <Label x:Name="DevName" Content="Developer: Kirill Kanabay" FontSize="10" Padding="0"/>
+                <Label x:Name="Email" Content="E-mail: kanabay.dev@gmail.com" FontSize="10" Padding="0"/>
+            </StackPanel>
+            <StackPanel Grid.Row="4" x:Name="Buttons" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                <Button x:Name="Info"
+                        Content="Открыть справочную систему"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Right"
+                        Click="Info_Click"
+                        Style="{DynamicResource MaterialDesignFlatButton}" />
+                <Button x:Name="Close"
+                        Content="Закрыть"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Right"
+                        Click="Close_Click"
+                        Style="{DynamicResource MaterialDesignFlatButton}" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
